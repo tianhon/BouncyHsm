@@ -32,6 +32,11 @@ public enum CKA : uint
     CKA_LABEL = 0x00000003,
 
     /// <summary>
+    /// The unique identifier assigned to the object [string]
+    /// </summary>
+    CKA_UNIQUE_ID = 0x00000004,
+
+    /// <summary>
     /// Description of the application that manages the object [string]
     /// </summary>
     CKA_APPLICATION = 0x00000010,

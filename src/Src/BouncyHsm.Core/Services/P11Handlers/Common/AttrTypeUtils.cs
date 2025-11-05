@@ -20,6 +20,7 @@ internal static class AttrTypeUtils
             CKA.CKA_TOKEN => AttrTypeTag.CkBool,
             CKA.CKA_PRIVATE => AttrTypeTag.CkBool,
             CKA.CKA_LABEL => AttrTypeTag.String,
+            CKA.CKA_UNIQUE_ID => AttrTypeTag.String,
             CKA.CKA_APPLICATION => AttrTypeTag.String,
             CKA.CKA_VALUE => AttrTypeTag.ByteArray,
             CKA.CKA_OBJECT_ID => AttrTypeTag.ByteArray,

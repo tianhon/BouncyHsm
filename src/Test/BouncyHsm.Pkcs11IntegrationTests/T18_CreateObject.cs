@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Security.Cryptography.X509Certificates;
+using Pkcs11Interop.Ext.Common;
 
 namespace BouncyHsm.Pkcs11IntegrationTests;
 
@@ -44,6 +45,37 @@ public class T18_CreateObject
         };
 
         _ = session.CreateObject(objectAttributes);
+    }
+
+    [TestMethod]
+    public void CreateObject_DataObjectCheckUniqId_Success()
+    {
+        Pkcs11InteropFactories factories = new Pkcs11InteropFactories();
+        using IPkcs11Library library = factories.Pkcs11LibraryFactory.LoadPkcs11Library(factories,
+            AssemblyTestConstants.P11LibPath,
+            AppType.SingleThreaded);
+
+        List<ISlot> slots = library.GetSlotList(SlotsType.WithTokenPresent);
+        ISlot slot = slots.SelectTestSlot();
+
+        using ISession session = slot.OpenSession(SessionType.ReadWrite);
+        session.Login(CKU.CKU_USER, AssemblyTestConstants.UserPin);
+
+
+        List<IObjectAttribute> objectAttributes = new List<IObjectAttribute>()
+        {
+            factories.ObjectAttributeFactory.Create(CKA.CKA_CLASS, CKO.CKO_DATA),
+            factories.ObjectAttributeFactory.Create(CKA.CKA_PRIVATE, true),
+            factories.ObjectAttributeFactory.Create(CKA.CKA_TOKEN, false),
+            factories.ObjectAttributeFactory.Create(CKA.CKA_LABEL, "MyObject"),
+            factories.ObjectAttributeFactory.Create(CKA.CKA_VALUE, Encoding.UTF8.GetBytes("Hello wold!")),
+        };
+
+        IObjectHandle handle = session.CreateObject(objectAttributes);
+
+        List<IObjectAttribute> attributes = session.GetAttributeValue(handle, new List<CKA>() { CKA_V3_0.CKA_UNIQUE_ID });
+
+        StringAssert.StartsWith(attributes[0].GetValueAsString(), "obj");
     }
 
     [TestMethod]
