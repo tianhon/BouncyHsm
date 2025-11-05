@@ -98,7 +98,7 @@ internal class StorageObjectDescriptionVisitor : ICryptoApiObjectVisitor<string>
 
     public string Visit(EdwardsPublicKeyObject edwardsPublicKey)
     {
-        return $"Private key {EdEcUtils.ParseEcParamsAsName(edwardsPublicKey.CkaEcParams)}";
+        return $"Public key {EdEcUtils.ParseEcParamsAsName(edwardsPublicKey.CkaEcParams)}";
     }
 
     public string Visit(MontgomeryPrivateKeyObject montgomeryPrivateKey)
@@ -108,6 +108,6 @@ internal class StorageObjectDescriptionVisitor : ICryptoApiObjectVisitor<string>
 
     public string Visit(MontgomeryPublicKeyObject montgomeryPublicKey)
     {
-        return $"Private key {MontgomeryEcUtils.ParseEcParamsAsName(montgomeryPublicKey.CkaEcParams)}";
+        return $"Public key {MontgomeryEcUtils.ParseEcParamsAsName(montgomeryPublicKey.CkaEcParams)}";
     }
 }
