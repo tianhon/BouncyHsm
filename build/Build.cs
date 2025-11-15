@@ -13,7 +13,6 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.EnvironmentInfo;
-using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using System.Text;
@@ -68,7 +67,7 @@ public partial class Build : NukeBuild
             DotNetPublish(_ => _
             .SetConfiguration(Configuration)
             .AddProperty("GitCommit", Repository.Commit)
-            .When(NetRuntime != NetRuntime.None, q => q.SetRuntime(NetRuntime))
+            .When(ctx => NetRuntime != NetRuntime.None, q => q.SetRuntime(NetRuntime))
             .SetProject(projectFile)
             .SetOutput(outputDir));
 
@@ -85,7 +84,7 @@ public partial class Build : NukeBuild
             DotNetPublish(_ => _
             .SetConfiguration(Configuration)
             .AddProperty("GitCommit", Repository.Commit)
-            .When(NetRuntime != NetRuntime.None, q => q.SetRuntime(NetRuntime))
+            .When(ctx => NetRuntime != NetRuntime.None, q => q.SetRuntime(NetRuntime))
             .SetProject(projectFile)
             .SetOutput(outputDir));
 
@@ -118,7 +117,7 @@ public partial class Build : NukeBuild
            .AddProperty("RepositoryCommit", Repository.Commit)
            .AddProperty("RepositoryBranch", Repository.Branch)
            .AddProperty("IncludeNativeLibs", "True")
-           .When(NetRuntime != NetRuntime.None, q => q.SetRuntime(NetRuntime))
+           .When(ctx => NetRuntime != NetRuntime.None, q => q.SetRuntime(NetRuntime))
            .SetProject(projectFile)
            .SetOutputDirectory(outputDir));
        });

@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.EnvironmentInfo;
-using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using System.IO.Compression;
 using System.IO;
@@ -20,7 +19,7 @@ public partial class Build
         .DependsOn(Clean)
         .Executes(() =>
         {
-            BuildBouncyHsmPkcs11Lib(MSBuildTargetPlatform.Win32);
+            BuildBouncyHsmPkcs11Lib(MSBuildTargetPlatform.x86);
             AbsolutePath nativeLib = SourceDirectory / "BouncyHsm.Pkcs11Lib" / Configuration / "BouncyHsm.Pkcs11Lib.dll";
             AbsolutePath destination = ArtifactsTmpDirectory / "native" / "Win-x86";
             destination.CreateOrCleanDirectory();
@@ -40,6 +39,7 @@ public partial class Build
 
     private void BuildBouncyHsmPkcs11Lib(MSBuildTargetPlatform platform)
     {
+        MSBuildPath = "";
         AbsolutePath p11Proj = SourceDirectory / "BouncyHsm.Pkcs11Lib" / "BouncyHsm.Pkcs11Lib.vcxproj";
         MSBuild(_ => _
            .SetTargetPath(p11Proj)
