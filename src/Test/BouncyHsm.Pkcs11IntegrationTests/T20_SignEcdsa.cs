@@ -149,9 +149,8 @@ public class T20_SignEcdsa
         using IMechanism mechanism = factories.MechanismFactory.Create(CKM.CKM_ECDSA);
         byte[] signature = session.Sign(mechanism, privateKey, hash);
 
-        using System.Security.Cryptography.X509Certificates.X509Certificate2 certificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(ecdhData.RawCertificate);
+        using System.Security.Cryptography.X509Certificates.X509Certificate2 certificate = System.Security.Cryptography.X509Certificates.X509CertificateLoader.LoadCertificate(ecdhData.RawCertificate);
         bool verfied = certificate.PublicKey.GetECDsaPublicKey()!.VerifyHash(hash, signature, DSASignatureFormat.IeeeP1363FixedFieldConcatenation);
-
         Assert.IsTrue(verfied, "Signature inconsistent.");
     }
 
