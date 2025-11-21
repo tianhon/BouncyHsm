@@ -1,5 +1,4 @@
 using Build;
-using NuGet.Protocol.Core.Types;
 using System.IO.Compression;
 
 string target = Argument("target", "Default");
@@ -9,12 +8,12 @@ string SourceDirectory = "./src/Src/";
 string ArtifactsDirectory = "./artifacts";
 string ArtifactsTmpDirectory = "./artifacts/.tmp/";
 
-var gitTip = GitLogTip(".");
-var gitBranshObj = GitBranchCurrent(".");
+GitCommit gitTip = GitLogTip(".");
+GitBranch gitBranshObj = GitBranchCurrent(".");
 
 string gitCommit = gitTip.Sha;
 string gitBranch = gitBranshObj.CanonicalName;
-string ThisVersion = "0.0.0"; //TODO
+string ThisVersion = "0.0.0"; //TODO - load from build properties file
 
 Task(BuildTarget.RebuildDocumentation)
     .Does(() =>
