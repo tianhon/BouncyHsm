@@ -1,5 +1,3 @@
-//#:sdk Cake.Sdk@6.0.0
-
 using Build;
 using NuGet.Protocol.Core.Types;
 using System.IO.Compression;
@@ -11,8 +9,12 @@ string SourceDirectory = "./src/Src/";
 string ArtifactsDirectory = "./artifacts";
 string ArtifactsTmpDirectory = "./artifacts/.tmp/";
 
-string gitCommit = "----"; //TODO
-string gitBranch = "--------"; //TODO
+var gitTip = GitLogTip(".");
+var gitBranshObj = GitBranchCurrent(".");
+
+string gitCommit = gitTip.Sha;
+string gitBranch = gitBranshObj.CanonicalName;
+string ThisVersion = "0.0.0"; //TODO
 
 Task(BuildTarget.RebuildDocumentation)
     .Does(() =>
@@ -138,17 +140,19 @@ Task(BuildTarget.BuildBouncyHsmClient)
     {
         string projectFile = $"{SourceDirectory}BouncyHsm.Client/BouncyHsm.Client.csproj";
 
-        //AbsolutePath linuxNativeLibx64 = RootDirectory / "build_linux" / "BouncyHsm.Pkcs11Lib-x64.so";
-        //if (linuxNativeLibx64.Exists("file"))
-        //{
-        //    linuxNativeLibx64.Copy(ArtifactsTmpDirectory / "native" / "Linux-x64" / "BouncyHsm.Pkcs11Lib.so", ExistsPolicy.FileOverwrite);
-        //}
+        string linuxNativeLibx64 = JoinPaths("build_linux", "BouncyHsm.Pkcs11Lib-x64.so");
+        if(FileExists(linuxNativeLibx64))
+        {
+            CopyFile(linuxNativeLibx64,
+                JoinPaths(ArtifactsTmpDirectory, "native", "Linux-x64", "BouncyHsm.Pkcs11Lib.so"));
+        }
 
-        //AbsolutePath rhelNativeLibx64 = RootDirectory / "build_linux" / "BouncyHsm.Pkcs11Lib-x64-rhel.so";
-        //if (rhelNativeLibx64.Exists("file"))
-        //{
-        //    rhelNativeLibx64.Copy(ArtifactsTmpDirectory / "native" / "Rhel-x64" / "BouncyHsm.Pkcs11Lib.so", ExistsPolicy.FileOverwrite);
-        //}
+        string rhelNativeLibx64 = JoinPaths("build_linux", "BouncyHsm.Pkcs11Lib-x64-rhel.so");
+        if (FileExists(rhelNativeLibx64))
+        {
+            CopyFile(rhelNativeLibx64,
+                JoinPaths(ArtifactsTmpDirectory, "native", "Rhel-x64", "BouncyHsm.Pkcs11Lib.so"));
+        }
 
 
         DotNetPackSettings settings = new DotNetPackSettings()
@@ -174,127 +178,117 @@ Task(BuildTarget.BuildAll)
     .IsDependentOn(BuildTarget.BuildBouncyHsmClient)
     .Does(() =>
     {
-        //TODO
+        CopyDirectory($"{ArtifactsTmpDirectory}native", $"{ArtifactsTmpDirectory}BouncyHsm/native");
+
+        CreateZip(JoinPaths(ArtifactsTmpDirectory, "native/Win-x64/BouncyHsm.Pkcs11Lib.dll"),
+            "Win X64",
+            ThisVersion,
+            JoinPaths(ArtifactsTmpDirectory, "BouncyHsm/wwwroot/native/BouncyHsm.Pkcs11Lib-Winx64.zip"));
+
+        CreateZip(JoinPaths(ArtifactsTmpDirectory, "native/Win-x86/BouncyHsm.Pkcs11Lib.dll"),
+            "Win X64",
+            ThisVersion,
+            JoinPaths(ArtifactsTmpDirectory, "BouncyHsm/wwwroot/native/BouncyHsm.Pkcs11Lib-Winx86.zip"));
+
+
+        string linuxNativeLibx64 = JoinPaths("build_linux", "BouncyHsm.Pkcs11Lib-x64.so");
+        if (FileExists(linuxNativeLibx64))
+        {
+            CopyFile(linuxNativeLibx64,
+                JoinPaths(ArtifactsTmpDirectory, "BouncyHsm", "native", "Linux-x64", "BouncyHsm.Pkcs11Lib.so"));
+
+            CreateZip(linuxNativeLibx64,
+                       "Linux X64",
+                       ThisVersion,
+                       JoinPaths(ArtifactsTmpDirectory, "BouncyHsm", "wwwroot", "native", "BouncyHsm.Pkcs11Lib-Linuxx64.zip"));
+        }
+        else
+        {
+            Warning("Native lib {0} not found.", linuxNativeLibx64);
+        }
+
+        string linuxNativeLibx32 = JoinPaths("build_linux", "BouncyHsm.Pkcs11Lib-x86.so");
+        if (FileExists(linuxNativeLibx32))
+        {
+            CopyFile(linuxNativeLibx32,
+                JoinPaths(ArtifactsTmpDirectory, "BouncyHsm", "native", "Linux-x86", "BouncyHsm.Pkcs11Lib.so"));
+
+            CreateZip(linuxNativeLibx32,
+                       "Linux X64",
+                       ThisVersion,
+                       JoinPaths(ArtifactsTmpDirectory, "BouncyHsm", "wwwroot", "native", "BouncyHsm.Pkcs11Lib-Linuxx86.zip"));
+        }
+        else
+        {
+            Warning("Native lib {0} not found.", linuxNativeLibx32);
+        }
+
+
+        string rhelNativeLibx64 = JoinPaths("build_linux", "BouncyHsm.Pkcs11Lib-x64-rhel.so");
+        if (FileExists(rhelNativeLibx64))
+        {
+            CopyFile(rhelNativeLibx64,
+                JoinPaths(ArtifactsTmpDirectory, "BouncyHsm", "native", "Rhel-x64", "BouncyHsm.Pkcs11Lib.so"));
+
+            CreateZip(rhelNativeLibx64,
+                       "RHEL X64",
+                       ThisVersion,
+                       JoinPaths(ArtifactsTmpDirectory, "BouncyHsm", "wwwroot", "native", "BouncyHsm.Pkcs11Lib-RHELx64.zip"));
+        }
+        else
+        {
+            Warning("Native lib {0} not found.", rhelNativeLibx64);
+        }
+
+        System.IO.File.WriteAllText(JoinPaths(ArtifactsTmpDirectory, "BouncyHsm/data/keep.txt"), string.Empty);
+
+        DeleteFiles(JoinPaths(ArtifactsTmpDirectory, "BouncyHsm/**/*.pdb"));
+        DeleteFiles(JoinPaths(ArtifactsTmpDirectory, "BouncyHsm/**/libman.json"));
+        DeleteFiles(JoinPaths(ArtifactsTmpDirectory, "BouncyHsm/**/.gitkeep"));
+        DeleteFiles(JoinPaths(ArtifactsTmpDirectory, "BouncyHsm/**/appsettings.Development.json"));
+
+        Zip(JoinPaths(ArtifactsTmpDirectory, "BouncyHsm"), JoinPaths(ArtifactsDirectory, "BouncyHsm.zip"));
+
+        DeleteFiles(JoinPaths(ArtifactsTmpDirectory, "BouncyHsm.Cli/**/*.pdb"));
+        DeleteFiles(JoinPaths(ArtifactsTmpDirectory, "BouncyHsm.Cli/**/.gitkeep"));
+
+        Zip(JoinPaths(ArtifactsTmpDirectory, "BouncyHsm.Cli"), JoinPaths(ArtifactsDirectory, "BouncyHsm.Cli.zip"));
     });
 
 
-Task("Default")
-    .Does(() =>
+void CreateZip(string dllFile, string platform, string version, string destination)
 {
-    Information("Hello from Cake.Sdk!");
-});
+    Debug("Creating ZIP file from dll {0}", dllFile);
+
+    using FileStream fs = new FileStream(destination, FileMode.Create);
+    using ZipArchive archive = new ZipArchive(fs, ZipArchiveMode.Create);
+    archive.CreateEntryFromFile(dllFile, System.IO.Path.GetFileName(dllFile), CompressionLevel.Optimal);
+    ZipArchiveEntry zipArchiveEntry = archive.CreateEntry("Readme.txt");
+    using Stream readmeStream = zipArchiveEntry.Open();
+
+    byte[] content = Encoding.UTF8.GetBytes($"""
+        Bouncy Hsm PKCS11 library
+        
+          Version: {version}
+          For platform: {platform}
+          Git commit: {gitCommit}
+          
+          Project site: https://github.com/harrison314/BouncyHsm
+          License: BSD 3 Clausule
+        """);
+
+    readmeStream.Write(content);
+    readmeStream.Flush();
+}
+
+
+string JoinPaths(params string[] parts)
+{
+    return System.IO.Path.Combine(parts);
+}
+
+Task("Default")
+    .IsDependentOn(BuildTarget.BuildAll);
 
 RunTarget(target);
 
-
-//Target BuildAll => _ => _
-//       .DependsOn(Clean)
-//       .DependsOn(BuildPkcs11LibWin32)
-//       .DependsOn(BuildPkcs11LibX64)
-//       .DependsOn(BuildBouncyHsm)
-//       .DependsOn(BuildBouncyHsmCli)
-//       .DependsOn(BuildBouncyHsmClient)
-//       .Produces(ArtifactsDirectory / "*.zip")
-//       .Executes(() =>
-//       {
-//           (ArtifactsTmpDirectory / "native").Copy(ArtifactsTmpDirectory / "BouncyHsm" / "native");
-//           CreateZip(ArtifactsTmpDirectory / "native" / "Win-x64" / "BouncyHsm.Pkcs11Lib.dll",
-//               "Win X64",
-//               ThisVersion,
-//               ArtifactsTmpDirectory / "BouncyHsm" / "wwwroot" / "native" / "BouncyHsm.Pkcs11Lib-Winx64.zip");
-//           CreateZip(ArtifactsTmpDirectory / "native" / "Win-x86" / "BouncyHsm.Pkcs11Lib.dll",
-//               "Win X86",
-//               ThisVersion,
-//               ArtifactsTmpDirectory / "BouncyHsm" / "wwwroot" / "native" / "BouncyHsm.Pkcs11Lib-Winx86.zip");
-
-//           AbsolutePath linuxNativeLibx64 = RootDirectory / "build_linux" / "BouncyHsm.Pkcs11Lib-x64.so";
-//           if (linuxNativeLibx64.Exists("file"))
-//           {
-//               linuxNativeLibx64.Copy(ArtifactsTmpDirectory / "BouncyHsm" / "native" / "Linux-x64" / "BouncyHsm.Pkcs11Lib.so", ExistsPolicy.FileOverwrite);
-//               CreateZip(linuxNativeLibx64,
-//               "Linux X64",
-//               ThisVersion,
-//               ArtifactsTmpDirectory / "BouncyHsm" / "wwwroot" / "native" / "BouncyHsm.Pkcs11Lib-Linuxx64.zip");
-//           }
-//           else
-//           {
-//               Log.Warning("Native lib {0} not found.", linuxNativeLibx64);
-//           }
-
-//           AbsolutePath linuxNativeLibx32 = RootDirectory / "build_linux" / "BouncyHsm.Pkcs11Lib-x86.so";
-//           if (linuxNativeLibx32.Exists("file"))
-//           {
-//               linuxNativeLibx32.Copy(ArtifactsTmpDirectory / "BouncyHsm" / "native" / "Linux-x86" / "BouncyHsm.Pkcs11Lib.so", ExistsPolicy.FileOverwrite);
-
-//               CreateZip(linuxNativeLibx32,
-//              "Linux X86",
-//              ThisVersion,
-//              ArtifactsTmpDirectory / "BouncyHsm" / "wwwroot" / "native" / "BouncyHsm.Pkcs11Lib-Linuxx84.zip");
-//           }
-//           else
-//           {
-//               Log.Warning("Native lib {0} not found.", linuxNativeLibx32);
-//           }
-
-//           AbsolutePath rhelNativeLibx64 = RootDirectory / "build_linux" / "BouncyHsm.Pkcs11Lib-x64-rhel.so";
-//           if (rhelNativeLibx64.Exists("file"))
-//           {
-//               rhelNativeLibx64.Copy(ArtifactsTmpDirectory / "BouncyHsm" / "native" / "Rhel-x64" / "BouncyHsm.Pkcs11Lib.so", ExistsPolicy.FileOverwrite);
-//               CreateZip(rhelNativeLibx64,
-//               "RHEL X64",
-//               ThisVersion,
-//               ArtifactsTmpDirectory / "BouncyHsm" / "wwwroot" / "native" / "BouncyHsm.Pkcs11Lib-RHELx64.zip");
-//           }
-//           else
-//           {
-//               Log.Warning("Native lib {0} not found.", rhelNativeLibx64);
-//           }
-
-//           (ArtifactsTmpDirectory / "BouncyHsm" / "data" / "keep.txt").TouchFile();
-
-//           (ArtifactsTmpDirectory / "BouncyHsm").ZipTo(ArtifactsDirectory / "BouncyHsm.zip",
-//               t => t.Extension != ".pdb" && t.Name != "libman.json" && t.Name != ".gitkeep" && t.Name != "appsettings.Development.json");
-
-//           (ArtifactsTmpDirectory / "BouncyHsm.Cli").ZipTo(ArtifactsDirectory / "BouncyHsm.Cli.zip",
-//              t => t.Extension != ".pdb" && t.Name != ".gitkeep");
-//       });
-
-//private void CopyLicenses(AbsolutePath csprojProjectFile, AbsolutePath outFolder)
-//{
-//    Log.Debug("Copy license files");
-//    (RootDirectory / "LICENSE").Copy(outFolder / "License.txt");
-
-//    try
-//    {
-//        AbsolutePath licensesFilePath = outFolder / "LicensesThirdParty.txt";
-//        DotnetProjectLicenses($"--include-transitive --input \"{csprojProjectFile}\" -o Table --file-output \"{licensesFilePath}\" -f net8.0");
-//    }
-//    catch (ProcessException ex) when (ex.ExitCode == 3) // Workeround
-//    {
-//        Log.Warning(ex, "DotnetProjectLicenses exited with code {0}", ex.ExitCode);
-//    }
-//}
-
-//private void CreateZip(AbsolutePath dllFile, string platform, string version, AbsolutePath destination)
-//{
-//    Log.Debug("Creating ZIP file from dll {0}", dllFile);
-
-//    using FileStream fs = new FileStream(destination, FileMode.Create);
-//    using ZipArchive archive = new ZipArchive(fs, ZipArchiveMode.Create);
-//    archive.CreateEntryFromFile(dllFile, dllFile.Name, CompressionLevel.Optimal);
-//    ZipArchiveEntry zipArchiveEntry = archive.CreateEntry("Readme.txt");
-//    using Stream readmeStream = zipArchiveEntry.Open();
-
-//    byte[] content = Encoding.UTF8.GetBytes(@$"Bouncy Hsm PKCS11 library
-
-//Version: {version}
-//For platform: {platform}
-//Git commit: {Repository.Commit}
-
-//Project site: https://github.com/harrison314/BouncyHsm
-//License: BSD 3 Clausule
-//");
-
-//    readmeStream.Write(content);
-//    readmeStream.Flush();
-//}
