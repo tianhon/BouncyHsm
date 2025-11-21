@@ -94,6 +94,7 @@ void BuildBouncyHsmPkcs11Lib(PlatformTarget platform)
 {
     MSBuildSettings settings = new MSBuildSettings()
     {
+        Verbosity = Verbosity.Diagnostic,
         Configuration = configuration,
         PlatformTarget = platform,
         Targets =
@@ -102,6 +103,12 @@ void BuildBouncyHsmPkcs11Lib(PlatformTarget platform)
             "build"
         }
     };
+
+    //// Fix problem with local VCTargetsPath
+    //if (!BuildSystem.GitHubActions.IsRunningOnGitHubActions)
+    //{
+    //    settings.EnvironmentVariables.Add("VCTargetsPath", @"C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Microsoft\VC\v180");
+    //}
 
     MSBuild($"{SourceDirectory}BouncyHsm.Pkcs11Lib/BouncyHsm.Pkcs11Lib.vcxproj", settings);
 }
@@ -140,7 +147,7 @@ Task(BuildTarget.BuildBouncyHsmClient)
         string projectFile = $"{SourceDirectory}BouncyHsm.Client/BouncyHsm.Client.csproj";
 
         string linuxNativeLibx64 = JoinPaths("build_linux", "BouncyHsm.Pkcs11Lib-x64.so");
-        if(FileExists(linuxNativeLibx64))
+        if (FileExists(linuxNativeLibx64))
         {
             CopyFile(linuxNativeLibx64,
                 JoinPaths(ArtifactsTmpDirectory, "native", "Linux-x64", "BouncyHsm.Pkcs11Lib.so"));
