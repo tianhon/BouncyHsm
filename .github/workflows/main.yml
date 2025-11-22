@@ -83,6 +83,13 @@ jobs:
         with:
           name: rhel-native-libs
           path: build_linux
+
+      # Setup .NET SDK
+      - name: Setup dotnet 10.0
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+          cache: true
       - name: Run BouncyHsm main build script
         run: dotnet run -- --target BuildAll
         working-directory: ./Build
