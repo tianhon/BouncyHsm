@@ -64,6 +64,13 @@ internal static class AttributeValueExtensions
             CKA.CKA_KEY_TYPE => ((CKK)value).ToString(),
             CKA.CKA_NAME_HASH_ALGORITHM => ((CKM)value).ToString(),
             CKA.CKA_CERTIFICATE_CATEGORY => ((CKCertificateCategory)value).ToString(),
+            CKA.CKA_TRUST_SERVER_AUTH => ((CKT)value).ToString(),
+            CKA.CKA_TRUST_CLIENT_AUTH => ((CKT)value).ToString(),
+            CKA.CKA_TRUST_CODE_SIGNING => ((CKT)value).ToString(),
+            CKA.CKA_TRUST_EMAIL_PROTECTION => ((CKT)value).ToString(),
+            CKA.CKA_TRUST_IPSEC_IKE => ((CKT)value).ToString(),
+            CKA.CKA_TRUST_TIME_STAMPING => ((CKT)value).ToString(),
+            CKA.CKA_TRUST_OCSP_SIGNING => ((CKT)value).ToString(),
 
             _ => value.ToString()
         };

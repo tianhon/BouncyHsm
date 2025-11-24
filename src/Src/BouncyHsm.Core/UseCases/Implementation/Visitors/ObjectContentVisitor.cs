@@ -109,6 +109,11 @@ internal class ObjectContentVisitor : ICryptoApiObjectVisitor<DomainResult<Objec
         return this.CreatePemResult("ec_x_public_key.pem", montgomeryPublicKey.GetPublicKey());
     }
 
+    public DomainResult<ObjectContent> Visit(TrustObject trustObject)
+    {
+        return new DomainResult<ObjectContent>.InvalidInput("Trust object is not downloadable.");
+    }
+
     private DomainResult<ObjectContent> CreatePemResult(string fileName, object pemObject)
     {
         using MemoryStream ms = new MemoryStream();

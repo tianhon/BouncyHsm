@@ -110,4 +110,9 @@ internal class StorageObjectDescriptionVisitor : ICryptoApiObjectVisitor<string>
     {
         return $"Public key {MontgomeryEcUtils.ParseEcParamsAsName(montgomeryPublicKey.CkaEcParams)}";
     }
+
+    public string Visit(TrustObject trustObject)
+    {
+        return "Trust object";
+    }
 }

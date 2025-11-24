@@ -31,6 +31,7 @@ public static class StorageObjectFactory
         EdPrivateKeyObject,
         MontgomeryPublicKeyObject,
         MontgomeryPrivateKeyObject,
+        TrustObject,
     }
 
     internal interface IStorageObjectInternalFactory
@@ -66,6 +67,7 @@ public static class StorageObjectFactory
                 StorageObjectInternalType.EdPublicKeyObject => new EdwardsPublicKeyObject(CKM.CKM_EC_EDWARDS_KEY_PAIR_GEN),
                 StorageObjectInternalType.MontgomeryPrivateKeyObject => new MontgomeryPrivateKeyObject(CKM.CKM_EC_MONTGOMERY_KEY_PAIR_GEN),
                 StorageObjectInternalType.MontgomeryPublicKeyObject => new MontgomeryPublicKeyObject(CKM.CKM_EC_MONTGOMERY_KEY_PAIR_GEN),
+                StorageObjectInternalType.TrustObject => new TrustObject(),
                 _ => throw new InvalidProgramException($"Enum value {storageObjectType} is not supported.")
             };
         }
@@ -101,6 +103,7 @@ public static class StorageObjectFactory
                 StorageObjectInternalType.EdPublicKeyObject => new EdwardsPublicKeyObject(this.memento),
                 StorageObjectInternalType.MontgomeryPrivateKeyObject => new MontgomeryPrivateKeyObject(this.memento),
                 StorageObjectInternalType.MontgomeryPublicKeyObject => new MontgomeryPublicKeyObject(this.memento),
+                StorageObjectInternalType.TrustObject => new TrustObject(this.memento),
                 _ => throw new InvalidProgramException($"Enum value {storageObjectType} is not supported.")
             };
         }
@@ -224,6 +227,11 @@ public static class StorageObjectFactory
         if (classType == CKO.CKO_SECRET_KEY)
         {
             return CreateSecretCore(template, factory);
+        }
+
+        if (classType == CKO.CKO_TRUST)
+        {
+            return factory.Create(StorageObjectInternalType.TrustObject);
         }
 
         //TODO: Implement other object types.
