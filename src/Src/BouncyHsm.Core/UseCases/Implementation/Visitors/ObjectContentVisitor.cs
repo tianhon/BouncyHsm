@@ -114,6 +114,16 @@ internal class ObjectContentVisitor : ICryptoApiObjectVisitor<DomainResult<Objec
         return new DomainResult<ObjectContent>.InvalidInput("Trust object is not downloadable.");
     }
 
+    public DomainResult<ObjectContent> Visit(MlDsaPublicKeyObject mlDsaPublicKeyObject)
+    {
+        return this.CreatePemResult("ml_dsa_public_key.pem", mlDsaPublicKeyObject.GetPublicKey());
+    }
+
+    public DomainResult<ObjectContent> Visit(MlDsaPrivateKeyObject mlDsaPrivateKeyObject)
+    {
+        return this.CreatePemResult("ml_dsa_private_key.pem", mlDsaPrivateKeyObject.GetPrivateKey());
+    }
+
     private DomainResult<ObjectContent> CreatePemResult(string fileName, object pemObject)
     {
         using MemoryStream ms = new MemoryStream();

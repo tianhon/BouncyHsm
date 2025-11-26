@@ -1,0 +1,81 @@
+﻿using BouncyHsm.Core.Services.Contracts.P11;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using System.Security.Cryptography.X509Certificates;
+
+namespace BouncyHsm.Core.Services.Contracts.Entities;
+
+public class MlDsaPrivateKeyObject : PrivateKeyObject
+{
+    public CKP CkaParameterSet
+    {
+        get => (CKP)this.values[CKA.CKA_PARAMETER_SET].AsUint();
+        set => this.values[CKA.CKA_PARAMETER_SET] = AttributeValue.Create((uint)value);
+    }
+
+    public byte[] CkaSeed
+    {
+        get => this.values[CKA.CKA_SEED].AsByteArray();
+        set => this.values[CKA.CKA_SEED] = AttributeValue.Create(value);
+    }
+
+    public byte[] CkaValue
+    {
+        get => this.values[CKA.CKA_VALUE].AsByteArray();
+        set => this.values[CKA.CKA_VALUE] = AttributeValue.Create(value);
+    }
+
+    public MlDsaPrivateKeyObject() : base(CKK.CKK_ML_DSA, CKM.CKM_ML_DSA_KEY_PAIR_GEN)
+    {
+        this.CkaParameterSet = CKP.CKP_ML_DSA_44;
+        this.CkaSeed = Array.Empty<byte>();
+        this.CkaValue = Array.Empty<byte>();
+    }
+
+    internal MlDsaPrivateKeyObject(StorageObjectMemento memento)
+        : base(memento)
+    {
+    }
+
+    public override void Accept(ICryptoApiObjectVisitor visitor)
+    {
+        visitor.Visit(this);
+    }
+
+    public override T Accept<T>(ICryptoApiObjectVisitor<T> visitor)
+    {
+        return visitor.Visit(this);
+    }
+
+    public override AsymmetricKeyParameter GetPrivateKey()
+    {
+        return MLDsaPrivateKeyParameters.FromEncoding(MlDsaUtils.GetParametersFromType(this.CkaParameterSet), this.CkaValue);
+    }
+
+    public override void SetPrivateKey(AsymmetricKeyParameter privateKey)
+    {
+        if (privateKey is MLDsaPrivateKeyParameters mLDsaPrivateKey)
+        {
+            if (mLDsaPrivateKey.PreferredFormat != MLDsaPrivateKeyParameters.Format.SeedAndEncoding)
+            {
+                mLDsaPrivateKey = mLDsaPrivateKey.WithPreferredFormat(MLDsaPrivateKeyParameters.Format.SeedAndEncoding);
+            }
+
+            this.CkaParameterSet = MlDsaUtils.GetMlDsaparametersType(mLDsaPrivateKey.Parameters);
+            this.CkaSeed = mLDsaPrivateKey.GetSeed();
+            this.CkaValue = mLDsaPrivateKey.GetEncoded();
+        }
+        else
+        {
+            throw new ArgumentException("publicKey is not MLDsaPrivateKeyParameters", nameof(privateKey));
+        }
+    }
+
+    public override void Validate()
+    {
+        base.Validate();
+        CryptoObjectValueChecker.CheckEnumIsDefined<CKP>(CKA.CKA_PARAMETER_SET, this.CkaParameterSet);
+        CryptoObjectValueChecker.CheckNotEmpty(CKA.CKA_SEED, this.CkaSeed);
+        CryptoObjectValueChecker.CheckNotEmpty(CKA.CKA_VALUE, this.CkaValue);
+    }
+}

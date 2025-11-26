@@ -39,6 +39,10 @@ public interface ICryptoApiObjectVisitor
     void Visit(MontgomeryPublicKeyObject montgomeryPublicKeyObject);
 
     void Visit(TrustObject trustObject);
+
+    void Visit(MlDsaPublicKeyObject mlDsaPublicKeyObject);
+
+    void Visit(MlDsaPrivateKeyObject mlDsaPrivateKeyObject);
 }
 
 public interface ICryptoApiObjectVisitor<out T>
@@ -80,4 +84,8 @@ public interface ICryptoApiObjectVisitor<out T>
     T Visit(MontgomeryPublicKeyObject montgomeryPublicKeyObject);
 
     T Visit(TrustObject trustObject);
+
+    T Visit(MlDsaPublicKeyObject mlDsaPublicKeyObject);
+
+    T Visit(MlDsaPrivateKeyObject mlDsaPrivateKeyObject);
 }

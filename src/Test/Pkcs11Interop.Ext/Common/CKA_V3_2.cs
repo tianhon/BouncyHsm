@@ -29,4 +29,7 @@ public static class CKA_V3_2
     public const CKA CKA_ENCAPSULATE = (CKA)0x00000633;
     public const CKA CKA_DECAPSULATE = (CKA)0x00000634;
     public const CKA CKA_HASH_OF_CERTIFICATE = (CKA)0x00000635;
+
+    public const CKA CKA_PARAMETER_SET = (CKA)0x0000061d;
+    public const CKA CKA_SEED = (CKA)0x00000637;
 }
