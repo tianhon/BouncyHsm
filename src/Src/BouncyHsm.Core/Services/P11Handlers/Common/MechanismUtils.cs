@@ -43,9 +43,8 @@ internal static class MechanismUtils
     private const int MontgomeryMinKeySize = 32;
     private const int MontgomeryMaxKeySize = 57;
 
-    // TODO: Specifiy min a max ML-DSA key size
-    private const int MlDsaMinKeySize = 0;
-    private const int MlDsaMaxKeySize = 1024;
+    private const int MlDsaMinKeySize = 1312;
+    private const int MlDsaMaxKeySize = 2592;
 
     // Another mechanisms https://nshielddocs.entrust.com/api-generic/12.80/pkcs11
     static MechanismUtils()
