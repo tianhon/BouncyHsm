@@ -102,6 +102,7 @@ public partial class GenerateKeyPairHandler : IRpcRequestHandler<GenerateKeyPair
             CKM.CKM_ECDSA_KEY_PAIR_GEN => new EcdsaKeyPairGenerator(this.loggerFactory.CreateLogger<EcdsaKeyPairGenerator>()),
             CKM.CKM_EC_EDWARDS_KEY_PAIR_GEN => new EdwardsKeyPairGenerator(this.loggerFactory.CreateLogger<EdwardsKeyPairGenerator>()),
             CKM.CKM_EC_MONTGOMERY_KEY_PAIR_GEN => new MontgomeryKeyPairGenerator(this.loggerFactory.CreateLogger<MontgomeryKeyPairGenerator>()),
+            CKM.CKM_ML_DSA_KEY_PAIR_GEN => new MlDsaKeyPairGenerator(this.loggerFactory.CreateLogger<MlDsaKeyPairGenerator>()),
             _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Invalid mechanism {ckMechanism} for generate key pair.")
         };
     }

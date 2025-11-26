@@ -131,6 +131,8 @@ internal static class AttrTypeUtils
             CKA.CKA_TRUST_TIME_STAMPING => AttrTypeTag.CkUint,
             CKA.CKA_TRUST_OCSP_SIGNING => AttrTypeTag.CkUint,
             CKA.CKA_HASH_OF_CERTIFICATE => AttrTypeTag.ByteArray,
+            CKA.CKA_SEED => AttrTypeTag.ByteArray,
+            CKA.CKA_PARAMETER_SET => AttrTypeTag.CkUint,
             CKA.CKA_VENDOR_DEFINED => throw new InvalidOperationException("value is not defined"),
             _ => throw new InvalidProgramException($"Enum value {attributeType} is not supported.")
         };

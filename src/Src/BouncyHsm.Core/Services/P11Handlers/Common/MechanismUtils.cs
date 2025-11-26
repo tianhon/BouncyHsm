@@ -43,6 +43,10 @@ internal static class MechanismUtils
     private const int MontgomeryMinKeySize = 32;
     private const int MontgomeryMaxKeySize = 57;
 
+    // TODO: Specifiy min a max ML-DSA key size
+    private const int MlDsaMinKeySize = 0;
+    private const int MlDsaMaxKeySize = 1024;
+
     // Another mechanisms https://nshielddocs.entrust.com/api-generic/12.80/pkcs11
     static MechanismUtils()
     {
@@ -263,6 +267,10 @@ internal static class MechanismUtils
             
             // Montgomery keys
             {CKM.CKM_EC_MONTGOMERY_KEY_PAIR_GEN, new MechanismInfo(MontgomeryMinKeySize, MontgomeryMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR | MechanismCkf.CKF_EC_NAMEDCURVE | MechanismCkf.CKF_EC_CURVENAME, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_0) },
+
+            // ML-DSA
+            {CKM.CKM_ML_DSA_KEY_PAIR_GEN, new MechanismInfo(MlDsaMinKeySize, MlDsaMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR , MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_2) },
+
         };
 
         mechanism = originalMechanism;
