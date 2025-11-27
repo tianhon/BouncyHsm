@@ -208,6 +208,7 @@ public class PkcsFacade : IPkcsFacade
             CKK.CKK_RSA => "SHA224WITHRSA",
             CKK.CKK_ECDSA => "SHA256WITHECDSA",
             CKK.CKK_EC_EDWARDS => this.GetEdwardsSignatureOid(privKo),
+            CKK.CKK_ML_DSA => this.GetMlDsaSignatureName(privKo),
             _ => throw new InvalidProgramException($"Enum value {privKo.CkaKeyType} is not supported.")
         };
 
@@ -270,6 +271,7 @@ public class PkcsFacade : IPkcsFacade
             CKK.CKK_RSA => "SHA224WITHRSA",
             CKK.CKK_ECDSA => "SHA256WITHECDSA",
             CKK.CKK_EC_EDWARDS => this.GetEdwardsSignatureOid(privKo),
+            CKK.CKK_ML_DSA => this.GetMlDsaSignatureName(privKo),
             _ => throw new InvalidProgramException($"Enum value {privKo.CkaKeyType} is not supported.")
         };
 
@@ -559,5 +561,12 @@ public class PkcsFacade : IPkcsFacade
         // Works beacose OID for key is same as oid for singature
         DerObjectIdentifier curveOid = EdEcUtils.GetOidFromParams(value.AsByteArray());
         return curveOid.Id;
+    }
+
+    private string GetMlDsaSignatureName(PrivateKeyObject privateKeyObject)
+    {
+        System.Diagnostics.Debug.Assert(privateKeyObject.CkaKeyType == CKK.CKK_ML_DSA, "Key type is not ML-DSA.");
+
+        return MlDsaUtils.GetSignatureAlgorithmName(((MlDsaPrivateKeyObject)privateKeyObject).CkaParameterSet);
     }
 }

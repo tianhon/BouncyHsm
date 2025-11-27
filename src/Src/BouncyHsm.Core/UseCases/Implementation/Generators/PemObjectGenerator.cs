@@ -87,6 +87,8 @@ internal class PemObjectGenerator
                 RsaPrivateCrtKeyParameters key => this.CreateRsaPrivateKey(key),
                 RsaKeyParameters key => this.CreateRsaPublicKey(key),
                 X509Certificate certificate => this.CreateCertificate(certificate),
+                MLDsaPublicKeyParameters key => this.CreateMlDsaPublicKey(key),
+                MLDsaPrivateKeyParameters key=> this.CreateMlDsaPrivateKey(key),
                 Org.BouncyCastle.Utilities.IO.Pem.PemObject pemObject => this.CreateFromPem(pemObject),
                 _ => throw new IOException("PEM object not supported.")
             };
@@ -95,6 +97,57 @@ internal class PemObjectGenerator
         }
 
         return objects;
+    }
+
+    private StorageObject CreateMlDsaPrivateKey(MLDsaPrivateKeyParameters key)
+    {
+        MlDsaPrivateKeyObject privateKeyObject = new MlDsaPrivateKeyObject();
+
+        privateKeyObject.SetPrivateKey(key);
+        privateKeyObject.CkaId = this.ckaId;
+        privateKeyObject.CkaCopyable = false;
+        privateKeyObject.CkaDestroyable = true;
+        privateKeyObject.CkaLabel = this.ckaLabel;
+        privateKeyObject.CkaModifiable = false;
+        privateKeyObject.CkaPrivate = true;
+        privateKeyObject.CkaToken = true;
+
+        privateKeyObject.CkaSign = this.ForSigning;
+        privateKeyObject.CkaSignRecover = false;
+        privateKeyObject.CkaDecrypt = this.ForEncryption;
+        privateKeyObject.CkaUnwrap = this.ForWrap;
+        privateKeyObject.CkaDerive = this.ForDerivation;
+        this.UpdateAttributesByMode(privateKeyObject);
+
+        privateKeyObject.ReComputeAttributes();
+
+        return privateKeyObject;
+    }
+
+    private StorageObject CreateMlDsaPublicKey(MLDsaPublicKeyParameters key)
+    {
+        MlDsaPublicKeyObject publicKeyObject = new MlDsaPublicKeyObject();
+        publicKeyObject.SetPublicKey(key);
+        publicKeyObject.CkaId = this.ckaId;
+        publicKeyObject.CkaLabel = this.ckaLabel;
+        publicKeyObject.CkaCopyable = false;
+        publicKeyObject.CkaDestroyable = true;
+        publicKeyObject.CkaModifiable = false;
+        publicKeyObject.CkaPrivate = false;
+        publicKeyObject.CkaToken = true;
+        publicKeyObject.CkaTrusted = false;
+
+        publicKeyObject.CkaVerify = this.ForSigning;
+        publicKeyObject.CkaVerifyRecover = false;
+        publicKeyObject.CkaEncrypt = this.ForEncryption;
+        publicKeyObject.CkaWrap = this.ForWrap;
+        publicKeyObject.CkaDerive = this.ForDerivation;
+
+        this.UpdateAttributesByMode(publicKeyObject);
+
+        publicKeyObject.ReComputeAttributes();
+
+        return publicKeyObject;
     }
 
     private StorageObject CreateFromPem(Org.BouncyCastle.Utilities.IO.Pem.PemObject pemObject)

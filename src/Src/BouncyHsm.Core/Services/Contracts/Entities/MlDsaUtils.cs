@@ -51,4 +51,9 @@ internal static class MlDsaUtils
             _ => throw new InvalidProgramException($"Unsupported ML DSA parameters type {ckp}."),
         };
     }
+
+    public static string GetSignatureAlgorithmName(CKP ckp)
+    {
+        return GetParametersFromType(ckp).Name;
+    }
 }

@@ -56,13 +56,10 @@ public class MlDsaPrivateKeyObject : PrivateKeyObject
     {
         if (privateKey is MLDsaPrivateKeyParameters mLDsaPrivateKey)
         {
-            if (mLDsaPrivateKey.PreferredFormat != MLDsaPrivateKeyParameters.Format.SeedAndEncoding)
-            {
-                mLDsaPrivateKey = mLDsaPrivateKey.WithPreferredFormat(MLDsaPrivateKeyParameters.Format.SeedAndEncoding);
-            }
-
             this.CkaParameterSet = MlDsaUtils.GetMlDsaparametersType(mLDsaPrivateKey.Parameters);
-            this.CkaSeed = mLDsaPrivateKey.GetSeed();
+
+            // The seed should be filled in, but sometimes it is not possible to get it during import. This behavior is not in accordance with the specification.
+            this.CkaSeed = mLDsaPrivateKey.GetSeed() ?? Array.Empty<byte>();
             this.CkaValue = mLDsaPrivateKey.GetEncoded();
         }
         else
@@ -75,7 +72,13 @@ public class MlDsaPrivateKeyObject : PrivateKeyObject
     {
         base.Validate();
         CryptoObjectValueChecker.CheckEnumIsDefined<CKP>(CKA.CKA_PARAMETER_SET, this.CkaParameterSet);
-        CryptoObjectValueChecker.CheckNotEmpty(CKA.CKA_SEED, this.CkaSeed);
+
+        // The seed should be filled in, but sometimes it is not possible to get it during import. This behavior is not in accordance with the specification.
+        if (this.CkaValue.Length == 0)
+        {
+            CryptoObjectValueChecker.CheckNotEmpty(CKA.CKA_SEED, this.CkaSeed);
+        }
+
         CryptoObjectValueChecker.CheckNotEmpty(CKA.CKA_VALUE, this.CkaValue);
     }
 }

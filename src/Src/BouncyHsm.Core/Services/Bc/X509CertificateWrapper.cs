@@ -120,13 +120,13 @@ public class X509CertificateWrapper
             CKK.CKK_RSA => SignerUtilities.GetSigner("SHA1withRSA"),
             CKK.CKK_ECDSA => new DsaDigestSigner(new ECDsaSigner(), new Sha1Digest(), PlainDsaEncoding.Instance),
             CKK.CKK_EC_EDWARDS => this.CreateEdwardsSigner(privateKey),
+            CKK.CKK_ML_DSA => this.GetMlDsaSignatureName(privateKey),
             _ => throw new InvalidProgramException($"Enuum value {this.KeyType} not supported.")
         };
 
         byte[] data = new byte[20];
         Random.Shared.NextBytes(data);
 
-        signer.Reset();
         signer.Init(true, privateKey);
         signer.BlockUpdate(data);
         byte[] signature = signer.GenerateSignature();
@@ -148,6 +148,12 @@ public class X509CertificateWrapper
         };
     }
 
+    private ISigner GetMlDsaSignatureName(AsymmetricKeyParameter privateKeyObject)
+    {
+        MLDsaPrivateKeyParameters privateKey = (MLDsaPrivateKeyParameters)privateKeyObject;
+        return new MLDsaSigner(privateKey.Parameters, false);
+    }
+
     private CKK GetKeyType()
     {
         AsymmetricKeyParameter publicKey = this.certificate.GetPublicKey();
@@ -160,6 +166,7 @@ public class X509CertificateWrapper
             DsaPublicKeyParameters _ => CKK.CKK_DSA,
             Ed25519PublicKeyParameters _ => CKK.CKK_EC_EDWARDS,
             Ed448PublicKeyParameters _ => CKK.CKK_EC_EDWARDS,
+            MLDsaPublicKeyParameters _ => CKK.CKK_ML_DSA,
             _ => throw new NotSupportedException($"Not supported public key in certificate {publicKey.GetType().Name}.")
         };
     }
