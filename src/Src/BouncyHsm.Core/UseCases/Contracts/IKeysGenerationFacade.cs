@@ -25,4 +25,6 @@ public interface IKeysGenerationFacade
     Task<DomainResult<GeneratedKeyPairIds>> GenerateEdwardsKeyPair(uint slotId, GenerateEdwardsKeyPairRequest request, CancellationToken cancellationToken);
     
     Task<DomainResult<GeneratedKeyPairIds>> GenerateMontgomeryKeyPair(uint slotId, GenerateMontgomeryKeyPairRequest request, CancellationToken cancellationToken);
+    
+    Task<DomainResult<GeneratedKeyPairIds>> GenerateMLDsaKeyPair(uint slotId, GenerateMLDsaKeyPairRequest request, CancellationToken cancellationToken);
 }
