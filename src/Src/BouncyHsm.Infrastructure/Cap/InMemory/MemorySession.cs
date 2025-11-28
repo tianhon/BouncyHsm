@@ -13,6 +13,7 @@ public class MemorySession : IMemorySession
     private readonly ConcurrentDictionary<Guid, uint> objectHandlesToGuid;
     private readonly ConcurrentDictionary<uint, Guid> objectHandlesToHandles;
     private readonly HashSet<uint> slotEvents;
+    private readonly Lock slotEventsLock;
     private DateTime lastActivity;
 
     public Guid Id
@@ -48,6 +49,7 @@ public class MemorySession : IMemorySession
         this.Data = sessionData;
         this.StartAt = startAt;
         this.lastActivity = startAt;
+        this.slotEventsLock = new Lock();
     }
 
     public uint CreateSession(uint slotId, bool isRwSession, SecureRandom secureRandom)
@@ -193,7 +195,7 @@ public class MemorySession : IMemorySession
 
     public uint? GetLastSlotEvent()
     {
-        lock (this.slotEvents)
+        lock (this.slotEventsLock)
         {
             if (this.slotEvents.Count == 0)
             {
@@ -209,7 +211,7 @@ public class MemorySession : IMemorySession
 
     internal void NotifySlotEvent(uint slotId)
     {
-        lock (this.slotEvents)
+        lock (this.slotEventsLock)
         {
             _ = this.slotEvents.Add(slotId);
         }
