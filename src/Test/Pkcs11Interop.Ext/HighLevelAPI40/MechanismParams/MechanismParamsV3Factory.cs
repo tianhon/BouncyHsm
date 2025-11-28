@@ -34,4 +34,9 @@ internal class MechanismParamsV3Factory : IMechanismParamsV3Factory
     {
         return new CkSalsa20Params(blockCounter, nonce);
     }
+
+    public ICkSignAdditionalContextParams CreateSignAdditionalContextParams(ulong hedgeVariant, byte[]? context)
+    {
+        return new CkSignAdditionalContextParams((uint)hedgeVariant, context);
+    }
 }

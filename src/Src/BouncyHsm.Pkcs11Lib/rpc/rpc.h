@@ -177,6 +177,7 @@ typedef struct _Ckp_CkChaCha20Params Ckp_CkChaCha20Params;
 typedef struct _Ckp_CkSalsa20Params Ckp_CkSalsa20Params;
 typedef struct _Ckp_CkSalsa20ChaCha20Poly1305Params Ckp_CkSalsa20ChaCha20Poly1305Params;
 typedef struct _Ckp_CkEddsaParams Ckp_CkEddsaParams;
+typedef struct _Ckp_CkSignAdditionalContext Ckp_CkSignAdditionalContext;
 
 typedef struct _Binary Binary;
 
@@ -1996,6 +1997,16 @@ typedef struct _Ckp_CkEddsaParams
 int Ckp_CkEddsaParams_Serialize(cmp_ctx_t* ctx, Ckp_CkEddsaParams* value);
 int Ckp_CkEddsaParams_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, Ckp_CkEddsaParams* value);
 int Ckp_CkEddsaParams_Release(Ckp_CkEddsaParams* value);
+
+typedef struct _Ckp_CkSignAdditionalContext
+{
+    uint32_t HedgeVariant;
+    Binary* Context;
+} Ckp_CkSignAdditionalContext;
+
+int Ckp_CkSignAdditionalContext_Serialize(cmp_ctx_t* ctx, Ckp_CkSignAdditionalContext* value);
+int Ckp_CkSignAdditionalContext_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, Ckp_CkSignAdditionalContext* value);
+int Ckp_CkSignAdditionalContext_Release(Ckp_CkSignAdditionalContext* value);
 
 
 typedef void* (*nmrpc_malloc_fn_t)(size_t size);

@@ -33,4 +33,9 @@ internal class MechanismParamsV3Factory : IMechanismParamsV3Factory
     {
         return new CkEddsaParams(phFlag, contextData);
     }
+
+    public ICkSignAdditionalContextParams CreateSignAdditionalContextParams(ulong hedgeVariant, byte[]? context)
+    {
+        return new CkSignAdditionalContextParams(hedgeVariant, context);
+    }
 }

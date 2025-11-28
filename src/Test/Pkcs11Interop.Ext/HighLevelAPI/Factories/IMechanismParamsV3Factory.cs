@@ -18,4 +18,6 @@ public interface IMechanismParamsV3Factory
     ICkSalsa20Params CreateCkSalsa20Params(ulong blockCounter, byte[] nonce);
 
     ICkEddsaParams CreateCkEddsaParams(bool phFlag, byte[]? contextData);
+
+    ICkSignAdditionalContextParams CreateSignAdditionalContextParams(ulong hedgeVariant, byte[]? context);
 }

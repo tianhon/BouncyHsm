@@ -704,6 +704,40 @@ static int CreateEddsaParams(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
     return result;
 }
 
+static int CreateSignAdditionalContextParams(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
+{
+    LOG_ENTERING_TO_FUNCTION();
+
+    int result = NMRPC_FATAL_ERROR;
+
+    if (pMechanism->ulParameterLen != sizeof(CK_SIGN_ADDITIONAL_CONTEXT))
+    {
+        log_message(LOG_LEVEL_ERROR, "Excepted CK_SIGN_ADDITIONAL_CONTEXT in mechanism.");
+        return NMRPC_FATAL_ERROR;
+    }
+
+    CK_SIGN_ADDITIONAL_CONTEXT* signAdditionalContext = (CK_SIGN_ADDITIONAL_CONTEXT*)pMechanism->pParameter;
+    Ckp_CkSignAdditionalContext signAdditionalContextParameters = { 0 };
+    Binary context;
+
+    signAdditionalContextParameters.HedgeVariant = (uint32_t)signAdditionalContext->hedgeVariant;
+    signAdditionalContextParameters.Context = NULL;
+    if (signAdditionalContext->pContext != NULL)
+    {
+        context.data = (uint8_t*)signAdditionalContext->pContext;
+        context.size = (size_t)signAdditionalContext->ulContextLen;
+        signAdditionalContextParameters.Context = &context;
+    }
+
+    result = nmrpc_writeAsBinary(&signAdditionalContextParameters, (SerializeFnPtr_t)Ckp_CkSignAdditionalContext_Serialize, &value->MechanismParamMp);
+    if (result != NMRPC_OK)
+    {
+        log_message(LOG_LEVEL_ERROR, "Failed call nmrpc_writeAsBinary in %s with result code %i.", __FUNCTION__, result);;
+    }
+
+    return result;
+}
+
 int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
 {
     LOG_ENTERING_TO_FUNCTION();
@@ -816,6 +850,10 @@ int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
 
     case CKM_EDDSA:
         return CreateEddsaParams(value, pMechanism);
+        break;
+
+    case CKM_ML_DSA:
+        return CreateSignAdditionalContextParams(value, pMechanism);
         break;
 
     default:

@@ -349,9 +349,9 @@ public class T17_GenerateKeyPair
     }
 
     [TestMethod]
-    [DataRow(Pkcs11Interop.Ext.Common.CKP.CKP_ML_DSA_44, DisplayName = nameof(Pkcs11Interop.Ext.Common.CKP.CKP_ML_DSA_44))]
-    [DataRow(Pkcs11Interop.Ext.Common.CKP.CKP_ML_DSA_65, DisplayName = nameof(Pkcs11Interop.Ext.Common.CKP.CKP_ML_DSA_65))]
-    [DataRow(Pkcs11Interop.Ext.Common.CKP.CKP_ML_DSA_87, DisplayName = nameof(Pkcs11Interop.Ext.Common.CKP.CKP_ML_DSA_87))]
+    [DataRow(Pkcs11Interop.Ext.Common.CKP_V3_2.CKP_ML_DSA_44, DisplayName = nameof(Pkcs11Interop.Ext.Common.CKP_V3_2.CKP_ML_DSA_44))]
+    [DataRow(Pkcs11Interop.Ext.Common.CKP_V3_2.CKP_ML_DSA_65, DisplayName = nameof(Pkcs11Interop.Ext.Common.CKP_V3_2.CKP_ML_DSA_65))]
+    [DataRow(Pkcs11Interop.Ext.Common.CKP_V3_2.CKP_ML_DSA_87, DisplayName = nameof(Pkcs11Interop.Ext.Common.CKP_V3_2.CKP_ML_DSA_87))]
     public void GenerateKeyPair_MlDsa_Success(uint parameterSet)
     {
         Pkcs11InteropFactories factories = new Pkcs11InteropFactories();

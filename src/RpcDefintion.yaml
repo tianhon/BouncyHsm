@@ -1363,3 +1363,9 @@ Messages:
     Fields:
       PhFlag: bool
       ContextData: binary?
+
+  Ckp_CkSignAdditionalContext:
+    Summary: Representes CK_SIGN_ADDITIONAL_CONTEXT for ML-DSA
+    Fields:
+      HedgeVariant: uint32
+      Context: binary?
