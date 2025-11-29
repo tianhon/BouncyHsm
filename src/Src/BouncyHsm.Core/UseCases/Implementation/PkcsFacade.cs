@@ -456,6 +456,7 @@ public class PkcsFacade : IPkcsFacade
             request.CkaLabel);
         pemObjectGenerator.ForWrap = request.Hints.ForWrap;
         pemObjectGenerator.ForEncryption = request.Hints.ForEncryption;
+        pemObjectGenerator.ForEncapsulation = request.Hints.ForEncapsulation;
         pemObjectGenerator.ForDerivation = request.Hints.ForDerivation;
         pemObjectGenerator.ForSigning = request.Hints.ForSigning;
         pemObjectGenerator.ImportMode = request.Hints.ImportMode;

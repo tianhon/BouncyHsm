@@ -4627,6 +4627,9 @@ namespace BouncyHsm.Client
         [System.Text.Json.Serialization.JsonPropertyName("ForEncryption")]
         public bool ForEncryption { get; set; } = default!;
 
+        [System.Text.Json.Serialization.JsonPropertyName("ForEncapsulation")]
+        public bool ForEncapsulation { get; set; } = default!;
+
         [System.Text.Json.Serialization.JsonPropertyName("ForDerivation")]
         public bool ForDerivation { get; set; } = default!;
 
@@ -5039,6 +5042,9 @@ namespace BouncyHsm.Client
 
         [System.Text.Json.Serialization.JsonPropertyName("ForEncryption")]
         public bool ForEncryption { get; set; } = default!;
+
+        [System.Text.Json.Serialization.JsonPropertyName("ForEncapsulation")]
+        public bool ForEncapsulation { get; set; } = default!;
 
         [System.Text.Json.Serialization.JsonPropertyName("ForDerivation")]
         public bool ForDerivation { get; set; } = default!;

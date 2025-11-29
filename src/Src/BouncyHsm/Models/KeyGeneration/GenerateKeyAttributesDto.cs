@@ -48,6 +48,13 @@ public class GenerateKeyAttributesDto
     }
 
     [Required]
+    public bool ForEncapsulation
+    {
+        get;
+        set;
+    }
+
+    [Required]
     public bool ForDerivation
     {
         get;

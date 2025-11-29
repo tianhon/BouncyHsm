@@ -31,6 +31,12 @@ internal class PemObjectGenerator
         set;
     }
 
+    public bool ForEncapsulation
+    {
+        get;
+        set;
+    }
+
     public bool ForDerivation
     {
         get;
@@ -115,6 +121,7 @@ internal class PemObjectGenerator
         privateKeyObject.CkaSign = this.ForSigning;
         privateKeyObject.CkaSignRecover = false;
         privateKeyObject.CkaDecrypt = this.ForEncryption;
+        privateKeyObject.CkaDecapsulate = this.ForEncapsulation;
         privateKeyObject.CkaUnwrap = this.ForWrap;
         privateKeyObject.CkaDerive = this.ForDerivation;
         this.UpdateAttributesByMode(privateKeyObject);
@@ -140,6 +147,7 @@ internal class PemObjectGenerator
         publicKeyObject.CkaVerify = this.ForSigning;
         publicKeyObject.CkaVerifyRecover = false;
         publicKeyObject.CkaEncrypt = this.ForEncryption;
+        publicKeyObject.CkaEncapsulate = this.ForEncapsulation;
         publicKeyObject.CkaWrap = this.ForWrap;
         publicKeyObject.CkaDerive = this.ForDerivation;
 
@@ -369,6 +377,7 @@ internal class PemObjectGenerator
         publicKeyObject.CkaEncrypt = this.ForEncryption;
         publicKeyObject.CkaWrap = this.ForWrap;
         publicKeyObject.CkaDerive = this.ForDerivation;
+        publicKeyObject.CkaEncapsulate = this.ForEncapsulation;
 
         this.UpdateAttributesByMode(publicKeyObject);
 
@@ -393,6 +402,7 @@ internal class PemObjectGenerator
         publicKeyObject.CkaVerify = this.ForSigning;
         publicKeyObject.CkaVerifyRecover = false;
         publicKeyObject.CkaEncrypt = this.ForEncryption;
+        publicKeyObject.CkaEncapsulate = this.ForEncapsulation;
         publicKeyObject.CkaWrap = this.ForWrap;
         publicKeyObject.CkaDerive = this.ForDerivation;
 
@@ -419,6 +429,7 @@ internal class PemObjectGenerator
         publicKeyObject.CkaVerify = this.ForSigning;
         publicKeyObject.CkaVerifyRecover = false;
         publicKeyObject.CkaEncrypt = this.ForEncryption;
+        publicKeyObject.CkaEncapsulate = this.ForEncapsulation;
         publicKeyObject.CkaWrap = this.ForWrap;
         publicKeyObject.CkaDerive = this.ForDerivation;
 
@@ -445,6 +456,7 @@ internal class PemObjectGenerator
         publicKeyObject.CkaVerify = this.ForSigning;
         publicKeyObject.CkaVerifyRecover = false;
         publicKeyObject.CkaEncrypt = this.ForEncryption;
+        publicKeyObject.CkaEncapsulate = this.ForEncapsulation;
         publicKeyObject.CkaWrap = this.ForWrap;
         publicKeyObject.CkaDerive = this.ForDerivation;
 
@@ -471,6 +483,7 @@ internal class PemObjectGenerator
         publicKeyObject.CkaVerify = this.ForSigning;
         publicKeyObject.CkaVerifyRecover = false;
         publicKeyObject.CkaEncrypt = this.ForEncryption;
+        publicKeyObject.CkaEncapsulate = this.ForEncapsulation;
         publicKeyObject.CkaWrap = this.ForWrap;
         publicKeyObject.CkaDerive = this.ForDerivation;
 
@@ -497,6 +510,7 @@ internal class PemObjectGenerator
         privateKeyObject.CkaSign = this.ForSigning;
         privateKeyObject.CkaSignRecover = false;
         privateKeyObject.CkaDecrypt = this.ForEncryption;
+        privateKeyObject.CkaDecapsulate = this.ForEncapsulation;
         privateKeyObject.CkaUnwrap = this.ForWrap;
         privateKeyObject.CkaDerive = this.ForDerivation;
         this.UpdateAttributesByMode(privateKeyObject);
@@ -522,6 +536,7 @@ internal class PemObjectGenerator
         privateKeyObject.CkaSign = this.ForSigning;
         privateKeyObject.CkaSignRecover = false;
         privateKeyObject.CkaDecrypt = this.ForEncryption;
+        privateKeyObject.CkaDecapsulate = this.ForEncapsulation;
         privateKeyObject.CkaUnwrap = this.ForWrap;
         privateKeyObject.CkaDerive = this.ForDerivation;
         this.UpdateAttributesByMode(privateKeyObject);
@@ -547,6 +562,7 @@ internal class PemObjectGenerator
         privateKeyObject.CkaSign = this.ForSigning;
         privateKeyObject.CkaSignRecover = false;
         privateKeyObject.CkaDecrypt = this.ForEncryption;
+        privateKeyObject.CkaDecapsulate = this.ForEncapsulation;
         privateKeyObject.CkaUnwrap = this.ForWrap;
         privateKeyObject.CkaDerive = this.ForDerivation;
         this.UpdateAttributesByMode(privateKeyObject);
@@ -572,6 +588,7 @@ internal class PemObjectGenerator
         privateKeyObject.CkaSign = this.ForSigning;
         privateKeyObject.CkaSignRecover = false;
         privateKeyObject.CkaDecrypt = this.ForEncryption;
+        privateKeyObject.CkaDecapsulate = this.ForEncapsulation;
         privateKeyObject.CkaUnwrap = this.ForWrap;
         privateKeyObject.CkaDerive = this.ForDerivation;
         this.UpdateAttributesByMode(privateKeyObject);
@@ -597,6 +614,7 @@ internal class PemObjectGenerator
         privateKeyObject.CkaSign = this.ForSigning;
         privateKeyObject.CkaSignRecover = false;
         privateKeyObject.CkaDecrypt = this.ForEncryption;
+        privateKeyObject.CkaDecapsulate = this.ForEncapsulation;
         privateKeyObject.CkaUnwrap = this.ForWrap;
         privateKeyObject.CkaDerive = this.ForDerivation;
         this.UpdateAttributesByMode(privateKeyObject);
@@ -622,6 +640,7 @@ internal class PemObjectGenerator
         publicKeyObject.CkaVerify = this.ForSigning;
         publicKeyObject.CkaVerifyRecover = false;
         publicKeyObject.CkaEncrypt = this.ForEncryption;
+        publicKeyObject.CkaEncapsulate = this.ForEncapsulation;
         publicKeyObject.CkaWrap = this.ForWrap;
         publicKeyObject.CkaDerive = this.ForDerivation;
 
@@ -648,6 +667,7 @@ internal class PemObjectGenerator
         privateKeyObject.CkaSign = this.ForSigning;
         privateKeyObject.CkaSignRecover = false;
         privateKeyObject.CkaDecrypt = this.ForEncryption;
+        privateKeyObject.CkaDecapsulate = this.ForEncapsulation;
         privateKeyObject.CkaUnwrap = this.ForWrap;
         privateKeyObject.CkaDerive = this.ForDerivation;
         this.UpdateAttributesByMode(privateKeyObject);

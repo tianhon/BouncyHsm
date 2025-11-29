@@ -67,6 +67,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
             { CKA.CKA_VERIFY_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_WRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
             { CKA.CKA_MODULUS_BITS, AttributeValue.Create((uint)request.KeySize) },
+            { CKA.CKA_ENCAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
             { CKA.CKA_PUBLIC_EXPONENT, AttributeValue.Create(new byte[] { 0x01, 0x00, 0x01 }) }
         };
 
@@ -82,6 +83,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
             { CKA.CKA_DECRYPT, AttributeValue.Create(request.KeyAttributes.ForEncryption) },
             { CKA.CKA_SIGN, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_SIGN_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
+            { CKA.CKA_DECAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
             { CKA.CKA_UNWRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
         };
 
@@ -135,6 +137,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
             { CKA.CKA_VERIFY, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_VERIFY_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_WRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
+            { CKA.CKA_ENCAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
             { CKA.CKA_EC_PARAMS, AttributeValue.Create(namedCurveOid) },
         };
 
@@ -151,6 +154,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
             { CKA.CKA_SIGN, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_SIGN_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_UNWRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
+            { CKA.CKA_DECAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
             { CKA.CKA_DERIVE, AttributeValue.Create(request.KeyAttributes.ForDerivation) },
         };
 
@@ -203,6 +207,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
             { CKA.CKA_VERIFY, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_VERIFY_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_WRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
+            { CKA.CKA_ENCAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
             { CKA.CKA_EC_PARAMS, AttributeValue.Create(ecParams) },
         };
 
@@ -219,6 +224,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
             { CKA.CKA_SIGN, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_SIGN_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_UNWRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
+            { CKA.CKA_DECAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
             { CKA.CKA_DERIVE, AttributeValue.Create(request.KeyAttributes.ForDerivation) },
         };
 
@@ -271,6 +277,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
             { CKA.CKA_VERIFY, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_VERIFY_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_WRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
+            { CKA.CKA_ENCAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
             { CKA.CKA_EC_PARAMS, AttributeValue.Create(ecParams) },
         };
 
@@ -287,6 +294,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
             { CKA.CKA_SIGN, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_SIGN_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_UNWRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
+            { CKA.CKA_DECAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
             { CKA.CKA_DERIVE, AttributeValue.Create(request.KeyAttributes.ForDerivation) },
         };
 
@@ -329,6 +337,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
             { CKA.CKA_VERIFY, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_VERIFY_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_WRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
+            { CKA.CKA_ENCAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
             { CKA.CKA_PARAMETER_SET, AttributeValue.Create((uint)request.MlDsaParameter) },
         };
 
@@ -346,6 +355,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
             { CKA.CKA_SIGN_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
             { CKA.CKA_UNWRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
             { CKA.CKA_DERIVE, AttributeValue.Create(request.KeyAttributes.ForDerivation) },
+            { CKA.CKA_DECAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
             { CKA.CKA_PARAMETER_SET, AttributeValue.Create((uint)request.MlDsaParameter) },
         };
 

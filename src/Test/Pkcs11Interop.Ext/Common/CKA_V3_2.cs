@@ -32,4 +32,6 @@ public static class CKA_V3_2
 
     public const CKA CKA_PARAMETER_SET = (CKA)0x0000061d;
     public const CKA CKA_SEED = (CKA)0x00000637;
+
+    public const CKA CKA_PUBLIC_CRC64_VALUE = (CKA)0x00000636;
 }

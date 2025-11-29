@@ -68,6 +68,15 @@ internal class GenerateMongomeryKeyPairCommand : AsyncCommand<GenerateMongomeryK
             set;
         }
 
+        [CommandOption("--forencapsulation")]
+        [Description("Set CKA_ENCAPSULATE/CKA_DECAPSULATE to true.")]
+        [DefaultValue(false)]
+        public bool ForEncapsulation
+        {
+            get;
+            set;
+        }
+
         [CommandOption("--forsign")]
         [Description("Set CKA_SIGN/CKA_VERIFY to true.")]
         [DefaultValue(false)]
@@ -114,6 +123,7 @@ internal class GenerateMongomeryKeyPairCommand : AsyncCommand<GenerateMongomeryK
                        Exportable = settings.Exportable,
                        ForDerivation = settings.ForDerivation,
                        ForEncryption = settings.ForEncryption,
+                       ForEncapsulation = settings.ForEncapsulation,
                        ForSigning = settings.ForSigning,
                        ForWrap = settings.ForWrap,
                        Sensitive = settings.Sensitive,
