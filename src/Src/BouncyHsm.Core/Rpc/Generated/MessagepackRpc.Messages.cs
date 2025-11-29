@@ -4141,3 +4141,30 @@ public partial class Ckp_CkSignAdditionalContext
 
 }
 
+[MessagePackObject]
+[System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
+public partial class Ckp_CkHashSignAdditionalContext
+{
+    [Key(0)]
+    public uint HedgeVariant
+    {
+        get;
+        set;
+    }
+
+    [Key(1)]
+    public byte[]? Context
+    {
+        get;
+        set;
+    }
+
+    [Key(2)]
+    public uint Hash
+    {
+        get;
+        set;
+    }
+
+}
+

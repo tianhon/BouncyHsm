@@ -1369,3 +1369,11 @@ Messages:
     Fields:
       HedgeVariant: uint32
       Context: binary?
+
+  Ckp_CkHashSignAdditionalContext:
+    Summary: Representes CK_HASH_SIGN_ADDITIONAL_CONTEXT for ML-DSA
+    Fields:
+      HedgeVariant: uint32
+      Context: binary?
+      Hash: uint32
+

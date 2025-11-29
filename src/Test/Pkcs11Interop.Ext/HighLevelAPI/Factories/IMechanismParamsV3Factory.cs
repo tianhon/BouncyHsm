@@ -1,4 +1,5 @@
-﻿using Pkcs11Interop.Ext.HighLevelAPI.MechanismParams;
+﻿using Net.Pkcs11Interop.Common;
+using Pkcs11Interop.Ext.HighLevelAPI.MechanismParams;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,4 +21,6 @@ public interface IMechanismParamsV3Factory
     ICkEddsaParams CreateCkEddsaParams(bool phFlag, byte[]? contextData);
 
     ICkSignAdditionalContextParams CreateSignAdditionalContextParams(ulong hedgeVariant, byte[]? context);
+
+    ICkHashSignAdditionalContextParams CreateCkHashSignAdditionalContextParams(ulong hedgeVariant, byte[]? context, CKM hash);
 }

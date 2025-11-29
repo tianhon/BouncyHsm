@@ -1,4 +1,5 @@
-﻿using Pkcs11Interop.Ext.HighLevelAPI.Factories;
+﻿using Net.Pkcs11Interop.Common;
+using Pkcs11Interop.Ext.HighLevelAPI.Factories;
 using Pkcs11Interop.Ext.HighLevelAPI.MechanismParams;
 
 namespace Pkcs11Interop.Ext.HighLevelAPI80.MechanismParams;
@@ -33,5 +34,10 @@ internal class MechanismParamsV3Factory : IMechanismParamsV3Factory
     public ICkSignAdditionalContextParams CreateSignAdditionalContextParams(ulong hedgeVariant, byte[]? context)
     {
         return new CkSignAdditionalContextParams(hedgeVariant, context);
+    }
+
+    public ICkHashSignAdditionalContextParams CreateCkHashSignAdditionalContextParams(ulong hedgeVariant, byte[]? context, CKM hash)
+    {
+        return new CkHashSignAdditionalContextParams((ulong)hedgeVariant, context, (ulong)hash);
     }
 }
