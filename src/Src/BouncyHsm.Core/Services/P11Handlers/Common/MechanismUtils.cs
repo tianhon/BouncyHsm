@@ -46,6 +46,9 @@ internal static class MechanismUtils
     private const int MlDsaMinKeySize = 1312;
     private const int MlDsaMaxKeySize = 2592;
 
+    private const int SlhDsaMinKeySize = 32;
+    private const int SlhDsaMaxKeySize = 64;
+
     // Another mechanisms https://nshielddocs.entrust.com/api-generic/12.80/pkcs11
     static MechanismUtils()
     {
@@ -270,6 +273,10 @@ internal static class MechanismUtils
             // ML-DSA
             {CKM.CKM_ML_DSA_KEY_PAIR_GEN, new MechanismInfo(MlDsaMinKeySize, MlDsaMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_2) },
             {CKM.CKM_ML_DSA, new MechanismInfo(MlDsaMinKeySize, MlDsaMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, true, Pkcs11SpecVersion.V3_2) },
+
+            // SLH-DSA
+            {CKM.CKM_SLH_DSA_KEY_PAIR_GEN, new MechanismInfo(SlhDsaMinKeySize, SlhDsaMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_2) },
+
         };
 
         mechanism = originalMechanism;
