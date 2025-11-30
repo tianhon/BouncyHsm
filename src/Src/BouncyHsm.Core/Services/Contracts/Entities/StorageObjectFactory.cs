@@ -33,7 +33,9 @@ public static class StorageObjectFactory
         MontgomeryPrivateKeyObject,
         TrustObject,
         MlDsaPrivateKeyObject,
-        MlDsaPublicKeyObject
+        MlDsaPublicKeyObject,
+        SlhDsaPrivateKeyObject,
+        SlhDsaPublicKeyObject
     }
 
     internal interface IStorageObjectInternalFactory
@@ -72,6 +74,8 @@ public static class StorageObjectFactory
                 StorageObjectInternalType.TrustObject => new TrustObject(),
                 StorageObjectInternalType.MlDsaPrivateKeyObject => new MlDsaPrivateKeyObject(),
                 StorageObjectInternalType.MlDsaPublicKeyObject => new MlDsaPublicKeyObject(),
+                StorageObjectInternalType.SlhDsaPrivateKeyObject => new SlhDsaPrivateKeyObject(),
+                StorageObjectInternalType.SlhDsaPublicKeyObject => new SlhDsaPublicKeyObject(),
                 _ => throw new InvalidProgramException($"Enum value {storageObjectType} is not supported.")
             };
         }
@@ -110,6 +114,8 @@ public static class StorageObjectFactory
                 StorageObjectInternalType.TrustObject => new TrustObject(this.memento),
                 StorageObjectInternalType.MlDsaPrivateKeyObject => new MlDsaPrivateKeyObject(this.memento),
                 StorageObjectInternalType.MlDsaPublicKeyObject => new MlDsaPublicKeyObject(this.memento),
+                StorageObjectInternalType.SlhDsaPrivateKeyObject => new SlhDsaPrivateKeyObject(this.memento),
+                StorageObjectInternalType.SlhDsaPublicKeyObject => new SlhDsaPublicKeyObject(this.memento),
                 _ => throw new InvalidProgramException($"Enum value {storageObjectType} is not supported.")
             };
         }
@@ -195,6 +201,11 @@ public static class StorageObjectFactory
             {
                 return factory.Create(StorageObjectInternalType.MlDsaPrivateKeyObject);
             }
+
+            if (keyType == CKK.CKK_SLH_DSA)
+            {
+                return factory.Create(StorageObjectInternalType.SlhDsaPrivateKeyObject);
+            }
         }
 
         if (classType == CKO.CKO_PUBLIC_KEY)
@@ -224,6 +235,11 @@ public static class StorageObjectFactory
             if (keyType == CKK.CKK_ML_DSA)
             {
                 return factory.Create(StorageObjectInternalType.MlDsaPublicKeyObject);
+            }
+
+            if (keyType == CKK.CKK_SLH_DSA)
+            {
+                return factory.Create(StorageObjectInternalType.SlhDsaPublicKeyObject);
             }
         }
 

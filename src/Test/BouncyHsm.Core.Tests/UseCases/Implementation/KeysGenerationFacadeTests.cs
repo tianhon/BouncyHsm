@@ -319,10 +319,10 @@ public class KeysGenerationFacadeTests
     }
 
     [TestMethod]
-    [DataRow(Core.Services.Contracts.P11.CKP.CKP_ML_DSA_44)]
-    [DataRow(Core.Services.Contracts.P11.CKP.CKP_ML_DSA_65)]
-    [DataRow(Core.Services.Contracts.P11.CKP.CKP_ML_DSA_87)]
-    public async Task GenerateMLDsaKeyPair_Call_Success(Core.Services.Contracts.P11.CKP ckp)
+    [DataRow(Core.Services.Contracts.P11.CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44)]
+    [DataRow(Core.Services.Contracts.P11.CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65)]
+    [DataRow(Core.Services.Contracts.P11.CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87)]
+    public async Task GenerateMLDsaKeyPair_Call_Success(Core.Services.Contracts.P11.CK_ML_DSA_PARAMETER_SET ckp)
     {
         Mock<IPersistentRepository> repository = new Mock<IPersistentRepository>(MockBehavior.Strict);
         repository.Setup(t => t.StoreObject(12U, It.Is<StorageObject>(q => q is PrivateKeyObject || q is PublicKeyObject), It.IsAny<CancellationToken>()))

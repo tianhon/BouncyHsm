@@ -6,7 +6,7 @@ namespace BouncyHsm.Models.KeyGeneration;
 public class GenerateMLDsaKeyPairRequestDto
 {
     [Required]
-    public CKP MlDsaParameter
+    public CK_ML_DSA_PARAMETER_SET MlDsaParameter
     {
         get;
         set;

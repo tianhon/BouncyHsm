@@ -71,7 +71,7 @@ internal static class AttributeValueExtensions
             CKA.CKA_TRUST_IPSEC_IKE => ((CKT)value).ToString(),
             CKA.CKA_TRUST_TIME_STAMPING => ((CKT)value).ToString(),
             CKA.CKA_TRUST_OCSP_SIGNING => ((CKT)value).ToString(),
-            CKA.CKA_PARAMETER_SET => ((CKP)value).ToString(),
+            CKA.CKA_PARAMETER_SET => ((CK_ML_DSA_PARAMETER_SET)value).ToString(),
 
             _ => value.ToString()
         };

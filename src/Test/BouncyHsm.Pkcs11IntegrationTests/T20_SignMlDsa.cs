@@ -19,9 +19,9 @@ public class T20_SignMlDsa
     }
 
     [TestMethod]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_44)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_65)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_87)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87)]
     public void SignMlDsa_WithoutParameters_Success(uint ckp)
     {
         byte[] dataToSign = new byte[85];
@@ -51,18 +51,18 @@ public class T20_SignMlDsa
     }
 
     [TestMethod]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_44, true, 0)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_65, true, 0)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_87, true, 0)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_44, false, 0)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_65, false, 0)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_87, false, 0)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_44, true, 16)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_65, true, 32)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_87, true, 143)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_44, false, 32)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_65, false, 12)]
-    [DataRow(CKP_V3_2.CKP_ML_DSA_87, false, 8)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, true, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, true, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, true, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, false, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, false, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, false, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, true, 16)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, true, 32)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, true, 143)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, false, 32)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, false, 12)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, false, 8)]
     public void SignMlDsa_WithParameters_Success(uint ckp, bool deterministic, int contextLength)
     {
         byte[] dataToSign = new byte[85];

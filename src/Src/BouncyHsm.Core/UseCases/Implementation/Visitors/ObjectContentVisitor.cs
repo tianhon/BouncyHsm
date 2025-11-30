@@ -124,6 +124,16 @@ internal class ObjectContentVisitor : ICryptoApiObjectVisitor<DomainResult<Objec
         return this.CreatePemResult("ml_dsa_private_key.pem", mlDsaPrivateKeyObject.GetPrivateKey());
     }
 
+    public DomainResult<ObjectContent> Visit(SlhDsaPublicKeyObject slhDsaPublicKeyObject)
+    {
+        return this.CreatePemResult("slh_dsa_public_key.pem", slhDsaPublicKeyObject.GetPublicKey());
+    }
+
+    public DomainResult<ObjectContent> Visit(SlhDsaPrivateKeyObject slhDsaPrivateKeyObject)
+    {
+        return this.CreatePemResult("slh_dsa_private_key.pem", slhDsaPrivateKeyObject.GetPrivateKey());
+    }
+
     private DomainResult<ObjectContent> CreatePemResult(string fileName, object pemObject)
     {
         using MemoryStream ms = new MemoryStream();

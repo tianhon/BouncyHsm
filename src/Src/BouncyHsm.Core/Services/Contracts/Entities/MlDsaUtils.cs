@@ -10,49 +10,49 @@ namespace BouncyHsm.Core.Services.Contracts.Entities;
 
 internal static class MlDsaUtils
 {
-    public static CKP GetMlDsaparametersType(MLDsaParameters parameters)
+    public static CK_ML_DSA_PARAMETER_SET GetMlDsaparametersType(MLDsaParameters parameters)
     {
         if (parameters.Name == MLDsaParameters.ml_dsa_44.Name)
         {
-            return CKP.CKP_ML_DSA_44;
+            return CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44;
         }
 
         if (parameters.Name == MLDsaParameters.ml_dsa_65.Name)
         {
-            return CKP.CKP_ML_DSA_65;
+            return CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65;
         }
 
         if (parameters.Name == MLDsaParameters.ml_dsa_87.Name)
         {
-            return CKP.CKP_ML_DSA_87;
+            return CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87;
         }
 
         throw new ArgumentException($"Unsupported ML DSA parameters '{parameters.Name}'.", nameof(parameters));
     }
 
-    public static MLDsaParameters GetParametersFromType(CKP ckp)
+    public static MLDsaParameters GetParametersFromType(CK_ML_DSA_PARAMETER_SET ckp)
     {
         return ckp switch
         {
-            CKP.CKP_ML_DSA_44 => MLDsaParameters.ml_dsa_44,
-            CKP.CKP_ML_DSA_65 => MLDsaParameters.ml_dsa_65,
-            CKP.CKP_ML_DSA_87 => MLDsaParameters.ml_dsa_87,
+            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44 => MLDsaParameters.ml_dsa_44,
+            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65 => MLDsaParameters.ml_dsa_65,
+            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87 => MLDsaParameters.ml_dsa_87,
             _ => throw new InvalidProgramException($"Unsupported ML DSA parameters type {ckp}."),
         };
     }
 
-    public static string GetParametersName(CKP ckp)
+    public static string GetParametersName(CK_ML_DSA_PARAMETER_SET ckp)
     {
         return ckp switch
         {
-            CKP.CKP_ML_DSA_44 => "ML-DSA-44",
-            CKP.CKP_ML_DSA_65 => "ML-DSA-65",
-            CKP.CKP_ML_DSA_87 => "ML-DSA-87",
+            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44 => "ML-DSA-44",
+            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65 => "ML-DSA-65",
+            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87 => "ML-DSA-87",
             _ => throw new InvalidProgramException($"Unsupported ML DSA parameters type {ckp}."),
         };
     }
 
-    public static string GetSignatureAlgorithmName(CKP ckp)
+    public static string GetSignatureAlgorithmName(CK_ML_DSA_PARAMETER_SET ckp)
     {
         return GetParametersFromType(ckp).Name;
     }

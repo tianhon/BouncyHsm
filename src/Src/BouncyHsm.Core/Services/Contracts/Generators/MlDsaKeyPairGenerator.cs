@@ -36,7 +36,7 @@ internal class MlDsaKeyPairGenerator : IKeyPairGenerator
         System.Diagnostics.Debug.Assert(this.publicKeyTemplate != null);
         System.Diagnostics.Debug.Assert(this.privateKeyTemplate != null);
 
-        CKP parameterSet = (CKP)this.publicKeyTemplate.GetRequiredAttributeUint(CKA.CKA_PARAMETER_SET);
+        CK_ML_DSA_PARAMETER_SET parameterSet = (CK_ML_DSA_PARAMETER_SET)this.publicKeyTemplate.GetRequiredAttributeUint(CKA.CKA_PARAMETER_SET);
 
         (AsymmetricKeyParameter publicKey, AsymmetricKeyParameter privateKey) = this.GenerateInternal(secureRandom, parameterSet);
 
@@ -51,7 +51,7 @@ internal class MlDsaKeyPairGenerator : IKeyPairGenerator
         return "MlDsaKeyPairGenerator";
     }
 
-    private (AsymmetricKeyParameter publicKey, AsymmetricKeyParameter privateKey) GenerateInternal(SecureRandom secureRandom, CKP parameterSet)
+    private (AsymmetricKeyParameter publicKey, AsymmetricKeyParameter privateKey) GenerateInternal(SecureRandom secureRandom, CK_ML_DSA_PARAMETER_SET parameterSet)
     {
         if (this.logger.IsEnabled(LogLevel.Trace))
         {
@@ -113,8 +113,8 @@ internal class MlDsaKeyPairGenerator : IKeyPairGenerator
     {
         this.logger.LogTrace("Entering to CheckTemplates.");
 
-        CKP parameterSet = (CKP)publicKeyTemplate.GetRequiredAttributeUint(CKA.CKA_PARAMETER_SET);
-        if (!Enum.IsDefined<CKP>(parameterSet))
+        CK_ML_DSA_PARAMETER_SET parameterSet = (CK_ML_DSA_PARAMETER_SET)publicKeyTemplate.GetRequiredAttributeUint(CKA.CKA_PARAMETER_SET);
+        if (!Enum.IsDefined<CK_ML_DSA_PARAMETER_SET>(parameterSet))
         {
             throw new RpcPkcs11Exception(CKR.CKR_TEMPLATE_INCONSISTENT,
              $"Attribute {CKA.CKA_PARAMETER_SET} is not valid in public key template.");

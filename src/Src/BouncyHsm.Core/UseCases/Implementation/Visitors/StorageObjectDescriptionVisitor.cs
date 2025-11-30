@@ -125,4 +125,14 @@ internal class StorageObjectDescriptionVisitor : ICryptoApiObjectVisitor<string>
     {
         return $"Private key {MlDsaUtils.GetParametersName(mlDsaPrivateKeyObject.CkaParameterSet)}";
     }
+
+    public string Visit(SlhDsaPublicKeyObject slhDsaPublicKeyObject)
+    {
+        return $"Public key {SlhDsaUtils.GetParametersName(slhDsaPublicKeyObject.CkaParameterSet)}";
+    }
+
+    public string Visit(SlhDsaPrivateKeyObject slhDsaPrivateKeyObject)
+    {
+        return $"Private key {SlhDsaUtils.GetParametersName(slhDsaPrivateKeyObject.CkaParameterSet)}";
+    }
 }

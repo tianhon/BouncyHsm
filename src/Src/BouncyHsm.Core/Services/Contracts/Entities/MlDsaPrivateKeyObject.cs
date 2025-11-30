@@ -7,9 +7,9 @@ namespace BouncyHsm.Core.Services.Contracts.Entities;
 
 public class MlDsaPrivateKeyObject : PrivateKeyObject
 {
-    public CKP CkaParameterSet
+    public CK_ML_DSA_PARAMETER_SET CkaParameterSet
     {
-        get => (CKP)this.values[CKA.CKA_PARAMETER_SET].AsUint();
+        get => (CK_ML_DSA_PARAMETER_SET)this.values[CKA.CKA_PARAMETER_SET].AsUint();
         set => this.values[CKA.CKA_PARAMETER_SET] = AttributeValue.Create((uint)value);
     }
 
@@ -27,7 +27,7 @@ public class MlDsaPrivateKeyObject : PrivateKeyObject
 
     public MlDsaPrivateKeyObject() : base(CKK.CKK_ML_DSA, CKM.CKM_ML_DSA_KEY_PAIR_GEN)
     {
-        this.CkaParameterSet = CKP.CKP_ML_DSA_44;
+        this.CkaParameterSet = CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44;
         this.CkaSeed = Array.Empty<byte>();
         this.CkaValue = Array.Empty<byte>();
     }
@@ -71,7 +71,7 @@ public class MlDsaPrivateKeyObject : PrivateKeyObject
     public override void Validate()
     {
         base.Validate();
-        CryptoObjectValueChecker.CheckEnumIsDefined<CKP>(CKA.CKA_PARAMETER_SET, this.CkaParameterSet);
+        CryptoObjectValueChecker.CheckEnumIsDefined<CK_ML_DSA_PARAMETER_SET>(CKA.CKA_PARAMETER_SET, this.CkaParameterSet);
 
         // The seed should be filled in, but sometimes it is not possible to get it during import. This behavior is not in accordance with the specification.
         if (this.CkaValue.Length == 0)

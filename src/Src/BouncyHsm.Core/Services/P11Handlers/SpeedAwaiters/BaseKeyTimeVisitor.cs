@@ -94,11 +94,15 @@ internal abstract class BaseKeyTimeVisitor : ICryptoApiObjectVisitor<TimeSpan>
         return default;
     }
 
-    public TimeSpan Visit(MlDsaPrivateKeyObject mlDsaPrivateKeyObject)
+    public abstract TimeSpan Visit(MlDsaPrivateKeyObject mlDsaPrivateKeyObject);
+
+    public TimeSpan Visit(SlhDsaPublicKeyObject slhDsaPublicKeyObject)
     {
-        this.NotSupported(mlDsaPrivateKeyObject);
+        this.NotSupported(slhDsaPublicKeyObject);
         return default;
     }
+
+    public abstract TimeSpan Visit(SlhDsaPrivateKeyObject slhDsaPrivateKeyObject);
 
     [DoesNotReturn]
     protected virtual void NotSupported(ICryptoApiObject cryptoApiObject)
