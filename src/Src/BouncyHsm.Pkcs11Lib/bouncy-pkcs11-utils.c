@@ -889,10 +889,12 @@ int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
         break;
 
     case CKM_ML_DSA:
+    case CKM_SLH_DSA:
         return CreateSignAdditionalContextParams(value, pMechanism);
         break;
 
     case CKM_HASH_ML_DSA:
+    case CKM_HASH_SLH_DSA:
         return CreateHashSignAdditionalContextParams(value, pMechanism);
         break;
 

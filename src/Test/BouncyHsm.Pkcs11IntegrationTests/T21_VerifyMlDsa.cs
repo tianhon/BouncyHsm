@@ -41,7 +41,7 @@ public class T21_VerifyMlDsa
         string label = $"MlDsaTest-{DateTime.UtcNow}-{RandomNumberGenerator.GetInt32(100, 999)}";
         byte[] ckId = session.GenerateRandom(32);
 
-        CreateEcdsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
+        CreateMlDsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
 
 
         using IMechanism mechanism = factories.MechanismFactory.Create(CKM_V3_2.CKM_ML_DSA);
@@ -97,7 +97,7 @@ public class T21_VerifyMlDsa
         string label = $"MlDsaTest-{DateTime.UtcNow}-{RandomNumberGenerator.GetInt32(100, 999)}";
         byte[] ckId = session.GenerateRandom(32);
 
-        CreateEcdsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
+        CreateMlDsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
 
         using ICkSignAdditionalContextParams parameters = Pkcs11V3_0Factory.Instance.MechanismParamsFactory.CreateSignAdditionalContextParams(
               deterministic ? CKH_DETERMINISTIC_REQUIRED : CKH_HEDGE_REQUIRED,
@@ -116,7 +116,7 @@ public class T21_VerifyMlDsa
         Assert.IsFalse(isValid, "Signature is valid.");
     }
 
-    private static void CreateEcdsaKeyPair(uint ckp, Pkcs11InteropFactories factories, byte[] ckId, string label, bool token, ISession session, out IObjectHandle publicKey, out IObjectHandle privateKey)
+    private static void CreateMlDsaKeyPair(uint ckp, Pkcs11InteropFactories factories, byte[] ckId, string label, bool token, ISession session, out IObjectHandle publicKey, out IObjectHandle privateKey)
     {
         List<IObjectAttribute> publicKeyAttributes = new List<IObjectAttribute>()
         {

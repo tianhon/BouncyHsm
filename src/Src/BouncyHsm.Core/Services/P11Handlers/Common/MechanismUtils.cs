@@ -276,6 +276,7 @@ internal static class MechanismUtils
 
             // SLH-DSA
             {CKM.CKM_SLH_DSA_KEY_PAIR_GEN, new MechanismInfo(SlhDsaMinKeySize, SlhDsaMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_2) },
+            {CKM.CKM_SLH_DSA, new MechanismInfo(SlhDsaMinKeySize, SlhDsaMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, true, Pkcs11SpecVersion.V3_2) },
 
         };
 

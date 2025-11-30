@@ -41,7 +41,7 @@ public class T20_SignMlDsa
         string label = $"MlDsaTest-{DateTime.UtcNow}-{RandomNumberGenerator.GetInt32(100, 999)}";
         byte[] ckId = session.GenerateRandom(32);
 
-        CreateEcdsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
+        CreateSlhDsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
 
 
         using IMechanism mechanism = factories.MechanismFactory.Create(CKM_V3_2.CKM_ML_DSA);
@@ -69,7 +69,7 @@ public class T20_SignMlDsa
         byte[]? dataContent = null;
         Random.Shared.NextBytes(dataToSign);
 
-        if(contextLength > 0)
+        if (contextLength > 0)
         {
             dataContent = new byte[contextLength];
             Random.Shared.NextBytes(dataContent);
@@ -89,7 +89,7 @@ public class T20_SignMlDsa
         string label = $"MlDsaTest-{DateTime.UtcNow}-{RandomNumberGenerator.GetInt32(100, 999)}";
         byte[] ckId = session.GenerateRandom(32);
 
-        CreateEcdsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
+        CreateSlhDsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
 
         using ICkSignAdditionalContextParams parameters = Pkcs11V3_0Factory.Instance.MechanismParamsFactory.CreateSignAdditionalContextParams(
               deterministic ? CKH_DETERMINISTIC_REQUIRED : CKH_HEDGE_REQUIRED,
@@ -100,7 +100,7 @@ public class T20_SignMlDsa
         Assert.IsNotNull(signature);
     }
 
-    private static void CreateEcdsaKeyPair(uint ckp, Pkcs11InteropFactories factories, byte[] ckId, string label, bool token, ISession session, out IObjectHandle publicKey, out IObjectHandle privateKey)
+    private static void CreateSlhDsaKeyPair(uint ckp, Pkcs11InteropFactories factories, byte[] ckId, string label, bool token, ISession session, out IObjectHandle publicKey, out IObjectHandle privateKey)
     {
         List<IObjectAttribute> publicKeyAttributes = new List<IObjectAttribute>()
         {

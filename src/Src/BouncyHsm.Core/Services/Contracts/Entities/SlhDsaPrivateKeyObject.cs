@@ -18,7 +18,7 @@ public class SlhDsaPrivateKeyObject : PrivateKeyObject
         set => this.values[CKA.CKA_VALUE] = AttributeValue.Create(value);
     }
 
-    public SlhDsaPrivateKeyObject() : base(CKK.CKK_ML_DSA, CKM.CKM_ML_DSA_KEY_PAIR_GEN)
+    public SlhDsaPrivateKeyObject() : base(CKK.CKK_ML_DSA, CKM.CKM_SLH_DSA_KEY_PAIR_GEN)
     {
         this.CkaParameterSet = CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F;
         this.CkaValue = Array.Empty<byte>();

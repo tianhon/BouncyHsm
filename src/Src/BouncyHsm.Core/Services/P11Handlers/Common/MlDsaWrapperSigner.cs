@@ -63,7 +63,7 @@ internal class MlDsaWrapperSigner : IWrapperSigner
         }
         else
         {
-            throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Mechanism {CKM.CKM_ML_DSA} required private RSA key.");
+            throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Mechanism {CKM.CKM_ML_DSA} required private ML-DSA key.");
         }
     }
 
@@ -97,7 +97,7 @@ internal class MlDsaWrapperSigner : IWrapperSigner
         }
         else
         {
-            throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Mechanism {CKM.CKM_ML_DSA} required public RSA key.");
+            throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Mechanism {CKM.CKM_ML_DSA} required public ML-DSA key.");
         }
     }
 
