@@ -34,4 +34,6 @@ internal static partial class KeyGenerationControllerMapper
     public static partial GenerateMontgomeryKeyPairRequest MapFromDto(GenerateMontgomeryKeyPairRequestDto model);
     
     public static partial GenerateMLDsaKeyPairRequest MapFromDto(GenerateMLDsaKeyPairRequestDto model);
+
+    public static partial GenerateSlhDsaKeyPairRequest MapFromDto(GenerateSlhDsaKeyPairRequestDto model);
 }

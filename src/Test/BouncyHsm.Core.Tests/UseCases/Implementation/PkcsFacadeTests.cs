@@ -551,6 +551,32 @@ public class PkcsFacadeTests
         await this.ImportPemTest(pem);
     }
 
+    [TestMethod]
+    public async Task ImportPem_SlhDsaPublic_Success()
+    {
+        string pem = """
+           -----BEGIN PUBLIC KEY-----
+           MFAwCwYJYIZIAWUDBAMYA0EAgwXsNWDW4SX2vBl8wo0e1Aq2+gF9eU/YnNOG4xMH
+           7S5mSyRVy5Lq8+6Nj61HA8W78+cmw1PtK9k4YjZ2Ph+45Q==
+           -----END PUBLIC KEY-----
+           """;
+        await this.ImportPemTest(pem);
+    }
+
+    [TestMethod]
+    public async Task ImportPem_SlhDsaPrivate_Success()
+    {
+        string pem = """
+           -----BEGIN PRIVATE KEY-----
+           MIGTAgEAMAsGCWCGSAFlAwQDGASBgO+xWzcKLSBhDwwNMg5PmzshVtRkDv/IqxxG
+           1BoLFEJ96LL6MynFQ+zyHFQcSd9qr3nO0fo554xcI7icWzVsVg6DBew1YNbhJfa8
+           GXzCjR7UCrb6AX15T9ic04bjEwftLmZLJFXLkurz7o2PrUcDxbvz5ybDU+0r2Thi
+           NnY+H7jl
+           -----END PRIVATE KEY-----
+           """;
+        await this.ImportPemTest(pem);
+    }
+
     private async Task ImportPemTest(string pem)
     {
         Mock<ITimeAccessor> timeAccessor = new Mock<ITimeAccessor>(MockBehavior.Strict);

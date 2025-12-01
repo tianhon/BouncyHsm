@@ -85,6 +85,12 @@ internal static class SlhDsaUtils
     {
         System.Diagnostics.Debug.Assert(Enum.IsDefined<CK_SLH_DSA_PARAMETER_SET>(parametersSet));
 
-        return parametersSet.ToString()[3..].Replace('_', '-');
+        //TODO: Use span
+        return parametersSet.ToString()[4..].Replace('_', '-');
+    }
+
+    public static string GetSignatureAlgorithmName(CK_SLH_DSA_PARAMETER_SET ckp)
+    {
+        return GetParametersFromType(ckp).Name;
     }
 }

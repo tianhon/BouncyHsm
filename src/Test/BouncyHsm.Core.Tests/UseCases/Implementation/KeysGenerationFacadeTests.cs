@@ -355,6 +355,49 @@ public class KeysGenerationFacadeTests
         Assert.IsTrue(result.MatchOk(_ => true, () => false));
     }
 
+    [TestMethod]
+    [DataRow(Core.Services.Contracts.P11.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S)]
+    [DataRow(Core.Services.Contracts.P11.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S)]
+    [DataRow(Core.Services.Contracts.P11.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F)]
+    [DataRow(Core.Services.Contracts.P11.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F)]
+    [DataRow(Core.Services.Contracts.P11.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S)]
+    [DataRow(Core.Services.Contracts.P11.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S)]
+    [DataRow(Core.Services.Contracts.P11.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F)]
+    [DataRow(Core.Services.Contracts.P11.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F)]
+    [DataRow(Core.Services.Contracts.P11.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S)]
+    public async Task GenerateSlhDsaKeyPair_Call_Success(Core.Services.Contracts.P11.CK_SLH_DSA_PARAMETER_SET ckp)
+    {
+        Mock<IPersistentRepository> repository = new Mock<IPersistentRepository>(MockBehavior.Strict);
+        repository.Setup(t => t.StoreObject(12U, It.Is<StorageObject>(q => q is PrivateKeyObject || q is PublicKeyObject), It.IsAny<CancellationToken>()))
+            .Returns(new ValueTask())
+            .Verifiable();
+
+        repository.Setup(t => t.GetSlot(12U, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(this.GetClotEnity())
+            .Verifiable();
+
+        KeysGenerationFacade pkcsFacade = new KeysGenerationFacade(repository.Object, new NullLoggerFactory(), new NullLogger<KeysGenerationFacade>());
+
+        GenerateSlhDsaKeyPairRequest request = new GenerateSlhDsaKeyPairRequest()
+        {
+            SlhDsaParameter = ckp,
+            KeyAttributes = new GenerateKeyAttributes()
+            {
+                CkaId = null,
+                CkaLabel = "test1",
+                Exportable = false,
+                ForDerivation = false,
+                ForEncryption = true,
+                ForSigning = true,
+                ForWrap = false,
+                Sensitive = true,
+            }
+        };
+
+        DomainResult<GeneratedKeyPairIds> result = await pkcsFacade.GenerateSlhDsaKeyPair(12U, request, default);
+        Assert.IsTrue(result.MatchOk(_ => true, () => false));
+    }
+
     private SlotEntity GetClotEnity()
     {
         return new SlotEntity()

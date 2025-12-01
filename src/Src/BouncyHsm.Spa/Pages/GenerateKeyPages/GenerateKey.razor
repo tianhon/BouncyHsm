@@ -37,6 +37,7 @@ else
                         <option value="@GeneratedKeyType.Edwards">Edwards curve key pair</option>
                         <option value="@GeneratedKeyType.Mongomery">Mongomery curve key pair</option>
                         <option value="@GeneratedKeyType.MlDsa">ML-DSA key pair</option>
+                        <option value="@GeneratedKeyType.SlhDsa">SLH-DSA key pair</option>
                         <option value="@GeneratedKeyType.Aes">AES key</option>
                         <option value="@GeneratedKeyType.Poly1305">POLY1305 key</option>
                         <option value="@GeneratedKeyType.ChaCha20">ChaCha20 key</option>
@@ -68,6 +69,10 @@ else
             {
                 <GenerateMlDsaKeys SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
             }
+            else if (this.KeyType == GeneratedKeyType.SlhDsa)
+            {
+                <GenerateSlhDsaKeys SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
+            }
             else if (this.KeyType == GeneratedKeyType.Aes)
             {
                 <GenerateAesKey SlotId="@this.SlotId" OnLoadingChanged="e=>this.isInLoading = e" />
@@ -93,7 +98,7 @@ else
 }
 
 @code {
-    internal enum GeneratedKeyType { None, Rsa, Ec, Edwards, Mongomery, MlDsa, Aes, Poly1305, ChaCha20, Salsa20, Secret }
+    internal enum GeneratedKeyType { None, Rsa, Ec, Edwards, Mongomery, MlDsa, SlhDsa, Aes, Poly1305, ChaCha20, Salsa20, Secret }
 
     [Parameter]
     public int SlotId

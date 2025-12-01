@@ -374,6 +374,67 @@ public class KeysGenerationFacade : IKeysGenerationFacade
         return new DomainResult<GeneratedKeyPairIds>.Ok(new GeneratedKeyPairIds(publicKey.Id, privateKey.Id));
     }
 
+    public async Task<DomainResult<GeneratedKeyPairIds>> GenerateSlhDsaKeyPair(uint slotId, GenerateSlhDsaKeyPairRequest request, CancellationToken cancellationToken)
+    {
+        this.logger.LogTrace("Entering to GenerateSlhDsaKeyPair with slotId {slotId}, SLH-DSA parameter {slhDsaParameter}, label {label}.", slotId, request.SlhDsaParameter, request.KeyAttributes.CkaLabel);
+
+        SlotEntity? slotEntity = await this.persistentRepository.GetSlot(slotId, cancellationToken);
+        if (slotEntity == null)
+        {
+            this.logger.LogError("Parameter slotId {slotId} is invalid.", slotId);
+            return new DomainResult<GeneratedKeyPairIds>.InvalidInput("Invalid slotId.");
+        }
+
+        byte[] ckaId = request.KeyAttributes.CkaId ?? RandomNumberGenerator.GetBytes(32);
+
+        Dictionary<CKA, IAttributeValue> publicKeyTemplate = new Dictionary<CKA, IAttributeValue>()
+        {
+            { CKA.CKA_TOKEN, AttributeValue.Create(true) },
+            { CKA.CKA_DESTROYABLE, AttributeValue.Create(true) },
+            { CKA.CKA_PRIVATE, AttributeValue.Create(false) },
+            { CKA.CKA_LABEL, AttributeValue.Create(request.KeyAttributes.CkaLabel) },
+            { CKA.CKA_ID, AttributeValue.Create(ckaId) },
+            { CKA.CKA_ENCRYPT, AttributeValue.Create(request.KeyAttributes.ForEncryption) },
+            { CKA.CKA_VERIFY, AttributeValue.Create(request.KeyAttributes.ForSigning) },
+            { CKA.CKA_VERIFY_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
+            { CKA.CKA_WRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
+            { CKA.CKA_ENCAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
+            { CKA.CKA_PARAMETER_SET, AttributeValue.Create((uint)request.SlhDsaParameter) },
+        };
+
+        Dictionary<CKA, IAttributeValue> privateKeyTemplate = new Dictionary<CKA, IAttributeValue>()
+        {
+            { CKA.CKA_TOKEN, AttributeValue.Create(true) },
+            { CKA.CKA_DESTROYABLE, AttributeValue.Create(true) },
+            { CKA.CKA_PRIVATE, AttributeValue.Create(true) },
+            { CKA.CKA_LABEL, AttributeValue.Create(request.KeyAttributes.CkaLabel) },
+            { CKA.CKA_ID, AttributeValue.Create(ckaId) },
+            { CKA.CKA_SENSITIVE, AttributeValue.Create(request.KeyAttributes.Sensitive) },
+            { CKA.CKA_EXTRACTABLE, AttributeValue.Create(request.KeyAttributes.Exportable) },
+            { CKA.CKA_DECRYPT, AttributeValue.Create(request.KeyAttributes.ForEncryption) },
+            { CKA.CKA_SIGN, AttributeValue.Create(request.KeyAttributes.ForSigning) },
+            { CKA.CKA_SIGN_RECOVER, AttributeValue.Create(request.KeyAttributes.ForSigning) },
+            { CKA.CKA_UNWRAP, AttributeValue.Create(request.KeyAttributes.ForWrap) },
+            { CKA.CKA_DERIVE, AttributeValue.Create(request.KeyAttributes.ForDerivation) },
+            { CKA.CKA_DECAPSULATE, AttributeValue.Create(request.KeyAttributes.ForEncapsulation) },
+            { CKA.CKA_PARAMETER_SET, AttributeValue.Create((uint)request.SlhDsaParameter) },
+        };
+
+        SlhDsaKeyPairGenerator slhDsaKeyPairGenerator = new SlhDsaKeyPairGenerator(this.loggerFactory.CreateLogger<SlhDsaKeyPairGenerator>());
+        slhDsaKeyPairGenerator.Init(publicKeyTemplate, privateKeyTemplate);
+        (PublicKeyObject publicKey, PrivateKeyObject privateKey) = slhDsaKeyPairGenerator.Generate(BouncyHsm.Core.Services.Bc.HwRandomGenerator.SecureRandom);
+
+        this.UpdateKeys(slotEntity, publicKey, privateKey);
+
+        publicKey.Validate();
+        privateKey.Validate();
+
+        await this.persistentRepository.StoreObject(slotId, publicKey, cancellationToken);
+        await this.persistentRepository.StoreObject(slotId, privateKey, cancellationToken);
+
+        return new DomainResult<GeneratedKeyPairIds>.Ok(new GeneratedKeyPairIds(publicKey.Id, privateKey.Id));
+    }
+
     public async Task<DomainResult<GeneratedSecretId>> GenerateSecretKey(uint slotId, GenerateSecretKeyRequest request, CancellationToken cancellationToken)
     {
         this.logger.LogTrace("Entering to GenerateSecretKey with slotId {slotId}, keySize {keySize}, label {label}.", slotId, request.Size, request.KeyAttributes.CkaLabel);

@@ -35,7 +35,7 @@ internal class GenerateMlDsaKeyPairCommand : AsyncCommand<GenerateMlDsaKeyPairCo
 
         [CommandArgument(3, "[ML-DSAParameter]")]
         [Description("ML-DSA parameter")]
-        public CKP MlDsaParameter
+        public CK_ML_DSA_PARAMETER_SET MlDsaParameter
         {
             get;
             set;

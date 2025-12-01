@@ -17,7 +17,7 @@ else
             <label for="i-importmode" class="form-label">ML-DSA parameter</label>
 
             <InputSelect class="form-select" @bind-Value="this.model.MlDsaParameter" id="i-importmode">
-                @foreach (CKP mlDsaParameter in this.mlDsaParameters)
+                @foreach (CK_ML_DSA_PARAMETER_SET mlDsaParameter in this.mlDsaParameters)
                 {
                     <option value="@mlDsaParameter" @key="mlDsaParameter">@mlDsaParameter</option>
                 }
@@ -114,12 +114,12 @@ else
     private EditContext? editContext;
     private MlDsaGenModel model = new MlDsaGenModel();
     private bool isInLoading = false;
-    private List<CKP> mlDsaParameters = new List<CKP>();
+    private List<CK_ML_DSA_PARAMETER_SET> mlDsaParameters = new List<CK_ML_DSA_PARAMETER_SET>();
 
     protected override async Task OnInitializedAsync()
     {
         this.editContext = new EditContext(this.model);
-        this.mlDsaParameters = Enum.GetValues<CKP>().ToList();
+        this.mlDsaParameters = Enum.GetValues<CK_ML_DSA_PARAMETER_SET>().ToList();
     }
 
     private async Task HandleSubmit()
@@ -156,7 +156,7 @@ else
 
         public MlDsaGenModel()
         {
-            this.MlDsaParameter = nameof(CKP.CKP_ML_DSA_44);
+            this.MlDsaParameter = nameof(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44);
 
             this.Sensitive = true;
             this.Exportable = false;
@@ -171,7 +171,7 @@ else
         {
             return new GenerateMLDsaKeyPairRequestDto()
             {
-                MlDsaParameter = Enum.Parse<CKP>(this.MlDsaParameter),
+                MlDsaParameter = Enum.Parse<CK_ML_DSA_PARAMETER_SET>(this.MlDsaParameter),
                 KeyAttributes = this.ToGenerateKeyAttributesDto()
             };
         }
