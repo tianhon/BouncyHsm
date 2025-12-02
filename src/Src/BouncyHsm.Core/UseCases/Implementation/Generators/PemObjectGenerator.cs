@@ -69,7 +69,7 @@ internal class PemObjectGenerator
         foreach (object cryptoObject in this.ReadPem(pem, password))
         {
             object internalObject;
-            if(cryptoObject is AsymmetricCipherKeyPair keyPair)
+            if (cryptoObject is AsymmetricCipherKeyPair keyPair)
             {
                 internalObject = keyPair.Private ?? keyPair.Public;
             }
@@ -94,9 +94,11 @@ internal class PemObjectGenerator
                 RsaKeyParameters key => this.CreateRsaPublicKey(key),
                 X509Certificate certificate => this.CreateCertificate(certificate),
                 MLDsaPublicKeyParameters key => this.CreateMlDsaPublicKey(key),
-                MLDsaPrivateKeyParameters key=> this.CreateMlDsaPrivateKey(key),
+                MLDsaPrivateKeyParameters key => this.CreateMlDsaPrivateKey(key),
                 SlhDsaPublicKeyParameters key => this.CreateSlhDsaPublicKey(key),
                 SlhDsaPrivateKeyParameters key => this.CreateSlhDsaPrivateKey(key),
+                MLKemPublicKeyParameters key => this.CreateMlKemPublicKey(key),
+                MLKemPrivateKeyParameters key => this.CreateMlKemPrivateKey(key),
                 Org.BouncyCastle.Utilities.IO.Pem.PemObject pemObject => this.CreateFromPem(pemObject),
                 _ => throw new IOException("PEM object not supported.")
             };
@@ -213,6 +215,58 @@ internal class PemObjectGenerator
         return publicKeyObject;
     }
 
+    private StorageObject CreateMlKemPublicKey(MLKemPublicKeyParameters key)
+    {
+        MlKemPublicKeyObject publicKeyObject = new MlKemPublicKeyObject();
+        publicKeyObject.SetPublicKey(key);
+        publicKeyObject.CkaId = this.ckaId;
+        publicKeyObject.CkaLabel = this.ckaLabel;
+        publicKeyObject.CkaCopyable = false;
+        publicKeyObject.CkaDestroyable = true;
+        publicKeyObject.CkaModifiable = false;
+        publicKeyObject.CkaPrivate = false;
+        publicKeyObject.CkaToken = true;
+        publicKeyObject.CkaTrusted = false;
+
+        publicKeyObject.CkaVerify = this.ForSigning;
+        publicKeyObject.CkaVerifyRecover = false;
+        publicKeyObject.CkaEncrypt = this.ForEncryption;
+        publicKeyObject.CkaEncapsulate = this.ForEncapsulation;
+        publicKeyObject.CkaWrap = this.ForWrap;
+        publicKeyObject.CkaDerive = this.ForDerivation;
+
+        this.UpdateAttributesByMode(publicKeyObject);
+
+        publicKeyObject.ReComputeAttributes();
+
+        return publicKeyObject;
+    }
+
+    private StorageObject CreateMlKemPrivateKey(MLKemPrivateKeyParameters key)
+    {
+        MlKemPrivateKeyObject privateKeyObject = new MlKemPrivateKeyObject();
+
+        privateKeyObject.SetPrivateKey(key);
+        privateKeyObject.CkaId = this.ckaId;
+        privateKeyObject.CkaCopyable = false;
+        privateKeyObject.CkaDestroyable = true;
+        privateKeyObject.CkaLabel = this.ckaLabel;
+        privateKeyObject.CkaModifiable = false;
+        privateKeyObject.CkaPrivate = true;
+        privateKeyObject.CkaToken = true;
+
+        privateKeyObject.CkaSign = this.ForSigning;
+        privateKeyObject.CkaSignRecover = false;
+        privateKeyObject.CkaDecrypt = this.ForEncryption;
+        privateKeyObject.CkaDecapsulate = this.ForEncapsulation;
+        privateKeyObject.CkaUnwrap = this.ForWrap;
+        privateKeyObject.CkaDerive = this.ForDerivation;
+        this.UpdateAttributesByMode(privateKeyObject);
+
+        privateKeyObject.ReComputeAttributes();
+
+        return privateKeyObject;
+    }
     private StorageObject CreateFromPem(Org.BouncyCastle.Utilities.IO.Pem.PemObject pemObject)
     {
         return pemObject.Type switch

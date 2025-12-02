@@ -577,6 +577,80 @@ public class PkcsFacadeTests
         await this.ImportPemTest(pem);
     }
 
+    [TestMethod]
+    public async Task ImportPem_MLKemPublic_Success()
+    {
+        string pem = """
+           -----BEGIN PUBLIC KEY-----
+           MIIDMjALBglghkgBZQMEBAEDggMhAONKd48XBMmLBXu7KaSKE0xVPwvEdtp6NgEz
+           n/6FAUBQp4H6IQeYICbjVn/mEgw7C+JGCWkFXuLhiOPDL8pZZI96FJqWaY43bf+h
+           sbH4FMK4ZWVhO/HcVfuHJS1cmWkGl7FAhz/8b6bBBL1GzGepxzHCBOcpJkRkJ7/2
+           x61lnnyYY693Sx2IlBwkXGQHx7pnQz9JRU/ztDwZLSsQJJzbmKtEF9X4hYM3naYA
+           viJcjcDQTB1pvKpVndPMHGVaKbFzo+0pb51Cs1w6Wa5bwPqYrTf4rBlnH02oDuWi
+           eyykaxMQqS1XJ3RLBpT5euUjafYhx4VwQqWSKqlrwzashdvrGEgSyHDya+RpEveD
+           CyNbG+I1pPSya4+3Z5WUQgORzLH1ebVHUNxXfqYmtWmKU7LiJgsbrixDimnAcDu7
+           WJShDD3EFGmYxah1fpdSgQcabS2MxXHivYhmExkwX22SFYxWOex1QQF0l4KwCnvm
+           vYzZJgE7F2oTbccDglIFoA1DYkBzLsqKGbvUByT1L5Uiwr1QzeM6LkRVMc08waYp
+           GwjBG6sKUHDaYEJlA2u3kg/VEZC0T+5ULMqpCU5jQps7DvlcxXVFldI3ALLztjpm
+           VSuUG7C6nbbDnW5CjM00gznXrAR7tczwPSABWXP1E1JAn/U4AUvQdyYRqWxZABBA
+           pavosGEId9UACZvFsFy1G+iseekbSy1rm4c5zTgakXF8hHiJwCclKS0gQm6YinYo
+           SEobd0ccoJQoC8MXhZfhz066fg9px+98D05WQfNqqqe4WsW8h9cUPm/KBVkHleFr
+           mtkibm4AjMdbHMc0TP+RGojxo5HrreLSigd8MMzaCddSNPCoSaDHsrxlM8R7gH1C
+           Yh+jmAk4D+14dFr0DGYEyojDL7zgA5FcoLtoh/SMh9V8v4Bmx2ECzL06iBw2j01T
+           Ta0Sa6LJWD/bkRrcl5aQZhWFm/qlDm7jV0h6AxDxV5cmbJF6eqxEbhfZU97yqzO1
+           fjtwilkERwbAfhxHEjCDcolGzrjipZW3JNTMaiYSfBq01Cd9bm4rrchMJqC3u486
+           kR0ft09K
+           -----END PUBLIC KEY-----
+           """;
+        await this.ImportPemTest(pem);
+    }
+
+    [TestMethod]
+    public async Task ImportPem_MLKemPrivate_Success()
+    {
+        string pem = """
+           -----BEGIN PRIVATE KEY-----
+           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
+           xmXQQTFDRX1RhWkUpvls1BcPGak0TjOs+mL9Vg==
+           -----END PRIVATE KEY-----
+           
+           """;
+        await this.ImportPemTest(pem);
+    }
+
     private async Task ImportPemTest(string pem)
     {
         Mock<ITimeAccessor> timeAccessor = new Mock<ITimeAccessor>(MockBehavior.Strict);

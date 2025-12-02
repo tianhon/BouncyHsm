@@ -123,7 +123,7 @@ public class PkcsFacade : IPkcsFacade
             type = CKO.CKO_PRIVATE_KEY,
             id = t.Id,
             alwaysAuthenticate = t.CkaAlwaysAuthenticate,
-            canSign = t is not MontgomeryPrivateKeyObject, //Fix curent state
+            canSign = t is not MontgomeryPrivateKeyObject && t is not MlKemPrivateKeyObject, //Fix curent state
             description = t.Accept(descriptionVisitor),
             subject = null as string
         })
