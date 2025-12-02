@@ -95,6 +95,11 @@ internal static class AttributeValueExtensions
             {
                 return ((CK_SLH_DSA_PARAMETER_SET)attributeValue.AsUint()).ToString();
             }
+
+            if (keyType == CKK.CKK_ML_KEM)
+            {
+                return ((CK_ML_KEM_PARAMETER_SET)attributeValue.AsUint()).ToString();
+            }
         }
 
         return attributeValue.AsUint().ToString();

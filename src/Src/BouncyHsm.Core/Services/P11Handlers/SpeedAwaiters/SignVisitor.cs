@@ -97,6 +97,19 @@ internal class SignVisitor : BaseKeyTimeVisitor
         return TimeSpan.FromMilliseconds(result);
     }
 
+    public override TimeSpan Visit(MlKemPrivateKeyObject mlKemPrivateKeyObject)
+    {
+        int keySize = mlKemPrivateKeyObject.CkaValue.Length;
+
+        double x = keySize;
+
+        double result = (x * x) * 5.0 * this.GetMultiplicator(2);
+        result += (0.01 * x) * this.GetMultiplicator(1);
+        result += 32.0 * this.GetMultiplicator(0);
+
+        return TimeSpan.FromMilliseconds(result);
+    }
+
     private double GetMultiplicator(int pi)
     {
         if (pi < this.polynomialMultiplication.Length)

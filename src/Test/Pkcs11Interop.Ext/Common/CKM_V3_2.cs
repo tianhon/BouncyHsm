@@ -31,4 +31,7 @@ public static class CKM_V3_2
     public const CKM CKM_HASH_SLH_DSA_SHA3_512 = (CKM)0x0000003d;
     public const CKM CKM_HASH_SLH_DSA_SHAKE128 = (CKM)0x0000003e;
     public const CKM CKM_HASH_SLH_DSA_SHAKE256 = (CKM)0x0000003f;
+
+    public const CKM CKM_ML_KEM_KEY_PAIR_GEN = (CKM)0x0000000f;
+    public const CKM CKM_ML_KEM = (CKM)0x00000017;
 }
