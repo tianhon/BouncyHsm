@@ -1,4 +1,4 @@
-# Supported funtions
+# Supported PKCS#11 funtions
 {{~
 func toCheck(b)
    if b.IsSupported
@@ -16,7 +16,7 @@ end
 Supported PKCS#11 functions for _Bouncy Hsm_ version {{ Versions.Version }} (commit _{{Versions.Commit}}_).
 
 
-| Function | Supported |
+| Function | Is supported |
 | ---  | --- |
 {{~ for f in Functions ~}}
 | {{ f.Name }} | {{ f | toCheck}} |
