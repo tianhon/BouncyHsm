@@ -64,4 +64,13 @@ public class HsmInfoController : Controller
 
         return this.Ok(HsmInfoControllerMapper.ToDto(this.infoFacade.GetAllMechanism()));
     }
+
+    [HttpGet("GetFunctionsState", Name = nameof(GetFunctionsState))]
+    [ProducesResponseType(typeof(IEnumerable<FunctionImplStateDto>), 200)]
+    public IActionResult GetFunctionsState()
+    {
+        this.logger.LogTrace("Entering to GetMechanism");
+
+        return this.Ok(HsmInfoControllerMapper.ToDto(this.infoFacade.GetFunctionsState()));
+    }
 }

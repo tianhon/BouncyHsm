@@ -18,4 +18,6 @@ public interface IHsmInfoFacade
     BouncyHsmVersion GetVersions();
 
     MechanismProfile GetAllMechanism();
+
+    IReadOnlyList<FunctionImplState> GetFunctionsState();
 }

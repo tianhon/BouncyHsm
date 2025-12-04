@@ -24,6 +24,8 @@ internal static partial class HsmInfoControllerMapper
 
     public static partial MechanismProfileDto ToDto(MechanismProfile mechanismProfile);
 
+    public static partial IReadOnlyList<FunctionImplStateDto> ToDto(IReadOnlyList<FunctionImplState> states);
+
     private static MechanismFlags MapFlags(MechanismCkf flags)
     {
         return new MechanismFlags()

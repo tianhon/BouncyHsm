@@ -1,4 +1,5 @@
-﻿using BouncyHsm.Core.UseCases.Implementation;
+﻿using BouncyHsm.Core.UseCases.Contracts;
+using BouncyHsm.Core.UseCases.Implementation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -58,5 +59,14 @@ public class HsmInfoFacadeTests
         IEnumerable<BouncyHsm.Core.Services.Contracts.Entities.SupportedNameCurve> curves = hsmInfoFacade.GetMontgomeryCurves();
 
         Assert.IsNotNull(curves.ToList());
+    }
+
+    [TestMethod]
+    public void GetFunctionsState_Call_Success()
+    {
+        HsmInfoFacade hsmInfoFacade = new HsmInfoFacade();
+        IReadOnlyList<FunctionImplState> funstions = hsmInfoFacade.GetFunctionsState();
+
+        Assert.IsNotNull(funstions);
     }
 }
