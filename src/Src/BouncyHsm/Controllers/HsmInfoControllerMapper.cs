@@ -41,6 +41,8 @@ internal static partial class HsmInfoControllerMapper
             Unwrap = flags.HasFlag(MechanismCkf.CKF_UNWRAP),
             Verify = flags.HasFlag(MechanismCkf.CKF_VERIFY),
             VerifyRecover = flags.HasFlag(MechanismCkf.CKF_VERIFY_RECOVER),
+            Encapsulate = flags.HasFlag(MechanismCkf.CKF_ENCAPSULATE),
+            Decapsulate = flags.HasFlag(MechanismCkf.CKF_DECAPSULATE),
             Wrap = flags.HasFlag(MechanismCkf.CKF_WRAP),
         };
     }

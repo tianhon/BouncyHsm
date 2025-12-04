@@ -4893,6 +4893,12 @@ namespace BouncyHsm.Client
         [System.Text.Json.Serialization.JsonPropertyName("Derive")]
         public bool Derive { get; set; } = default!;
 
+        [System.Text.Json.Serialization.JsonPropertyName("Encapsulate")]
+        public bool Encapsulate { get; set; } = default!;
+
+        [System.Text.Json.Serialization.JsonPropertyName("Decapsulate")]
+        public bool Decapsulate { get; set; } = default!;
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
