@@ -25,4 +25,6 @@ internal interface ISessionExtensions
         List<IObjectAttribute> template,
         byte[] ciphertext,
         out IObjectHandle phKey);
+
+    ulong GetSessionValidationFlags(ISession session, uint type);
 }

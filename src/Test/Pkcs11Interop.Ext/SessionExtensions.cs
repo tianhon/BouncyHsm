@@ -49,4 +49,12 @@ public static class SessionExtensions
 
         ExtensionFactory.Enshure(library).DecapsulateKey(session, mechanism, publicKeyHandle, template, ciphertext, out phKey);
     }
+
+    public static ulong GetSessionValidationFlags(this ISession session, IPkcs11Library library, uint type)
+    {
+        if (library == null) throw new ArgumentNullException(nameof(library));
+        if (session == null) throw new ArgumentNullException(nameof(session));
+
+        return ExtensionFactory.Enshure(library).GetSessionValidationFlags(session, type);
+    }
 }

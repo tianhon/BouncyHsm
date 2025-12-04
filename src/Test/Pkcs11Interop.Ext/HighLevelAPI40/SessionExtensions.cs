@@ -59,15 +59,27 @@ internal class SessionExtensions : ISessionExtensions
         NativeULong ulCiphertextLen,
         ref NativeULong phKey);
 
+    /*
+     CK_DECLARE_FUNCTION(CK_RV, C_GetSessionValidationFlags)(
+       CK_SESSION_HANDLE hSession,
+       CK_SESSION_VALIDATION_FLAGS_TYPE type,
+       CK_FLAGS_PTR pFlags,
+       );
+     */
+    delegate NativeULong C_GetSessionValidationFlagsDelegate(NativeULong hSession, NativeULong type, ref NativeULong pFlags);
+
+
     private C_SessionCancelDelegate C_SessionCancel;
     private C_EncapsulateKeyDelegate C_EncapsulateKey;
     private C_DecapsulateKeyDelegate C_DecapsulateKey;
+    private C_GetSessionValidationFlags C_GetSessionValidationFlags;
 
     public SessionExtensions(IntPtr lirarayhandle)
     {
         this.C_SessionCancel = this.GetDelegate<C_SessionCancelDelegate>(lirarayhandle, "C_SessionCancel");
         this.C_EncapsulateKey = this.GetDelegate<C_EncapsulateKeyDelegate>(lirarayhandle, "C_EncapsulateKey");
         this.C_DecapsulateKey = this.GetDelegate<C_DecapsulateKeyDelegate>(lirarayhandle, "C_DecapsulateKey");
+        this.C_GetSessionValidationFlags = this.GetDelegate<C_DecapsulateKeyDelegate>(lirarayhandle, "C_GetSessionValidationFlags");
     }
 
     public void SessionCancel(ISession session, uint CkfFlags)
@@ -175,6 +187,17 @@ internal class SessionExtensions : ISessionExtensions
         }
     }
 
+    public ulong GetSessionValidationFlags(ISession session, uint type)
+    {
+        NativeULong flags = 0;
+        NativeULong rvRaw = this.C_GetSessionValidationFlags((NativeULong)session.SessionId, (NativeULong)type, ref flags);
+        if ((CKR)rvRaw != CKR.CKR_OK)
+        {
+            throw new Pkcs11Exception("C_SessionCancel", (CKR)rvRaw);
+        }
+
+        return Convert.ToUInt64(flags);
+    }
     private CK_ATTRIBUTE[] ProcessAttributes(List<IObjectAttribute> template)
     {
         CK_ATTRIBUTE[] attrs = new CK_ATTRIBUTE[template.Count];
