@@ -1,6 +1,6 @@
 ﻿# Supported algorithms
 
-Supported algorithms for _Bouncy Hsm_ version 1.6.1.0 (commit _d02b50cf16fb37ec3b6a71fe2c8fd75793c1bc53_).
+Supported algorithms for _Bouncy Hsm_ version 1.6.1.0 (commit _ab16839079e8b28d5a4b61ec6f051600d096d5c8_).
 
 ## Mechanisms
 _Bouncy Hsm_ supports 171 mechanisms.
@@ -11,7 +11,7 @@ _Bouncy&nbsp;Hsm_ allows the use of some mechanisms from PKCS#11 specification [
 and [version 3.2](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.2/pkcs11-spec-v3.2.pdf).
 
 | Mechanism | Min key size | Max key size | Digest | Sign, Verify | SignRecover, VerifyRecover | Derive | Encrypt, Decrypt | Generate key pair | Generate key | Wrap, Unwrap | Encapsulate, Decapsulate |
-| :---  | ---: | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :---  | ---: | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `CKM_RSA_PKCS_KEY_PAIR_GEN`  | 2048  | 6144 |   |   |   |   |   | ✓ |   |   |   |
 | `CKM_RSA_PKCS`  | 2048  | 6144 |   | ✓ | ✓ |   | ✓ |   |   | ✓ |   |
 | `CKM_RSA_9796`  | 2048  | 6144 |   | ✓ | ✓ |   | ✓ |   |   |   |   |

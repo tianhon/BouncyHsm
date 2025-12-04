@@ -32,7 +32,7 @@ _Bouncy&nbsp;Hsm_ allows the use of some mechanisms from PKCS#11 specification [
 and [version 3.2](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.2/pkcs11-spec-v3.2.pdf).
 
 | Mechanism | Min key size | Max key size | Digest | Sign, Verify | SignRecover, VerifyRecover | Derive | Encrypt, Decrypt | Generate key pair | Generate key | Wrap, Unwrap | Encapsulate, Decapsulate |
-| :---  | ---: | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :---  | ---: | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 {{~ for mi in Mechanisms ~}}
 | `{{ mi.MechanismType }}` {{ mi | toVersion }} | {{ mi.MinKeySize }}  | {{ mi.MaxKeySize }} | {{mi.Flags.Digest | toCheck }} | {{mi.Flags.SignAndVerify | toCheck }} | {{mi.Flags.SignAndVerifyRecover | toCheck }} | {{mi.Flags.Derive | toCheck }} | {{mi.Flags.EncryptAndDecrypt | toCheck }} | {{mi.Flags.GenerateKeyPair | toCheck }} | {{mi.Flags.Generate | toCheck }} | {{mi.Flags.WrapAndUnwrap | toCheck }} | {{mi.Flags.EncapsulateAndDecapsulate | toCheck }} |
 {{~ end ~}}
