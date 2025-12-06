@@ -17,7 +17,7 @@ public static class SessionExtensions
         ExtensionFactory.Enshure(library).SessionCancel(session, ckfFlags);
     }
 
-    public static void EncapsulateKey(ISession session,
+    public static void EncapsulateKey(this ISession session,
         IPkcs11Library library,
         IMechanism mechanism,
         IObjectHandle publicKeyHandle,
@@ -33,7 +33,7 @@ public static class SessionExtensions
         ExtensionFactory.Enshure(library).EncapsulateKey(session, mechanism, publicKeyHandle, template, out ciphertext, out phKey);
     }
 
-    public static void DecapsulateKey(ISession session,
+    public static void DecapsulateKey(this ISession session,
         IPkcs11Library library,
         IMechanism mechanism,
         IObjectHandle publicKeyHandle,

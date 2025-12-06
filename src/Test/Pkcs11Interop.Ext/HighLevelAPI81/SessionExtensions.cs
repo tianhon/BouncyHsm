@@ -72,14 +72,14 @@ internal class SessionExtensions : ISessionExtensions
     private C_SessionCancelDelegate C_SessionCancel;
     private C_EncapsulateKeyDelegate C_EncapsulateKey;
     private C_DecapsulateKeyDelegate C_DecapsulateKey;
-    private C_GetSessionValidationFlags C_GetSessionValidationFlags;
+    private C_GetSessionValidationFlagsDelegate C_GetSessionValidationFlags;
 
     public SessionExtensions(IntPtr lirarayhandle)
     {
         this.C_SessionCancel = this.GetDelegate<C_SessionCancelDelegate>(lirarayhandle, "C_SessionCancel");
         this.C_EncapsulateKey = this.GetDelegate<C_EncapsulateKeyDelegate>(lirarayhandle, "C_EncapsulateKey");
         this.C_DecapsulateKey = this.GetDelegate<C_DecapsulateKeyDelegate>(lirarayhandle, "C_DecapsulateKey");
-        this.C_GetSessionValidationFlags = this.GetDelegate<C_DecapsulateKeyDelegate>(lirarayhandle, "C_GetSessionValidationFlags");
+        this.C_GetSessionValidationFlags = this.GetDelegate<C_GetSessionValidationFlagsDelegate>(lirarayhandle, "C_GetSessionValidationFlags");
     }
 
     public void SessionCancel(ISession session, uint CkfFlags)

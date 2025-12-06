@@ -321,6 +321,11 @@ public partial class SessionCancelHandler : IRpcRequestHandler<SessionCancelRequ
    // Implement in another class
 }
 
+public partial class EncapsulateKeyHandler : IRpcRequestHandler<EncapsulateKeyRequest, EncapsulateKeyEnvelope>
+{
+   // Implement in another class
+}
+
 [System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.0.0")]
 public static partial class RpcDefinitionUtils
 {
@@ -391,6 +396,7 @@ public static partial class RpcDefinitionUtils
          { typeof(IRpcRequestHandler<VerifyRecoverInitRequest, VerifyRecoverInitEnvelope>), typeof(VerifyRecoverInitHandler)},
          { typeof(IRpcRequestHandler<VerifyRecoverRequest, VerifyRecoverEnvelope>), typeof(VerifyRecoverHandler)},
          { typeof(IRpcRequestHandler<SessionCancelRequest, SessionCancelEnvelope>), typeof(SessionCancelHandler)},
+         { typeof(IRpcRequestHandler<EncapsulateKeyRequest, EncapsulateKeyEnvelope>), typeof(EncapsulateKeyHandler)},
        };
     }
 }

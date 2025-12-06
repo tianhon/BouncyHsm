@@ -283,6 +283,7 @@ internal static class MechanismUtils
 
             // ML-KEM
             {CKM.CKM_ML_KEM_KEY_PAIR_GEN, new MechanismInfo(MlKemMinKeySize, MlKemMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_2) },
+            {CKM.CKM_ML_KEM, new MechanismInfo(MlKemMinKeySize, MlKemMaxKeySize, MechanismCkf.CKF_ENCAPSULATE | MechanismCkf.CKF_DECAPSULATE, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_2) },
         };
 
         mechanism = originalMechanism;

@@ -257,6 +257,10 @@ Rpc:
     Summary: Call for C_SessionCancel (PKCS11 version 3.1)
     Request: SessionCancelRequest
     Response: SessionCancelEnvelope
+  EncapsulateKey:
+    Summary: Call for C_EncapsulateKey (PKCS11 version 3.2)
+    Request: EncapsulateKeyRequest
+    Response: EncapsulateKeyEnvelope
 
 Messages:
   AppIdentification:
@@ -1264,6 +1268,32 @@ Messages:
     Summary:
     Fields:
       Rv: uint32
+
+  EncapsulateKeyRequest:
+    Summary:
+    Fields:
+      AppId: AppIdentification
+      SessionId: uint32
+      Mechanism: MechanismValue
+      PublicKeyHandle: uint32
+      Template: AttrValueFromNative[]
+      IsCiphertextPtrSet: bool
+      PulCiphertextLen: uint32
+
+  EncapsulateKeyData:
+    Summary:
+    Fields:
+      PulCiphertextLen: uint32
+      Ciphertext: binary?
+      IsPhKeySet: bool
+      PhKeyHandle: uint32
+
+  EncapsulateKeyEnvelope:
+    Summary:
+    Fields:
+      Rv: uint32
+      Data: EncapsulateKeyData?
+
 
   # CK_parsms DTO's
   CkP_MacGeneralParams:

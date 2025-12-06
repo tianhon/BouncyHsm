@@ -134,6 +134,8 @@ internal static class AttrTypeUtils
             CKA.CKA_SEED => AttrTypeTag.ByteArray,
             CKA.CKA_PARAMETER_SET => AttrTypeTag.CkUint,
             CKA.CKA_PUBLIC_CRC64_VALUE => AttrTypeTag.ByteArray,
+            CKA.CKA_ENCAPSULATE => AttrTypeTag.CkBool,
+            CKA.CKA_DECAPSULATE => AttrTypeTag.CkBool,
             CKA.CKA_VENDOR_DEFINED => throw new InvalidOperationException("value is not defined"),
             _ => throw new InvalidProgramException($"Enum value {attributeType} is not supported.")
         };

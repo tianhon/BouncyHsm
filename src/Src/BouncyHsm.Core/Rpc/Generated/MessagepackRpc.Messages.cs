@@ -3767,6 +3767,115 @@ public partial class SessionCancelEnvelope : IRpcResponse
 
 [MessagePackObject]
 [System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
+public partial class EncapsulateKeyRequest : IRpcRequest
+{
+    [Key(0)]
+    public AppIdentification AppId
+    {
+        get;
+        set;
+    } = default!;
+
+    [Key(1)]
+    public uint SessionId
+    {
+        get;
+        set;
+    }
+
+    [Key(2)]
+    public MechanismValue Mechanism
+    {
+        get;
+        set;
+    } = default!;
+
+    [Key(3)]
+    public uint PublicKeyHandle
+    {
+        get;
+        set;
+    }
+
+    [Key(4)]
+    public AttrValueFromNative[] Template
+    {
+        get;
+        set;
+    } = Array.Empty<AttrValueFromNative>();
+
+    [Key(5)]
+    public bool IsCiphertextPtrSet
+    {
+        get;
+        set;
+    }
+
+    [Key(6)]
+    public uint PulCiphertextLen
+    {
+        get;
+        set;
+    }
+
+}
+
+[MessagePackObject]
+[System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
+public partial class EncapsulateKeyData
+{
+    [Key(0)]
+    public uint PulCiphertextLen
+    {
+        get;
+        set;
+    }
+
+    [Key(1)]
+    public byte[]? Ciphertext
+    {
+        get;
+        set;
+    }
+
+    [Key(2)]
+    public bool IsPhKeySet
+    {
+        get;
+        set;
+    }
+
+    [Key(3)]
+    public uint PhKeyHandle
+    {
+        get;
+        set;
+    }
+
+}
+
+[MessagePackObject]
+[System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
+public partial class EncapsulateKeyEnvelope : IRpcResponse
+{
+    [Key(0)]
+    public uint Rv
+    {
+        get;
+        set;
+    }
+
+    [Key(1)]
+    public EncapsulateKeyData? Data
+    {
+        get;
+        set;
+    }
+
+}
+
+[MessagePackObject]
+[System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
 public partial class CkP_MacGeneralParams
 {
     [Key(0)]

@@ -3740,7 +3740,102 @@ CK_DEFINE_FUNCTION(CK_RV, C_EncapsulateKey)(CK_SESSION_HANDLE hSession, CK_MECHA
 {
     LOG_ENTERING_TO_FUNCTION();
 
-    return CKR_FUNCTION_NOT_SUPPORTED;
+    if (pMechanism == NULL_PTR || pTemplate == NULL || pulCiphertextLen == NULL || phKey == NULL)
+    {
+        return CKR_ARGUMENTS_BAD;
+    }
+
+    EncapsulateKeyRequest request;
+    EncapsulateKeyEnvelope envelope;
+
+    nmrpc_global_context_t ctx;
+    SockContext_t tcp;
+    AttrValueFromNative* attrTemplate = NULL;
+
+    if (P11SocketInit(&tcp) != NMRPC_OK)
+    {
+        return CKR_DEVICE_ERROR;
+    }
+    nmrpc_global_context_tcp_init(&ctx, &tcp);
+    InitCallContext(&ctx, &request.AppId);
+
+    request.SessionId = (uint32_t)hSession;
+    if (MechanismValue_Create(&request.Mechanism, pMechanism) != NMRPC_OK)
+    {
+        return CKR_MECHANISM_INVALID;
+    }
+
+    request.PublicKeyHandle = (uint32_t)hPublicKey;
+
+    attrTemplate = ConvertToAttrValueFromNative(pTemplate, ulAttributeCount);
+    if (NULL == attrTemplate)
+    {
+        MechanismValue_Destroy(&request.Mechanism);
+        return CKR_GENERAL_ERROR;
+    }
+
+    request.Template.array = attrTemplate;
+    request.Template.length = (int)ulAttributeCount;
+    request.IsCiphertextPtrSet = pCiphertext != NULL;
+    request.PulCiphertextLen = (uint32_t)*pulCiphertextLen;
+
+    int rv = nmrpc_call_EncapsulateKey(&ctx, &request, &envelope);
+    if (rv != NMRPC_OK)
+    {
+        LOG_FAILED_CALL_RPC();
+
+        MechanismValue_Destroy(&request.Mechanism);
+        if (NULL != attrTemplate)
+        {
+            AttrValueFromNative_Destroy(attrTemplate, ulAttributeCount);
+        }
+        return CKR_DEVICE_ERROR;
+    }
+
+    if ((CK_RV)envelope.Rv == CKR_OK)
+    {
+        if (pCiphertext != NULL)
+        {
+            if (envelope.Data->Ciphertext == NULL)
+            {
+                log_message(LOG_LEVEL_ERROR, "envelope.Data->Ciphertext is NULL - Ciphertext is not returned.");
+                MechanismValue_Destroy(&request.Mechanism);
+                if (NULL != attrTemplate)
+                {
+                    AttrValueFromNative_Destroy(attrTemplate, ulAttributeCount);
+                }
+
+                return CKR_DEVICE_ERROR;
+            }
+            memcpy_s(pCiphertext, *pulCiphertextLen, envelope.Data->Ciphertext->data, envelope.Data->Ciphertext->size);
+            *pulCiphertextLen = (CK_ULONG)envelope.Data->Ciphertext->size;
+        }
+        else
+        {
+            *pulCiphertextLen = (CK_ULONG)envelope.Data->PulCiphertextLen;
+        }
+
+        if (envelope.Data->IsPhKeySet)
+        {
+            *phKey = (CK_OBJECT_HANDLE)envelope.Data->PhKeyHandle;
+        }
+    }
+
+    if ((CK_RV)envelope.Rv == CKR_BUFFER_TOO_SMALL)
+    {
+        *pulCiphertextLen = (CK_ULONG)envelope.Data->PulCiphertextLen;
+    }
+
+    MechanismValue_Destroy(&request.Mechanism);
+    if (NULL != attrTemplate)
+    {
+        AttrValueFromNative_Destroy(attrTemplate, ulAttributeCount);
+    }
+
+    MechanismValue_Destroy(&request.Mechanism);
+    EncapsulateKeyEnvelope_Release(&envelope);
+
+    return (CK_RV)envelope.Rv;
 }
 
 CK_DEFINE_FUNCTION(CK_RV, C_DecapsulateKey)(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism, CK_OBJECT_HANDLE hPrivateKey, CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulAttributeCount, CK_BYTE_PTR pCiphertext, CK_ULONG ulCiphertextLen, CK_OBJECT_HANDLE_PTR phKey)
