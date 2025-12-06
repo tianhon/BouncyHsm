@@ -4908,8 +4908,8 @@ namespace BouncyHsm.Client
         [System.Runtime.Serialization.EnumMember(Value = @"V2_40")]
         V2_40 = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"V3_0")]
-        V3_0 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"V3_1")]
+        V3_1 = 1,
 
         [System.Runtime.Serialization.EnumMember(Value = @"V3_2")]
         V3_2 = 2,
