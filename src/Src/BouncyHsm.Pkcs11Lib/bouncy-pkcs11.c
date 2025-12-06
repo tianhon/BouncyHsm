@@ -3519,7 +3519,7 @@ CK_DEFINE_FUNCTION(CK_RV, C_GetInterface)(CK_UTF8CHAR_PTR pInterfaceName, CK_VER
         }
         else if (pVersion->major == bouncyHsm_pkcs11_3_2_functions.version.major && pVersion->minor == bouncyHsm_pkcs11_3_2_functions.version.minor)
         {
-            *ppInterface = &bouncyHsm_pkcs11_3_2_functions;
+            *ppInterface = &bouncyHsm_pkcs11_3_2_interface;
             return CKR_OK;
         }
         else
