@@ -21,12 +21,6 @@ public class T38_EncapsulateKeyMlKem
     }
 
     [TestMethod]
-    public void MyTestMethod()
-    {
-
-    }
-
-    [TestMethod]
     [DataRow(Pkcs11Interop.Ext.Common.CK_ML_KEM_PARAMETER_SET.CKP_ML_KEM_512)]
     [DataRow(Pkcs11Interop.Ext.Common.CK_ML_KEM_PARAMETER_SET.CKP_ML_KEM_768)]
     [DataRow(Pkcs11Interop.Ext.Common.CK_ML_KEM_PARAMETER_SET.CKP_ML_KEM_1024)]
@@ -67,6 +61,10 @@ public class T38_EncapsulateKeyMlKem
             template,
             out byte[] cipherText,
             out IObjectHandle secretKey);
+
+        Assert.IsNotNull(cipherText);
+        Assert.AreNotEqual(0, cipherText.Length);
+        Assert.IsNotNull(secretKey);
     }
 
     [TestMethod]
@@ -111,6 +109,10 @@ public class T38_EncapsulateKeyMlKem
             template,
             out byte[] cipherText,
             out IObjectHandle secretKey);
+
+        Assert.IsNotNull(cipherText);
+        Assert.AreNotEqual(0, cipherText.Length);
+        Assert.IsNotNull(secretKey);
     }
 
     [TestMethod]
@@ -156,6 +158,10 @@ public class T38_EncapsulateKeyMlKem
             template,
             out byte[] cipherText,
             out IObjectHandle secretKey);
+
+        Assert.IsNotNull(cipherText);
+        Assert.AreNotEqual(0, cipherText.Length);
+        Assert.IsNotNull(secretKey);
     }
 
     [TestMethod]
@@ -200,6 +206,10 @@ public class T38_EncapsulateKeyMlKem
             template,
             out byte[] cipherText,
             out IObjectHandle secretKey);
+
+        Assert.IsNotNull(cipherText);
+        Assert.AreNotEqual(0, cipherText.Length);
+        Assert.IsNotNull(secretKey);
     }
 
     private void GenerateKeyPair(uint parameterSet,

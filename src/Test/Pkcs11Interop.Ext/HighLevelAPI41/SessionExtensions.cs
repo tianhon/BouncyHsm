@@ -147,14 +147,13 @@ internal class SessionExtensions : ISessionExtensions
     }
 
     public void DecapsulateKey(ISession session,
-        IMechanism mechanism,
-        IObjectHandle publicKeyHandle,
-        List<IObjectAttribute> template,
-        byte[] ciphertext,
-        out IObjectHandle phKey)
+       IMechanism mechanism,
+       IObjectHandle publicKeyHandle,
+       List<IObjectAttribute> template,
+       byte[] ciphertext,
+       out IObjectHandle phKey)
     {
         NativeULong ckr;
-        NativeULong pulCiphertextLen = 0;
         NativeULong phKeyHandle = 0;
         IntPtr ciphertextPtr = IntPtr.Zero;
 
@@ -171,7 +170,7 @@ internal class SessionExtensions : ISessionExtensions
                 templateArray,
                 (NativeULong)templateArray.Length,
                 ciphertextPtr,
-                pulCiphertextLen,
+                (NativeULong)ciphertext.Length,
                 ref phKeyHandle);
 
             if (ckr != (NativeULong)CKR.CKR_OK)

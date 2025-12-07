@@ -39,7 +39,9 @@ public partial class EncapsulateKeyHandler : IRpcRequestHandler<EncapsulateKeyRe
 
         Dictionary<CKA, IAttributeValue> template = AttrTypeUtils.BuildDictionaryTemplate(request.Template);
 
-        IP11Encapsulator encapsulator = this.CreateEncapsulator(request.Mechanism);
+        this.logger.LogTrace("Entering to CreateEncapsulator with mechanism type {mechanismType}", (CKM)request.Mechanism.MechanismType);
+        IP11Encapsulator encapsulator = P11EncapsulatorFactory.Create(request.Mechanism, this.loggerFactory);
+
         encapsulator.Init(template);
 
         if (request.IsCiphertextPtrSet)
@@ -102,18 +104,5 @@ public partial class EncapsulateKeyHandler : IRpcRequestHandler<EncapsulateKeyRe
                 }
             };
         }
-    }
-
-    private IP11Encapsulator CreateEncapsulator(MechanismValue mechanism)
-    {
-        this.logger.LogTrace("Entering to CreateEncapsulator with mechanism type {mechanismType}", (CKM)mechanism.MechanismType);
-
-        CKM mechanismType = (CKM)mechanism.MechanismType;
-
-        return mechanismType switch
-        {
-            CKM.CKM_ML_KEM => new MlKemP11Encapsulator(this.loggerFactory.CreateLogger<MlKemP11Encapsulator>()),
-            _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Mechanism {mechanismType} is not supported for encapsulation."),
-        };
     }
 }

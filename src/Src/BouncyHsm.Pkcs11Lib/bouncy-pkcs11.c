@@ -3842,7 +3842,73 @@ CK_DEFINE_FUNCTION(CK_RV, C_DecapsulateKey)(CK_SESSION_HANDLE hSession, CK_MECHA
 {
     LOG_ENTERING_TO_FUNCTION();
 
-    return CKR_FUNCTION_NOT_SUPPORTED;
+    if (pMechanism == NULL_PTR || pTemplate == NULL || pCiphertext == NULL || phKey == NULL)
+    {
+        return CKR_ARGUMENTS_BAD;
+    }
+
+    DecapsulateKeyRequest request;
+    DecapsulateKeyEnvelope envelope;
+
+    nmrpc_global_context_t ctx;
+    SockContext_t tcp;
+    AttrValueFromNative* attrTemplate = NULL;
+
+    if (P11SocketInit(&tcp) != NMRPC_OK)
+    {
+        return CKR_DEVICE_ERROR;
+    }
+    nmrpc_global_context_tcp_init(&ctx, &tcp);
+    InitCallContext(&ctx, &request.AppId);
+
+    request.SessionId = (uint32_t)hSession;
+    if (MechanismValue_Create(&request.Mechanism, pMechanism) != NMRPC_OK)
+    {
+        return CKR_MECHANISM_INVALID;
+    }
+
+    request.PrivateKeyHandle = (uint32_t)hPrivateKey;
+
+    attrTemplate = ConvertToAttrValueFromNative(pTemplate, ulAttributeCount);
+    if (NULL == attrTemplate)
+    {
+        MechanismValue_Destroy(&request.Mechanism);
+        return CKR_GENERAL_ERROR;
+    }
+
+    request.Template.array = attrTemplate;
+    request.Template.length = (int)ulAttributeCount;
+    request.Ciphertext.data = (uint8_t*)pCiphertext;
+    request.Ciphertext.size = (size_t)ulCiphertextLen;
+
+    int rv = nmrpc_call_DecapsulateKey(&ctx, &request, &envelope);
+    if (rv != NMRPC_OK)
+    {
+        LOG_FAILED_CALL_RPC();
+
+        MechanismValue_Destroy(&request.Mechanism);
+        if (NULL != attrTemplate)
+        {
+            AttrValueFromNative_Destroy(attrTemplate, ulAttributeCount);
+        }
+        return CKR_DEVICE_ERROR;
+    }
+
+    if ((CK_RV)envelope.Rv == CKR_OK)
+    {
+        *phKey = (CK_OBJECT_HANDLE)envelope.Data->PhKeyHandle;
+    }
+
+    MechanismValue_Destroy(&request.Mechanism);
+    if (NULL != attrTemplate)
+    {
+        AttrValueFromNative_Destroy(attrTemplate, ulAttributeCount);
+    }
+
+    MechanismValue_Destroy(&request.Mechanism);
+    DecapsulateKeyEnvelope_Release(&envelope);
+
+    return (CK_RV)envelope.Rv;
 }
 
 CK_DEFINE_FUNCTION(CK_RV, C_VerifySignatureInit)(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism, CK_OBJECT_HANDLE hKey, CK_BYTE_PTR pSignature, CK_ULONG ulSignatureLen)

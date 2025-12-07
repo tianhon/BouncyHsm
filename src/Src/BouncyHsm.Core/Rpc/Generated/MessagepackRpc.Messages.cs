@@ -3876,6 +3876,87 @@ public partial class EncapsulateKeyEnvelope : IRpcResponse
 
 [MessagePackObject]
 [System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
+public partial class DecapsulateKeyRequest : IRpcRequest
+{
+    [Key(0)]
+    public AppIdentification AppId
+    {
+        get;
+        set;
+    } = default!;
+
+    [Key(1)]
+    public uint SessionId
+    {
+        get;
+        set;
+    }
+
+    [Key(2)]
+    public MechanismValue Mechanism
+    {
+        get;
+        set;
+    } = default!;
+
+    [Key(3)]
+    public uint PrivateKeyHandle
+    {
+        get;
+        set;
+    }
+
+    [Key(4)]
+    public AttrValueFromNative[] Template
+    {
+        get;
+        set;
+    } = Array.Empty<AttrValueFromNative>();
+
+    [Key(5)]
+    public byte[] Ciphertext
+    {
+        get;
+        set;
+    } = Array.Empty<byte>();
+
+}
+
+[MessagePackObject]
+[System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
+public partial class DecapsulateKeyDadta
+{
+    [Key(0)]
+    public uint PhKeyHandle
+    {
+        get;
+        set;
+    }
+
+}
+
+[MessagePackObject]
+[System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
+public partial class DecapsulateKeyEnvelope : IRpcResponse
+{
+    [Key(0)]
+    public uint Rv
+    {
+        get;
+        set;
+    }
+
+    [Key(1)]
+    public DecapsulateKeyDadta? Data
+    {
+        get;
+        set;
+    }
+
+}
+
+[MessagePackObject]
+[System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
 public partial class CkP_MacGeneralParams
 {
     [Key(0)]

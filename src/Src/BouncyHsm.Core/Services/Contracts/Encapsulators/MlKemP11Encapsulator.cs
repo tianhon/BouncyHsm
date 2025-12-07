@@ -7,6 +7,7 @@ using Org.BouncyCastle.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,8 +30,7 @@ internal class MlKemP11Encapsulator : P11EncapsulatorBase<MlKemPublicKeyObject, 
         byte[] encapsulation = new byte[encapsulator.EncapsulationLength];
         byte[] secret = new byte[encapsulator.SecretLength];
 
-        encapsulator.Encapsulate(encapsulation, 0, encapsulation.Length,
-            secret, 0, secret.Length);
+        encapsulator.Encapsulate(encapsulation.AsSpan(), secret.AsSpan());
 
         this.SetSecretKeyPadded(secretKeyObject, secret);
         encapsulatedData = encapsulation;
@@ -42,6 +42,19 @@ internal class MlKemP11Encapsulator : P11EncapsulatorBase<MlKemPublicKeyObject, 
         encapsulator.Init(publicKey.GetPublicKey());
 
         return encapsulator.EncapsulationLength;
+    }
+
+    protected override void DecapsulateInternal(MlKemPrivateKeyObject privateKey, byte[] encapsulatedData, SecretKeyObject secretKeyObject)
+    {
+        this.logger.LogTrace("Entering to DecapsulateInternal for ML-KEM using parameter set {CkaParameterSet}.", privateKey.CkaParameterSet);
+
+        MLKemDecapsulator decapsulator = new MLKemDecapsulator(MlKemUtils.GetParametersFromType(privateKey.CkaParameterSet));
+        decapsulator.Init(privateKey.GetPrivateKey());
+
+        byte[] secret = new byte[decapsulator.SecretLength];
+        decapsulator.Decapsulate(encapsulatedData.AsSpan(), secret.AsSpan());
+
+        this.SetSecretKeyPadded(secretKeyObject, secret);
     }
 
     public override string ToString()

@@ -161,7 +161,7 @@ public class HsmInfoFacade : IHsmInfoFacade
             new FunctionImplState("C_VerifyMessageNext",  ImplementationState.NotSupported),
             new FunctionImplState("C_MessageVerifyFinal",  ImplementationState.NotSupported),
             new FunctionImplState("C_EncapsulateKey",  ImplementationState.Supported),
-            new FunctionImplState("C_DecapsulateKey",  ImplementationState.NotSupported),
+            new FunctionImplState("C_DecapsulateKey",  ImplementationState.Supported),
             new FunctionImplState("C_VerifySignatureInit",  ImplementationState.NotSupported),
             new FunctionImplState("C_VerifySignature",  ImplementationState.NotSupported),
             new FunctionImplState("C_VerifySignatureUpdate",  ImplementationState.NotSupported),

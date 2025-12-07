@@ -6,6 +6,7 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Utilities.IO.Pem;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BouncyHsm.Core.Services.Contracts.Encapsulators;
 
@@ -101,6 +102,32 @@ internal abstract class P11EncapsulatorBase<TPublicKey, TPrivateKey> : IP11Encap
 
     protected abstract int GetEncapsulatedDataLengthInternal(TPublicKey publicKey);
 
+    public SecretKeyObject Decapsulate(PrivateKeyObject privateKey, byte[] encapsulatedData)
+    {
+        System.Diagnostics.Debug.Assert(this.secretKeyObject != null, "Init must be called first.");
+
+        this.logger.LogTrace("Entering to Decapsulate.");
+        if (privateKey is TPrivateKey typedPrivateKey)
+        {
+            if (!typedPrivateKey.CkaDecapsulate)
+            {
+                this.logger.LogError("Object with id {ObjectId} can not set CKA_DECAPSULATE to true.", typedPrivateKey.Id);
+                throw new RpcPkcs11Exception(CKR.CKR_KEY_FUNCTION_NOT_PERMITTED,
+                    "The encapsulate operation is not allowed because objet is not authorized to sign (CKA_DECAPSULATE must by true).");
+            }
+
+            this.DecapsulateInternal(typedPrivateKey, encapsulatedData, this.secretKeyObject);
+            this.UpdateSecretKeyAttributes(this.secretKeyObject);
+            return this.secretKeyObject;
+        }
+        else
+        {
+            throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Mechanism {this.mechynismType} required private key {typeof(TPublicKey).Name}.");
+        }
+    }
+
+    protected abstract void DecapsulateInternal(TPrivateKey privateKey, byte[] encapsulatedData, SecretKeyObject secretKeyObject);
+
     private void UpdateSecretKeyAttributes(SecretKeyObject secretKeyObject)
     {
         secretKeyObject.CkaSensitive = false;
@@ -157,12 +184,5 @@ internal abstract class P11EncapsulatorBase<TPublicKey, TPrivateKey> : IP11Encap
         }
 
         secretKeyObject.SetSecret(secret);
-    }
-
-    public SecretKeyObject Decapsulate(PrivateKeyObject privateKey, byte[] encapsulatedData)
-    {
-        System.Diagnostics.Debug.Assert(this.secretKeyObject != null, "Init must be called first.");
-
-        throw new NotImplementedException();
     }
 }

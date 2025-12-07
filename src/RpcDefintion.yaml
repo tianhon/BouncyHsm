@@ -261,6 +261,10 @@ Rpc:
     Summary: Call for C_EncapsulateKey (PKCS11 version 3.2)
     Request: EncapsulateKeyRequest
     Response: EncapsulateKeyEnvelope
+  DecapsulateKey:
+    Summary: Call for C_DecapsulateKey (PKCS11 version 3.2)
+    Request: DecapsulateKeyRequest
+    Response: DecapsulateKeyEnvelope
 
 Messages:
   AppIdentification:
@@ -1294,6 +1298,26 @@ Messages:
       Rv: uint32
       Data: EncapsulateKeyData?
 
+  DecapsulateKeyRequest:
+    Summary:
+    Fields:
+      AppId: AppIdentification
+      SessionId: uint32
+      Mechanism: MechanismValue
+      PrivateKeyHandle: uint32
+      Template: AttrValueFromNative[]
+      Ciphertext: binary
+
+  DecapsulateKeyDadta:
+    Summary:
+    Fields:
+      PhKeyHandle: uint32
+
+  DecapsulateKeyEnvelope:
+    Summary:
+    Fields:
+      Rv: uint32
+      Data: DecapsulateKeyDadta?
 
   # CK_parsms DTO's
   CkP_MacGeneralParams:

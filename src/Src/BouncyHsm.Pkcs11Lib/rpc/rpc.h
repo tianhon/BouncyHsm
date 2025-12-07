@@ -165,6 +165,9 @@ typedef struct _SessionCancelEnvelope SessionCancelEnvelope;
 typedef struct _EncapsulateKeyRequest EncapsulateKeyRequest;
 typedef struct _EncapsulateKeyData EncapsulateKeyData;
 typedef struct _EncapsulateKeyEnvelope EncapsulateKeyEnvelope;
+typedef struct _DecapsulateKeyRequest DecapsulateKeyRequest;
+typedef struct _DecapsulateKeyDadta DecapsulateKeyDadta;
+typedef struct _DecapsulateKeyEnvelope DecapsulateKeyEnvelope;
 typedef struct _CkP_MacGeneralParams CkP_MacGeneralParams;
 typedef struct _CkP_ExtractParams CkP_ExtractParams;
 typedef struct _CkP_RsaPkcsPssParams CkP_RsaPkcsPssParams;
@@ -1881,6 +1884,39 @@ int EncapsulateKeyEnvelope_Serialize(cmp_ctx_t* ctx, EncapsulateKeyEnvelope* val
 int EncapsulateKeyEnvelope_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, EncapsulateKeyEnvelope* value);
 int EncapsulateKeyEnvelope_Release(EncapsulateKeyEnvelope* value);
 
+typedef struct _DecapsulateKeyRequest
+{
+    AppIdentification AppId;
+    uint32_t SessionId;
+    MechanismValue Mechanism;
+    uint32_t PrivateKeyHandle;
+    ArrayOfAttrValueFromNative Template;
+    Binary Ciphertext;
+} DecapsulateKeyRequest;
+
+int DecapsulateKeyRequest_Serialize(cmp_ctx_t* ctx, DecapsulateKeyRequest* value);
+int DecapsulateKeyRequest_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, DecapsulateKeyRequest* value);
+int DecapsulateKeyRequest_Release(DecapsulateKeyRequest* value);
+
+typedef struct _DecapsulateKeyDadta
+{
+    uint32_t PhKeyHandle;
+} DecapsulateKeyDadta;
+
+int DecapsulateKeyDadta_Serialize(cmp_ctx_t* ctx, DecapsulateKeyDadta* value);
+int DecapsulateKeyDadta_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, DecapsulateKeyDadta* value);
+int DecapsulateKeyDadta_Release(DecapsulateKeyDadta* value);
+
+typedef struct _DecapsulateKeyEnvelope
+{
+    uint32_t Rv;
+    DecapsulateKeyDadta* Data;
+} DecapsulateKeyEnvelope;
+
+int DecapsulateKeyEnvelope_Serialize(cmp_ctx_t* ctx, DecapsulateKeyEnvelope* value);
+int DecapsulateKeyEnvelope_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, DecapsulateKeyEnvelope* value);
+int DecapsulateKeyEnvelope_Release(DecapsulateKeyEnvelope* value);
+
 typedef struct _CkP_MacGeneralParams
 {
     uint32_t Value;
@@ -2146,5 +2182,6 @@ int nmrpc_call_VerifyRecoverInit(nmrpc_global_context_t* ctx, VerifyRecoverInitR
 int nmrpc_call_VerifyRecover(nmrpc_global_context_t* ctx, VerifyRecoverRequest* request, VerifyRecoverEnvelope* response);
 int nmrpc_call_SessionCancel(nmrpc_global_context_t* ctx, SessionCancelRequest* request, SessionCancelEnvelope* response);
 int nmrpc_call_EncapsulateKey(nmrpc_global_context_t* ctx, EncapsulateKeyRequest* request, EncapsulateKeyEnvelope* response);
+int nmrpc_call_DecapsulateKey(nmrpc_global_context_t* ctx, DecapsulateKeyRequest* request, DecapsulateKeyEnvelope* response);
 
 #endif // NMRPC_rpc
