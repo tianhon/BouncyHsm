@@ -89,6 +89,7 @@ public static partial class RequestProcessor
         "SessionCancel" => ProcessRequestBody<SessionCancelRequest, SessionCancelEnvelope>(serviceProvider, "SessionCancel", requestBody, static ckRv => new SessionCancelEnvelope(){ Rv = ckRv }, logger, cancellationToken),
         "EncapsulateKey" => ProcessRequestBody<EncapsulateKeyRequest, EncapsulateKeyEnvelope>(serviceProvider, "EncapsulateKey", requestBody, static ckRv => new EncapsulateKeyEnvelope(){ Rv = ckRv }, logger, cancellationToken),
         "DecapsulateKey" => ProcessRequestBody<DecapsulateKeyRequest, DecapsulateKeyEnvelope>(serviceProvider, "DecapsulateKey", requestBody, static ckRv => new DecapsulateKeyEnvelope(){ Rv = ckRv }, logger, cancellationToken),
+        "GetSessionValidationFlags" => ProcessRequestBody<GetSessionValidationFlagsRequest, GetSessionValidationFlagsEnvelope>(serviceProvider, "GetSessionValidationFlags", requestBody, static ckRv => new GetSessionValidationFlagsEnvelope(){ Rv = ckRv }, logger, cancellationToken),
           _ => throw new InvalidOperationException($"RPC operation {header.Operation} is not supported.")
       };
    }

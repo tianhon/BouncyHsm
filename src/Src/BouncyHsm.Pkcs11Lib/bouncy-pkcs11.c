@@ -3943,7 +3943,42 @@ CK_DEFINE_FUNCTION(CK_RV, C_GetSessionValidationFlags)(CK_SESSION_HANDLE hSessio
 {
     LOG_ENTERING_TO_FUNCTION();
 
-    return CKR_FUNCTION_NOT_SUPPORTED;
+    if (pFlags == NULL)
+    {
+        return CKR_ARGUMENTS_BAD;
+    }
+
+    GetSessionValidationFlagsRequest request;
+    GetSessionValidationFlagsEnvelope envelope;
+
+    nmrpc_global_context_t ctx;
+    SockContext_t tcp;
+
+    if (P11SocketInit(&tcp) != NMRPC_OK)
+    {
+        return CKR_DEVICE_ERROR;
+    }
+    nmrpc_global_context_tcp_init(&ctx, &tcp);
+    InitCallContext(&ctx, &request.AppId);
+
+    request.SessionId = (uint32_t)hSession;
+    request.Type = (uint32_t)type;
+
+    int rv = nmrpc_call_GetSessionValidationFlags(&ctx, &request, &envelope);
+    if (rv != NMRPC_OK)
+    {
+        LOG_FAILED_CALL_RPC();
+        return CKR_DEVICE_ERROR;
+    }
+
+    if ((CK_RV)envelope.Rv == CKR_OK)
+    {
+        *pFlags = (CK_ULONG)envelope.Data->Flags;
+    }
+
+    GetSessionValidationFlagsEnvelope_Release(&envelope);
+
+    return (CK_RV)envelope.Rv;
 }
 
 CK_DEFINE_FUNCTION(CK_RV, C_AsyncComplete)(CK_SESSION_HANDLE hSession, CK_UTF8CHAR_PTR pFunctionName, CK_ASYNC_DATA_PTR pResult)

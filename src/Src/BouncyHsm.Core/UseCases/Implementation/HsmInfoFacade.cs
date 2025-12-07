@@ -166,7 +166,7 @@ public class HsmInfoFacade : IHsmInfoFacade
             new FunctionImplState("C_VerifySignature",  ImplementationState.NotSupported),
             new FunctionImplState("C_VerifySignatureUpdate",  ImplementationState.NotSupported),
             new FunctionImplState("C_VerifySignatureFinal",  ImplementationState.NotSupported),
-            new FunctionImplState("C_GetSessionValidationFlags",  ImplementationState.NotSupported),
+            new FunctionImplState("C_GetSessionValidationFlags",  ImplementationState.Supported),
             new FunctionImplState("C_AsyncComplete",  ImplementationState.NotSupported),
             new FunctionImplState("C_AsyncGetID",  ImplementationState.NotSupported),
             new FunctionImplState("C_AsyncJoin",  ImplementationState.NotSupported),

@@ -168,6 +168,9 @@ typedef struct _EncapsulateKeyEnvelope EncapsulateKeyEnvelope;
 typedef struct _DecapsulateKeyRequest DecapsulateKeyRequest;
 typedef struct _DecapsulateKeyDadta DecapsulateKeyDadta;
 typedef struct _DecapsulateKeyEnvelope DecapsulateKeyEnvelope;
+typedef struct _GetSessionValidationFlagsRequest GetSessionValidationFlagsRequest;
+typedef struct _GetSessionValidationFlagsData GetSessionValidationFlagsData;
+typedef struct _GetSessionValidationFlagsEnvelope GetSessionValidationFlagsEnvelope;
 typedef struct _CkP_MacGeneralParams CkP_MacGeneralParams;
 typedef struct _CkP_ExtractParams CkP_ExtractParams;
 typedef struct _CkP_RsaPkcsPssParams CkP_RsaPkcsPssParams;
@@ -1917,6 +1920,36 @@ int DecapsulateKeyEnvelope_Serialize(cmp_ctx_t* ctx, DecapsulateKeyEnvelope* val
 int DecapsulateKeyEnvelope_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, DecapsulateKeyEnvelope* value);
 int DecapsulateKeyEnvelope_Release(DecapsulateKeyEnvelope* value);
 
+typedef struct _GetSessionValidationFlagsRequest
+{
+    AppIdentification AppId;
+    uint32_t SessionId;
+    uint32_t Type;
+} GetSessionValidationFlagsRequest;
+
+int GetSessionValidationFlagsRequest_Serialize(cmp_ctx_t* ctx, GetSessionValidationFlagsRequest* value);
+int GetSessionValidationFlagsRequest_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, GetSessionValidationFlagsRequest* value);
+int GetSessionValidationFlagsRequest_Release(GetSessionValidationFlagsRequest* value);
+
+typedef struct _GetSessionValidationFlagsData
+{
+    uint32_t Flags;
+} GetSessionValidationFlagsData;
+
+int GetSessionValidationFlagsData_Serialize(cmp_ctx_t* ctx, GetSessionValidationFlagsData* value);
+int GetSessionValidationFlagsData_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, GetSessionValidationFlagsData* value);
+int GetSessionValidationFlagsData_Release(GetSessionValidationFlagsData* value);
+
+typedef struct _GetSessionValidationFlagsEnvelope
+{
+    uint32_t Rv;
+    GetSessionValidationFlagsData* Data;
+} GetSessionValidationFlagsEnvelope;
+
+int GetSessionValidationFlagsEnvelope_Serialize(cmp_ctx_t* ctx, GetSessionValidationFlagsEnvelope* value);
+int GetSessionValidationFlagsEnvelope_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, GetSessionValidationFlagsEnvelope* value);
+int GetSessionValidationFlagsEnvelope_Release(GetSessionValidationFlagsEnvelope* value);
+
 typedef struct _CkP_MacGeneralParams
 {
     uint32_t Value;
@@ -2183,5 +2216,6 @@ int nmrpc_call_VerifyRecover(nmrpc_global_context_t* ctx, VerifyRecoverRequest* 
 int nmrpc_call_SessionCancel(nmrpc_global_context_t* ctx, SessionCancelRequest* request, SessionCancelEnvelope* response);
 int nmrpc_call_EncapsulateKey(nmrpc_global_context_t* ctx, EncapsulateKeyRequest* request, EncapsulateKeyEnvelope* response);
 int nmrpc_call_DecapsulateKey(nmrpc_global_context_t* ctx, DecapsulateKeyRequest* request, DecapsulateKeyEnvelope* response);
+int nmrpc_call_GetSessionValidationFlags(nmrpc_global_context_t* ctx, GetSessionValidationFlagsRequest* request, GetSessionValidationFlagsEnvelope* response);
 
 #endif // NMRPC_rpc

@@ -265,6 +265,10 @@ Rpc:
     Summary: Call for C_DecapsulateKey (PKCS11 version 3.2)
     Request: DecapsulateKeyRequest
     Response: DecapsulateKeyEnvelope
+  GetSessionValidationFlags:
+    Summary: Call for C_GetSessionValidationFlags (PKCS11 version 3.2)
+    Request: GetSessionValidationFlagsRequest
+    Response: GetSessionValidationFlagsEnvelope
 
 Messages:
   AppIdentification:
@@ -1318,6 +1322,24 @@ Messages:
     Fields:
       Rv: uint32
       Data: DecapsulateKeyDadta?
+
+  GetSessionValidationFlagsRequest:
+    Summary:
+    Fields:
+      AppId: AppIdentification
+      SessionId: uint32
+      Type: uint32
+
+  GetSessionValidationFlagsData:
+    Summary:
+    Fields:
+      Flags: uint32
+
+  GetSessionValidationFlagsEnvelope:
+    Summary:
+    Fields:
+      Rv: uint32
+      Data: GetSessionValidationFlagsData?
 
   # CK_parsms DTO's
   CkP_MacGeneralParams:
