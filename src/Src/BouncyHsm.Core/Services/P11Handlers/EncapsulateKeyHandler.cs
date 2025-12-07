@@ -32,6 +32,10 @@ public partial class EncapsulateKeyHandler : IRpcRequestHandler<EncapsulateKeyRe
         IMemorySession memorySession = this.hwServices.ClientAppCtx.EnsureMemorySession(request.AppId);
         await memorySession.CheckIsSlotPlugged(request.SessionId, this.hwServices, cancellationToken);
         IP11Session p11Session = memorySession.EnsureSession(request.SessionId);
+        if (!p11Session.IsRwSession)
+        {
+            throw new RpcPkcs11Exception(CKR.CKR_SESSION_READ_ONLY, "EncapsulateKey requires readwrite session");
+        }
 
         PublicKeyObject publicKey = await this.hwServices.FindObjectByHandle<PublicKeyObject>(memorySession, p11Session, request.PublicKeyHandle, cancellationToken);
 
