@@ -126,7 +126,8 @@ public class T20_SignMlDsa
             Random.Shared.NextBytes(dataContent);
         }
 
-        IDigest digest  = hashMechanism switch         {
+        IDigest digest = hashMechanism switch
+        {
             CKM.CKM_SHA256 => new Org.BouncyCastle.Crypto.Digests.Sha256Digest(),
             CKM.CKM_SHA512 => new Org.BouncyCastle.Crypto.Digests.Sha512Digest(),
             CKM.CKM_SHA512_256 => new Org.BouncyCastle.Crypto.Digests.Sha512tDigest(256),
@@ -159,6 +160,115 @@ public class T20_SignMlDsa
               hashMechanism);
         using IMechanism mechanism = factories.MechanismFactory.Create(CKM_V3_2.CKM_HASH_ML_DSA, parameters);
         byte[] signature = session.Sign(mechanism, privateKey, hash);
+
+        Assert.IsNotNull(signature);
+    }
+
+    [TestMethod]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA224)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA224)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA224)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA256)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA256)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA256)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA384)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA384)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA384)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA512)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA512)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA512)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_224)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_224)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_224)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_256)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_256)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_256)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_384)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_384)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_384)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_512)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_512)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_512)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHAKE128)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHAKE128)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHAKE128)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHAKE256)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHAKE256)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHAKE256)]
+    public void SignMlDsaHasedMechanism_WithoutParameters_Success(uint ckp, CKM mechanismType)
+    {
+        byte[] dataToSign = new byte[85];
+        Random.Shared.NextBytes(dataToSign);
+
+        Pkcs11InteropFactories factories = new Pkcs11InteropFactories();
+        using IPkcs11Library library = factories.Pkcs11LibraryFactory.LoadPkcs11Library(factories,
+            AssemblyTestConstants.P11LibPath,
+            AppType.SingleThreaded);
+
+        List<ISlot> slots = library.GetSlotList(SlotsType.WithTokenPresent);
+        ISlot slot = slots.SelectTestSlot();
+
+        using ISession session = slot.OpenSession(SessionType.ReadWrite);
+        session.Login(CKU.CKU_USER, AssemblyTestConstants.UserPin);
+
+        string label = $"MlDsaTest-{DateTime.UtcNow}-{RandomNumberGenerator.GetInt32(100, 999)}";
+        byte[] ckId = session.GenerateRandom(32);
+
+        CreateMlDsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
+
+
+        using IMechanism mechanism = factories.MechanismFactory.Create(mechanismType);
+        byte[] signature = session.Sign(mechanism, privateKey, dataToSign);
+
+        Assert.IsNotNull(signature);
+    }
+
+    [TestMethod]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA256, true, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA256, true, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_512, true, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_256, false, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_512, false, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA256, false, 0)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_256, true, 16)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_512, true, 32)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_512, true, 143)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44, CKM_V3_2.CKM_HASH_ML_DSA_SHA256, false, 32)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65, CKM_V3_2.CKM_HASH_ML_DSA_SHA256, false, 12)]
+    [DataRow(CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87, CKM_V3_2.CKM_HASH_ML_DSA_SHA3_512, false, 8)]
+    public void SignMlDsaHasedMechanism_WithParameters_Success(uint ckp, CKM mechanismType, bool deterministic, int contextLength)
+    {
+        byte[] dataToSign = new byte[85];
+        byte[]? dataContent = null;
+        Random.Shared.NextBytes(dataToSign);
+
+        if (contextLength > 0)
+        {
+            dataContent = new byte[contextLength];
+            Random.Shared.NextBytes(dataContent);
+        }
+
+        Pkcs11InteropFactories factories = new Pkcs11InteropFactories();
+        using IPkcs11Library library = factories.Pkcs11LibraryFactory.LoadPkcs11Library(factories,
+            AssemblyTestConstants.P11LibPath,
+            AppType.SingleThreaded);
+
+        List<ISlot> slots = library.GetSlotList(SlotsType.WithTokenPresent);
+        ISlot slot = slots.SelectTestSlot();
+
+        using ISession session = slot.OpenSession(SessionType.ReadWrite);
+        session.Login(CKU.CKU_USER, AssemblyTestConstants.UserPin);
+
+        string label = $"MlDsaTest-{DateTime.UtcNow}-{RandomNumberGenerator.GetInt32(100, 999)}";
+        byte[] ckId = session.GenerateRandom(32);
+
+        CreateMlDsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
+
+        using ICkSignAdditionalContextParams parameters = Pkcs11V3_0Factory.Instance.MechanismParamsFactory.CreateSignAdditionalContextParams(
+              deterministic ? CKH_DETERMINISTIC_REQUIRED : CKH_HEDGE_REQUIRED,
+              dataContent);
+        using IMechanism mechanism = factories.MechanismFactory.Create(mechanismType, parameters);
+        byte[] signature = session.Sign(mechanism, privateKey, dataToSign);
 
         Assert.IsNotNull(signature);
     }

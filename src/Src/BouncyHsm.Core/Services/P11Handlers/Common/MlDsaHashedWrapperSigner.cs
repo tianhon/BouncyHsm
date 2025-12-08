@@ -7,17 +7,29 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Signers;
 using Org.BouncyCastle.Security;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BouncyHsm.Core.Services.P11Handlers.Common;
 
 internal class MlDsaHashedWrapperSigner : IWrapperSigner
 {
-    private readonly Ckp_CkHashSignAdditionalContext mechanismParams;
+    private readonly CKM mechanism;
+    private readonly Ckp_CkSignAdditionalContext? mechanismParams;
+    private readonly IDigest digest;
     private readonly ILogger<MlDsaHashedWrapperSigner> logger;
 
-    public MlDsaHashedWrapperSigner(Ckp_CkHashSignAdditionalContext mechanismParams, ILogger<MlDsaHashedWrapperSigner> logger)
+    public MlDsaHashedWrapperSigner(CKM mechanism,
+        Ckp_CkSignAdditionalContext? mechanismParams,
+        IDigest digest,
+        ILogger<MlDsaHashedWrapperSigner> logger)
     {
+        this.mechanism = mechanism;
         this.mechanismParams = mechanismParams;
+        this.digest = digest;
         this.logger = logger;
     }
 
@@ -35,17 +47,9 @@ internal class MlDsaHashedWrapperSigner : IWrapperSigner
             }
 
             bool isDeterministic = this.IsDeterministicRequired();
-
-            IDigest? digest = DigestUtils.TryGetDigest((CKM)this.mechanismParams.Hash);
-            if (digest == null)
-            {
-                throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID,
-                    $"Hash mechanism {this.mechanismParams.Hash} in param CkHashSignAdditionalContext is not supported for ML-DSA.");
-            }
-
-            ISigner signer = HashMLDsaSignerFactory.CreatePrehash(mlDsaPrivateKeyObject.CkaParameterSet,
-               isDeterministic,
-               digest);
+            ISigner signer = HashMLDsaSignerFactory.Create(mlDsaPrivateKeyObject.CkaParameterSet,
+                isDeterministic,
+                this.digest);
 
             ICipherParameters cipherParameters = mlDsaPrivateKeyObject.GetPrivateKey();
             if (!isDeterministic)
@@ -67,7 +71,7 @@ internal class MlDsaHashedWrapperSigner : IWrapperSigner
         }
         else
         {
-            throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Mechanism {CKM.CKM_ML_DSA} required private ML-DSA key.");
+            throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Mechanism {this.mechanism} required private ML-DSA key.");
         }
     }
 
@@ -84,20 +88,12 @@ internal class MlDsaHashedWrapperSigner : IWrapperSigner
                     "The verification signature operation is not allowed because objet is not authorized to verify (CKA_VERIFY must by true).");
             }
 
-            IDigest? digest = DigestUtils.TryGetDigest((CKM)this.mechanismParams.Hash);
-            if (digest == null)
-            {
-                throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID,
-                    $"Hash mechanism {this.mechanismParams.Hash} in param CkHashSignAdditionalContext is not supported for ML-DSA.");
-            }
-
             bool isDeterministic = this.IsDeterministicRequired();
+            ISigner signer = HashMLDsaSignerFactory.Create(mlDsaPublickeyObject.CkaParameterSet,
+               isDeterministic,
+               this.digest);
 
-            ISigner signer = HashMLDsaSignerFactory.CreatePrehash(mlDsaPublickeyObject.CkaParameterSet,
-                isDeterministic,
-                digest);
-
-            if (this.mechanismParams.Context != null)
+            if (this.mechanismParams?.Context != null)
             {
                 signer.Init(false, new ParametersWithContext(mlDsaPublickeyObject.GetPublicKey(),
                     this.mechanismParams.Context));
@@ -111,7 +107,7 @@ internal class MlDsaHashedWrapperSigner : IWrapperSigner
         }
         else
         {
-            throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Mechanism {CKM.CKM_ML_DSA} required public ML-DSA key.");
+            throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Mechanism {this.mechanism} required public ML-DSA key.");
         }
     }
 
