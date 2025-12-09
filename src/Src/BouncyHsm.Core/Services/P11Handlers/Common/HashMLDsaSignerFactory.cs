@@ -28,13 +28,7 @@ internal static class HashMLDsaSignerFactory
         bool deterministic,
         IDigest prehashDigest)
     {
-        MLDsaParameters parameters = parameterSet switch
-        {
-            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44 => MLDsaParameters.ml_dsa_44_with_sha512,
-            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65 => MLDsaParameters.ml_dsa_65_with_sha512,
-            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87 => MLDsaParameters.ml_dsa_87_with_sha512,
-            _ => throw new InvalidProgramException($"Unsupported ML-DSA parameters type {parameterSet}."),
-        };
+        MLDsaParameters parameters = TranslateParamaters(parameterSet);
 
         HashMLDsaSigner signer = new HashMLDsaSigner(parameters, deterministic);
 
@@ -51,13 +45,7 @@ internal static class HashMLDsaSignerFactory
         bool deterministic,
         IDigest digest)
     {
-        MLDsaParameters parameters = parameterSet switch
-        {
-            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44 => MLDsaParameters.ml_dsa_44_with_sha512,
-            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65 => MLDsaParameters.ml_dsa_65_with_sha512,
-            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87 => MLDsaParameters.ml_dsa_87_with_sha512,
-            _ => throw new InvalidProgramException($"Unsupported ML-DSA parameters type {parameterSet}."),
-        };
+        MLDsaParameters parameters = TranslateParamaters(parameterSet);
 
         HashMLDsaSigner signer = new HashMLDsaSigner(parameters, deterministic);
         byte[] oid = DigestUtilities.GetObjectIdentifier(digest.AlgorithmName).GetEncoded(Asn1Encodable.Der);
@@ -68,4 +56,14 @@ internal static class HashMLDsaSignerFactory
         return signer;
     }
 
+    private static MLDsaParameters TranslateParamaters(CK_ML_DSA_PARAMETER_SET parameterSet)
+    {
+        return parameterSet switch
+        {
+            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44 => MLDsaParameters.ml_dsa_44_with_sha512,
+            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65 => MLDsaParameters.ml_dsa_65_with_sha512,
+            CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87 => MLDsaParameters.ml_dsa_87_with_sha512,
+            _ => throw new InvalidProgramException($"Unsupported ML-DSA parameters type {parameterSet}."),
+        };
+    }
 }

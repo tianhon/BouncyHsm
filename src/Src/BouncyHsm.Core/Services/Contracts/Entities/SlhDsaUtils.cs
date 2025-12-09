@@ -5,9 +5,9 @@ namespace BouncyHsm.Core.Services.Contracts.Entities;
 
 internal static class SlhDsaUtils
 {
-    public static SlhDsaParameters GetParametersFromType(CK_SLH_DSA_PARAMETER_SET parametersSet)
+    public static SlhDsaParameters GetParametersFromType(CK_SLH_DSA_PARAMETER_SET parameterSet)
     {
-        return parametersSet switch
+        return parameterSet switch
         {
             CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S => SlhDsaParameters.slh_dsa_sha2_128s,
             CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S => SlhDsaParameters.slh_dsa_shake_128s,
@@ -21,7 +21,7 @@ internal static class SlhDsaUtils
             CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_256S => SlhDsaParameters.slh_dsa_shake_256s,
             CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256F => SlhDsaParameters.slh_dsa_sha2_256f,
             CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_256F => SlhDsaParameters.slh_dsa_shake_256f,
-            _ => throw new InvalidProgramException($"Enum value {parametersSet} is not supported.")
+            _ => throw new InvalidProgramException($"Enum value {parameterSet} is not supported.")
         };
     }
 
