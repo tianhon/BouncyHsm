@@ -16,7 +16,7 @@ internal class ListAppConnectionsCommand : AsyncCommand<ListAppConnectionsComman
     {
     }
 
-    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken cancellationToken)
     {
         IBouncyHsmClient client = BouncyHsmClientFactory.Create(settings.Endpoint);
         IList<ApplicationSessionDto> sessions = default!;
@@ -24,7 +24,7 @@ internal class ListAppConnectionsCommand : AsyncCommand<ListAppConnectionsComman
         await AnsiConsole.Status()
             .StartAsync("Loading...", async ctx =>
             {
-                sessions = await client.GetApplicationConnectionsAsync();
+                sessions = await client.GetApplicationConnectionsAsync(cancellationToken);
             });
 
         Table table = new Table();

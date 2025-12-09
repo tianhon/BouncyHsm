@@ -535,7 +535,7 @@ public class PkcsFacade : IPkcsFacade
         return cert.SubjectDN.ToString();
     }
 
-    private async ValueTask<IEnumerable<T>> FindObjects<T>(uint slotId, CKO cko, CancellationToken cancellationToken, params KeyValuePair<CKA, IAttributeValue>[] additionalConstraints)
+    private async ValueTask<IEnumerable<T>> FindObjects<T>(uint slotId, CKO cko, CancellationToken cancellationToken, params IEnumerable<KeyValuePair<CKA, IAttributeValue>> additionalConstraints)
         where T : StorageObject
     {
         this.logger.LogTrace("Entering to FindObjects with slotId {slotId}m cko {cko}.", slotId, cko);

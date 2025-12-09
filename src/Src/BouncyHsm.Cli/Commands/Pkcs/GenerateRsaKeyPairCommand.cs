@@ -110,7 +110,7 @@ internal class GenerateRsaKeyPairCommand : AsyncCommand<GenerateRsaKeyPairComman
         }
     }
 
-    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken cancellationToken)
     {
         IBouncyHsmClient client = BouncyHsmClientFactory.Create(settings.Endpoint);
 
@@ -133,7 +133,7 @@ internal class GenerateRsaKeyPairCommand : AsyncCommand<GenerateRsaKeyPairComman
                        ForWrap = settings.ForWrap,
                        Sensitive = settings.Sensitive,
                    }
-               });
+               }, cancellationToken);
            });
 
         AnsiConsole.MarkupLine("Key pair has created.");

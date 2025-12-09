@@ -330,7 +330,7 @@ internal class LiteDbPersistentRepository : IPersistentRepository, IDisposable
 
         if (storageObject.Id == Guid.Empty)
         {
-            storageObject.Id = Guid.NewGuid();
+            storageObject.Id = Guid.CreateVersion7();
         }
 
         ILiteCollection<StorageObjectInfo> collection = this.database.GetCollection<StorageObjectInfo>();
