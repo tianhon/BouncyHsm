@@ -138,6 +138,7 @@ internal class WrapperSignerFactory
             CKM.CKM_HASH_ML_DSA_SHAKE256 => this.CreateHashedMlDsaWrapperSigner(mechanism, new ShakeDigest(256)),
 
             CKM.CKM_SLH_DSA => this.CreateSlhDsaWrapperSigner(mechanism),
+            CKM.CKM_HASH_SLH_DSA => this.CreateSlhDsaPrehashedWrapperSigner(mechanism),
 
             _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Invalid mechanism {ckMechanism} for signing or validation.")
         };
@@ -358,5 +359,24 @@ internal class WrapperSignerFactory
 
         return new SlhDsaWrapperSigner(mechanismParams,
             this.loggerFactory.CreateLogger<SlhDsaWrapperSigner>());
+    }
+
+    private SlhDsaPrehashedWrapperSigner CreateSlhDsaPrehashedWrapperSigner(MechanismValue mechanism)
+    {
+        this.logger.LogTrace("Entering to CreateSlhDsaPrehashedWrapperSigner.");
+
+        Ckp_CkHashSignAdditionalContext mechanismParams = MessagePack.MessagePackSerializer.Deserialize<Ckp_CkHashSignAdditionalContext>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
+        this.logger.LogDebug("Obtained CK_HASH_SIGN_ADDITIONAL_CONTEXT with hedgeVariant {hedgeVariant}, context length {contextLength}, hash {hashMechanism}.",
+           (CK_HEDGE_TYPE)mechanismParams.HedgeVariant,
+           mechanismParams.Context?.Length,
+           (CKM)mechanismParams.Hash);
+
+        if (!Enum.IsDefined<CK_HEDGE_TYPE>((CK_HEDGE_TYPE)mechanismParams.HedgeVariant))
+        {
+            throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID,
+                "Invalid mechanism param CK_SIGN_ADDITIONAL_CONTEXT.hedgeVariant: Invalid value.");
+        }
+
+        return new SlhDsaPrehashedWrapperSigner(mechanismParams, this.loggerFactory.CreateLogger<SlhDsaPrehashedWrapperSigner>()); ;
     }
 }

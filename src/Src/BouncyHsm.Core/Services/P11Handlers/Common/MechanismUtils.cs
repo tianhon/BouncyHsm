@@ -291,6 +291,7 @@ internal static class MechanismUtils
             // SLH-DSA
             {CKM.CKM_SLH_DSA_KEY_PAIR_GEN, new MechanismInfo(SlhDsaMinKeySize, SlhDsaMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_2) },
             {CKM.CKM_SLH_DSA, new MechanismInfo(SlhDsaMinKeySize, SlhDsaMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, true, Pkcs11SpecVersion.V3_2) },
+            {CKM.CKM_HASH_SLH_DSA, new MechanismInfo(SlhDsaMinKeySize, SlhDsaMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, false, Pkcs11SpecVersion.V3_2) },
 
             // ML-KEM
             {CKM.CKM_ML_KEM_KEY_PAIR_GEN, new MechanismInfo(MlKemMinKeySize, MlKemMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_2) },
