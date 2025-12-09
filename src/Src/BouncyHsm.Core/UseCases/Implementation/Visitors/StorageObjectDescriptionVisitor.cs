@@ -110,4 +110,39 @@ internal class StorageObjectDescriptionVisitor : ICryptoApiObjectVisitor<string>
     {
         return $"Public key {MontgomeryEcUtils.ParseEcParamsAsName(montgomeryPublicKey.CkaEcParams)}";
     }
+
+    public string Visit(TrustObject trustObject)
+    {
+        return "Trust object";
+    }
+
+    public string Visit(MlDsaPublicKeyObject mlDsaPublicKeyObject)
+    {
+        return $"Public key {MlDsaUtils.GetParametersName(mlDsaPublicKeyObject.CkaParameterSet)}";
+    }
+
+    public string Visit(MlDsaPrivateKeyObject mlDsaPrivateKeyObject)
+    {
+        return $"Private key {MlDsaUtils.GetParametersName(mlDsaPrivateKeyObject.CkaParameterSet)}";
+    }
+
+    public string Visit(SlhDsaPublicKeyObject slhDsaPublicKeyObject)
+    {
+        return $"Public key {SlhDsaUtils.GetParametersName(slhDsaPublicKeyObject.CkaParameterSet)}";
+    }
+
+    public string Visit(SlhDsaPrivateKeyObject slhDsaPrivateKeyObject)
+    {
+        return $"Private key {SlhDsaUtils.GetParametersName(slhDsaPrivateKeyObject.CkaParameterSet)}";
+    }
+
+    public string Visit(MlKemPublicKeyObject mlKemPublicKeyObject)
+    {
+        return $"Public key {MlKemUtils.GetParametersName(mlKemPublicKeyObject.CkaParameterSet)}";
+    }
+
+    public string Visit(MlKemPrivateKeyObject mlKemPrivateKeyObject)
+    {
+        return $"Private key {MlKemUtils.GetParametersName(mlKemPrivateKeyObject.CkaParameterSet)}";
+    }
 }

@@ -99,6 +99,41 @@ internal abstract class BaseObjectVisitor<T> : ICryptoApiObjectVisitor<T>
         return this.ProcessStorageObject(montgomeryPublicKey);
     }
 
+    public virtual T Visit(TrustObject trustObject)
+    {
+        return this.ProcessStorageObject(trustObject);
+    }
+
+    public T Visit(MlDsaPublicKeyObject mlDsaPublicKeyObject)
+    {
+        return this.ProcessStorageObject(mlDsaPublicKeyObject);
+    }
+
+    public T Visit(MlDsaPrivateKeyObject mlDsaPrivateKeyObject)
+    {
+        return this.ProcessStorageObject(mlDsaPrivateKeyObject);
+    }
+
+    public T Visit(SlhDsaPublicKeyObject slhDsaPublicKeyObject)
+    {
+        return this.ProcessStorageObject(slhDsaPublicKeyObject);
+    }
+
+    public T Visit(SlhDsaPrivateKeyObject slhDsaPrivateKeyObject)
+    {
+        return this.ProcessStorageObject(slhDsaPrivateKeyObject);
+    }
+
+    public T Visit(MlKemPublicKeyObject mlKemPublicKeyObject)
+    {
+        return this.ProcessStorageObject(mlKemPublicKeyObject);
+    }
+
+    public T Visit(MlKemPrivateKeyObject mlKemPrivateKeyObject)
+    {
+        return this.ProcessStorageObject(mlKemPrivateKeyObject);
+    }
+
     protected virtual T ProcessStorageObject(ICryptoApiObject storageObject)
     {
         throw new NotSupportedException($"Object {storageObject.GetType().Name} is not supported.");

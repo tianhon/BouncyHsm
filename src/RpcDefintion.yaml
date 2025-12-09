@@ -257,6 +257,18 @@ Rpc:
     Summary: Call for C_SessionCancel (PKCS11 version 3.1)
     Request: SessionCancelRequest
     Response: SessionCancelEnvelope
+  EncapsulateKey:
+    Summary: Call for C_EncapsulateKey (PKCS11 version 3.2)
+    Request: EncapsulateKeyRequest
+    Response: EncapsulateKeyEnvelope
+  DecapsulateKey:
+    Summary: Call for C_DecapsulateKey (PKCS11 version 3.2)
+    Request: DecapsulateKeyRequest
+    Response: DecapsulateKeyEnvelope
+  GetSessionValidationFlags:
+    Summary: Call for C_GetSessionValidationFlags (PKCS11 version 3.2)
+    Request: GetSessionValidationFlagsRequest
+    Response: GetSessionValidationFlagsEnvelope
 
 Messages:
   AppIdentification:
@@ -1265,6 +1277,70 @@ Messages:
     Fields:
       Rv: uint32
 
+  EncapsulateKeyRequest:
+    Summary:
+    Fields:
+      AppId: AppIdentification
+      SessionId: uint32
+      Mechanism: MechanismValue
+      PublicKeyHandle: uint32
+      Template: AttrValueFromNative[]
+      IsCiphertextPtrSet: bool
+      PulCiphertextLen: uint32
+
+  EncapsulateKeyData:
+    Summary:
+    Fields:
+      PulCiphertextLen: uint32
+      Ciphertext: binary?
+      IsPhKeySet: bool
+      PhKeyHandle: uint32
+
+  EncapsulateKeyEnvelope:
+    Summary:
+    Fields:
+      Rv: uint32
+      Data: EncapsulateKeyData?
+
+  DecapsulateKeyRequest:
+    Summary:
+    Fields:
+      AppId: AppIdentification
+      SessionId: uint32
+      Mechanism: MechanismValue
+      PrivateKeyHandle: uint32
+      Template: AttrValueFromNative[]
+      Ciphertext: binary
+
+  DecapsulateKeyDadta:
+    Summary:
+    Fields:
+      PhKeyHandle: uint32
+
+  DecapsulateKeyEnvelope:
+    Summary:
+    Fields:
+      Rv: uint32
+      Data: DecapsulateKeyDadta?
+
+  GetSessionValidationFlagsRequest:
+    Summary:
+    Fields:
+      AppId: AppIdentification
+      SessionId: uint32
+      Type: uint32
+
+  GetSessionValidationFlagsData:
+    Summary:
+    Fields:
+      Flags: uint32
+
+  GetSessionValidationFlagsEnvelope:
+    Summary:
+    Fields:
+      Rv: uint32
+      Data: GetSessionValidationFlagsData?
+
   # CK_parsms DTO's
   CkP_MacGeneralParams:
     Summary: Representes CK_MAC_GENERAL_PARAMS
@@ -1363,3 +1439,17 @@ Messages:
     Fields:
       PhFlag: bool
       ContextData: binary?
+
+  Ckp_CkSignAdditionalContext:
+    Summary: Representes CK_SIGN_ADDITIONAL_CONTEXT for ML-DSA
+    Fields:
+      HedgeVariant: uint32
+      Context: binary?
+
+  Ckp_CkHashSignAdditionalContext:
+    Summary: Representes CK_HASH_SIGN_ADDITIONAL_CONTEXT for ML-DSA
+    Fields:
+      HedgeVariant: uint32
+      Context: binary?
+      Hash: uint32
+
