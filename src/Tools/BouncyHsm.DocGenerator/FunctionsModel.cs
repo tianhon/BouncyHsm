@@ -18,6 +18,6 @@ public class FunctionsModel
     public FunctionsModel()
     {
         this.Functions = new List<FunctionInfo>();
-        this.Versions = new BouncyHsmVersion("", "", "", "");
+        this.Versions = new BouncyHsmVersion("", "", [], "");
     }
 }

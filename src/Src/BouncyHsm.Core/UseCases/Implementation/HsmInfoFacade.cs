@@ -18,19 +18,25 @@ public class HsmInfoFacade : IHsmInfoFacade
 
     }
 
-    public IEnumerable<SupportedNameCurve> GetCurves()
+    public SupportedKeys GetSupportedKeys()
     {
-        return EcdsaUtils.GetCurveNames();
-    }
+        List<string> rsaKeys = new List<string>();
+        MechanismUtils.TryGetMechanismInfo(CKM.CKM_RSA_PKCS_KEY_PAIR_GEN, out MechanismInfo rsaInfo);
+        for (uint i = rsaInfo.MinKeySize; i <= rsaInfo.MaxKeySize; i += 1024U)
+        {
+            rsaKeys.Add($"RSA-{i}");
+        }
 
-    public IEnumerable<SupportedNameCurve> GetEdwardsCurves()
-    {
-        return EdEcUtils.GetCurveNames();
-    }
-
-    public IEnumerable<SupportedNameCurve> GetMontgomeryCurves()
-    {
-        return MontgomeryEcUtils.GetCurveNames();
+        return new SupportedKeys()
+        {
+            RsaKeys = rsaKeys,
+            EcCurves = EcdsaUtils.GetCurveNames().ToList(),
+            EdwardsCurves = EdEcUtils.GetCurveNames().ToList(),
+            MontgomeryCurves = MontgomeryEcUtils.GetCurveNames().ToList(),
+            MlDsaKeys = MlDsaUtils.GetSupportedKeys(),
+            SlhDsaKeys = SlhDsaUtils.GetSupportedKeys(),
+            MlKemKeys = MlKemUtils.GetSupportedKeys(),
+        };
     }
 
     public BouncyHsmVersion GetVersions()
@@ -41,7 +47,7 @@ public class HsmInfoFacade : IHsmInfoFacade
         return new BouncyHsmVersion(
             this.GetType().Assembly.GetName().Version!.ToString(),
             typeof(Org.BouncyCastle.Asn1.DerObjectIdentifier).Assembly.GetName().Version!.ToString(),
-            "2.40",
+            ["2.40", "3.1", "3.2"],
             commitHashAttribute?.Value ?? "-");
     }
 

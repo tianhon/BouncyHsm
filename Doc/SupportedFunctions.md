@@ -1,9 +1,9 @@
-﻿# Supported funtions
+﻿# Supported PKCS#11 funtions
 
-Supported PKCS#11 functions for _Bouncy Hsm_ version 1.6.1.0 (commit _ab16839079e8b28d5a4b61ec6f051600d096d5c8_).
+Supported PKCS#11 functions for _Bouncy Hsm_ version 1.6.1.0 (commit _c929d227b8f98f8e3100fc77137187a6100fb82a_).
 
 
-| Function | Supported |
+| Function | Is supported |
 | ---  | --- |
 | C_Initialize | ✓ |
 | C_Finalize | ✓ |
@@ -97,13 +97,13 @@ Supported PKCS#11 functions for _Bouncy Hsm_ version 1.6.1.0 (commit _ab16839079
 | C_VerifyMessageBegin |  |
 | C_VerifyMessageNext |  |
 | C_MessageVerifyFinal |  |
-| C_EncapsulateKey |  |
-| C_DecapsulateKey |  |
+| C_EncapsulateKey | ✓ |
+| C_DecapsulateKey | ✓ |
 | C_VerifySignatureInit |  |
 | C_VerifySignature |  |
 | C_VerifySignatureUpdate |  |
 | C_VerifySignatureFinal |  |
-| C_GetSessionValidationFlags |  |
+| C_GetSessionValidationFlags | ✓ |
 | C_AsyncComplete |  |
 | C_AsyncGetID |  |
 | C_AsyncJoin |  |

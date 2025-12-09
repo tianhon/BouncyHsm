@@ -37,11 +37,16 @@ public static class Program
         HsmInfoFacade infoFacade = new HsmInfoFacade();
         DocModel model = new DocModel();
 
+        SupportedKeys supportedKeys = infoFacade.GetSupportedKeys();
+
         model.Versions = infoFacade.GetVersions();
         model.Mechanisms = Map(infoFacade.GetAllMechanism().Mechanisms).ToList();
-        model.Ec = infoFacade.GetCurves().ToList();
-        model.Edwards = infoFacade.GetEdwardsCurves().ToList();
-        model.Montgomery = infoFacade.GetMontgomeryCurves().ToList();
+        model.Ec = supportedKeys.EcCurves.ToList();
+        model.Edwards = supportedKeys.EdwardsCurves.ToList();
+        model.Montgomery = supportedKeys.MontgomeryCurves.ToList();
+        model.MlDsa = supportedKeys.MlDsaKeys.ToList();
+        model.SlhDsa = supportedKeys.SlhDsaKeys.ToList();
+        model.MlKem = supportedKeys.MlKemKeys.ToList();
 
         return model;
     }

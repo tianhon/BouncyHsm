@@ -119,7 +119,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         this.editContext = new EditContext(this.model);
-        this.curveNames = (await this.bouncyHsmClient.GetSupportedEcCurvesAsync())
+        this.curveNames = (await this.bouncyHsmClient.GetSupportedKeysAsync())
+        .EcCurves
         .Select(t => t.Name)
         .ToList();
     }

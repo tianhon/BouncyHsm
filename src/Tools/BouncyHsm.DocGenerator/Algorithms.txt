@@ -63,3 +63,30 @@ _Bouncy Hsm_ supports {{ MontgomeryCount }} different named montgomery curves.
 {{~ for e in Montgomery ~}}
 | {{ e.Kind }} | {{ e.Name }} | `{{ e.NamedCurve }}` | `{{ e.Oid }}` |
 {{~ end ~}}
+
+## ML-DSA keys
+_Bouncy Hsm_ supports {{ MlDsaCount }} different ML-DSA key parameters.
+
+| Key |
+| ---  |
+{{~ for e in MlDsa ~}}
+| {{ e }} |
+{{~ end ~}}
+
+## SLH-DSA keys
+_Bouncy Hsm_ supports {{ SlhDsaCount }} different SLH-DSA key parameters.
+
+| Key |
+| ---  |
+{{~ for e in SlhDsa ~}}
+| {{ e }} |
+{{~ end ~}}
+
+## ML-KEM keys
+_Bouncy Hsm_ supports {{ MlKemCount }} different ML-KEM key parameters.
+
+| Key |
+| ---  |
+{{~ for e in MlKem ~}}
+| {{ e }} |
+{{~ end ~}}

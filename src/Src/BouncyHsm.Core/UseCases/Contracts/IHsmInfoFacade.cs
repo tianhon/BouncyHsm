@@ -1,5 +1,4 @@
-﻿using BouncyHsm.Core.Services.Contracts.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +8,7 @@ namespace BouncyHsm.Core.UseCases.Contracts;
 
 public interface IHsmInfoFacade
 {
-    IEnumerable<SupportedNameCurve> GetCurves();
-
-    IEnumerable<SupportedNameCurve> GetEdwardsCurves();
-
-    IEnumerable<SupportedNameCurve> GetMontgomeryCurves();
+    SupportedKeys GetSupportedKeys();
 
     BouncyHsmVersion GetVersions();
 

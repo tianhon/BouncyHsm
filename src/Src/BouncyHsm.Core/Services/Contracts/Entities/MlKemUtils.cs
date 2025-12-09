@@ -51,4 +51,9 @@ internal static class MlKemUtils
             _ => throw new InvalidProgramException($"Unsupported ML-KEM parameters type {ckp}."),
         };
     }
+
+    public static List<string> GetSupportedKeys()
+    {
+        return Enum.GetNames<CK_ML_KEM_PARAMETER_SET>().Select(t => t[4..].Replace('_', '-')).ToList();
+    }
 }

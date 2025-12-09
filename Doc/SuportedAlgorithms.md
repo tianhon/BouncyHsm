@@ -1,9 +1,9 @@
 ﻿# Supported algorithms
 
-Supported algorithms for _Bouncy Hsm_ version 1.6.1.0 (commit _ab16839079e8b28d5a4b61ec6f051600d096d5c8_).
+Supported algorithms for _Bouncy Hsm_ version 1.6.1.0 (commit _c929d227b8f98f8e3100fc77137187a6100fb82a_).
 
 ## Mechanisms
-_Bouncy Hsm_ supports 171 mechanisms.
+_Bouncy Hsm_ supports 194 mechanisms.
 
 Supported mechanisms are by default for PKCS#11 specification [version 2.40](https://docs.oasis-open.org/pkcs11/pkcs11-curr/v2.40/os/pkcs11-curr-v2.40-os.pdf),
 and native APIs are also used for it.
@@ -26,10 +26,33 @@ and [version 3.2](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.2/pkcs11-spe
 | `CKM_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_SHA1_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_ML_KEM_KEY_PAIR_GEN` <sub>v3.2</sub> | 800  | 1568 |   |   |   |   |   | ✓ |   |   |   |
+| `CKM_ML_KEM` <sub>v3.2</sub> | 800  | 1568 |   |   |   |   |   |   |   |   | ✓ |
 | `CKM_ML_DSA_KEY_PAIR_GEN` <sub>v3.2</sub> | 1312  | 2592 |   |   |   |   |   | ✓ |   |   |   |
 | `CKM_ML_DSA` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA224` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA256` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA384` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA512` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA3_224` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA3_256` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA3_384` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA3_512` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHAKE128` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHAKE256` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_SLH_DSA_KEY_PAIR_GEN` <sub>v3.2</sub> | 32  | 64 |   |   |   |   |   | ✓ |   |   |   |
 | `CKM_SLH_DSA` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA224` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA256` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA384` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA512` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA3_224` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA3_256` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA3_384` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA3_512` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHAKE128` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHAKE256` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_SHA256_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_SHA384_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_SHA512_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
@@ -306,3 +329,39 @@ _Bouncy Hsm_ supports 2 different named montgomery curves.
 | ---  | --- | --- | --- |
 | Montgomery | X25519 | `id-X25519` | `1.3.101.110` |
 | Montgomery | X448 | `id-X448` | `1.3.101.111` |
+
+## ML-DSA keys
+_Bouncy Hsm_ supports 3 different ML-DSA keys.
+
+| Key |
+| ---  |
+| ML-DSA-44 |
+| ML-DSA-65 |
+| ML-DSA-87 |
+
+## SLH-DSA keys
+_Bouncy Hsm_ supports 12 different SLH-DSA keys.
+
+| Key |
+| ---  |
+| SLH-DSA-SHA2-128S |
+| SLH-DSA-SHAKE-128S |
+| SLH-DSA-SHA2-128F |
+| SLH-DSA-SHAKE-128F |
+| SLH-DSA-SHA2-192S |
+| SLH-DSA-SHAKE-192S |
+| SLH-DSA-SHA2-192F |
+| SLH-DSA-SHAKE-192F |
+| SLH-DSA-SHA2-256S |
+| SLH-DSA-SHAKE-256S |
+| SLH-DSA-SHA2-256F |
+| SLH-DSA-SHAKE-256F |
+
+## ML-KEM keys
+_Bouncy Hsm_ supports 3 different ML-KEM keys.
+
+| Key |
+| ---  |
+| ML-KEM-512 |
+| ML-KEM-768 |
+| ML-KEM-1024 |

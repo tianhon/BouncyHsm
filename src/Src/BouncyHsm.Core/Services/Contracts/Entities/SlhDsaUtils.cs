@@ -93,4 +93,9 @@ internal static class SlhDsaUtils
     {
         return GetParametersFromType(ckp).Name;
     }
+
+    public static List<string> GetSupportedKeys()
+    {
+        return Enum.GetNames<CK_SLH_DSA_PARAMETER_SET>().Select(t=>t[4..].Replace('_', '-')).ToList();
+    }
 }
