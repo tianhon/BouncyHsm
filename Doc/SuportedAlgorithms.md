@@ -1,182 +1,211 @@
 ﻿# Supported algorithms
 
-Supported algorithms for _Bouncy Hsm_ version 1.6.1.0 (commit _1cf2c3d7c2a11f5c0ba863d2d1320f284c1423e6_).
+Supported algorithms for _Bouncy Hsm_ version 1.6.1.0 (commit _c929d227b8f98f8e3100fc77137187a6100fb82a_).
 
 ## Mechanisms
-_Bouncy Hsm_ supports 166 mechanisms.
+_Bouncy Hsm_ supports 194 mechanisms.
 
 Supported mechanisms are by default for PKCS#11 specification [version 2.40](https://docs.oasis-open.org/pkcs11/pkcs11-curr/v2.40/os/pkcs11-curr-v2.40-os.pdf),
 and native APIs are also used for it.
-_Bouncy&nbsp;Hsm_ allows the use of some mechanisms from PKCS#11 specification [version 3.0](https://docs.oasis-open.org/pkcs11/pkcs11-curr/v3.0/pkcs11-curr-v3.0.pdf).
+_Bouncy&nbsp;Hsm_ allows the use of some mechanisms from PKCS#11 specification [version 3.1](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.1/os/pkcs11-spec-v3.1-os.pdf)
+and [version 3.2](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.2/pkcs11-spec-v3.2.pdf).
 
-| Mechanism | Min key size | Max key size | Digest | Sign, Verify | SignRecover, VerifyRecover | Derive | Encrypt, Decrypt | Generate key pair | Generate key | Wrap, Unwrap |
-| :---  | ---: | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `CKM_RSA_PKCS_KEY_PAIR_GEN`  | 2048  | 6144 |   |   |   |   |   | ✓ |   |   |
-| `CKM_RSA_PKCS`  | 2048  | 6144 |   | ✓ | ✓ |   | ✓ |   |   | ✓ |
-| `CKM_RSA_9796`  | 2048  | 6144 |   | ✓ | ✓ |   |   |   |   |   |
-| `CKM_MD2_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_MD5_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA1_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_RIPEMD128_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_RIPEMD160_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_RSA_PKCS_OAEP`  | 2048  | 6144 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_RSA_X9_31_KEY_PAIR_GEN`  | 2048  | 6144 |   |   |   |   |   | ✓ |   |   |
-| `CKM_SHA1_RSA_X9_31`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA1_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA256_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA384_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA512_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA256_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA384_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA512_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA224_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA224_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA512_224`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA512_224_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA512_224_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA512_224_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA512_256`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA512_256_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA512_256_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA512_256_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA512_T`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA3_256_RSA_PKCS` <sub>v3.0</sub> | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_384_RSA_PKCS` <sub>v3.0</sub> | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_512_RSA_PKCS` <sub>v3.0</sub> | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_256_RSA_PKCS_PSS` <sub>v3.0</sub> | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_384_RSA_PKCS_PSS` <sub>v3.0</sub> | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_512_RSA_PKCS_PSS` <sub>v3.0</sub> | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_224_RSA_PKCS` <sub>v3.0</sub> | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_224_RSA_PKCS_PSS` <sub>v3.0</sub> | 2048  | 6144 |   | ✓ |   |   |   |   |   |   |
-| `CKM_MD2`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_MD2_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_MD2_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_MD5`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_MD5_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_MD5_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA_1`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA_1_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA_1_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_RIPEMD128`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_RIPEMD128_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_RIPEMD128_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_RIPEMD160`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_RIPEMD160_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_RIPEMD160_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA256`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA256_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA256_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA224`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA224_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA224_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA384`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA384_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA384_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA512`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA512_HMAC`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA512_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_256` <sub>v3.0</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA3_256_HMAC` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_256_HMAC_GENERAL` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_256_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SHA3_224` <sub>v3.0</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA3_224_HMAC` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_224_HMAC_GENERAL` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_224_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SHA3_384` <sub>v3.0</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA3_384_HMAC` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_384_HMAC_GENERAL` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_384_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SHA3_512` <sub>v3.0</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_SHA3_512_HMAC` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_512_HMAC_GENERAL` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_SHA3_512_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_GENERIC_SECRET_KEY_GEN`  | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_CONCATENATE_BASE_AND_KEY`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_CONCATENATE_BASE_AND_DATA`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_CONCATENATE_DATA_AND_BASE`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_XOR_BASE_AND_DATA`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_EXTRACT_KEY_FROM_KEY`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_MD5_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_MD2_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA1_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA256_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA384_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA512_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA224_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA3_256_KEY_DERIVATION` <sub>v3.0</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA3_224_KEY_DERIVATION` <sub>v3.0</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA3_384_KEY_DERIVATION` <sub>v3.0</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_SHA3_512_KEY_DERIVATION` <sub>v3.0</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_ECDSA_KEY_PAIR_GEN`  | 192  | 521 |   |   |   |   |   | ✓ |   |   |
-| `CKM_ECDSA`  | 192  | 521 |   | ✓ |   |   |   |   |   |   |
-| `CKM_ECDSA_SHA1`  | 192  | 521 |   | ✓ |   |   |   |   |   |   |
-| `CKM_ECDSA_SHA224`  | 192  | 521 |   | ✓ |   |   |   |   |   |   |
-| `CKM_ECDSA_SHA256`  | 192  | 521 |   | ✓ |   |   |   |   |   |   |
-| `CKM_ECDSA_SHA384`  | 192  | 521 |   | ✓ |   |   |   |   |   |   |
-| `CKM_ECDSA_SHA512`  | 192  | 521 |   | ✓ |   |   |   |   |   |   |
-| `CKM_ECDSA_SHA3_224` <sub>v3.0</sub> | 192  | 521 |   | ✓ |   |   |   |   |   |   |
-| `CKM_ECDSA_SHA3_256` <sub>v3.0</sub> | 192  | 521 |   | ✓ |   |   |   |   |   |   |
-| `CKM_ECDSA_SHA3_384` <sub>v3.0</sub> | 192  | 521 |   | ✓ |   |   |   |   |   |   |
-| `CKM_ECDSA_SHA3_512` <sub>v3.0</sub> | 192  | 521 |   | ✓ |   |   |   |   |   |   |
-| `CKM_ECDH1_DERIVE`  | 192  | 521 |   |   |   | ✓ |   |   |   |   |
-| `CKM_ECDH1_COFACTOR_DERIVE`  | 192  | 521 |   |   |   | ✓ |   |   |   |   |
-| `CKM_EC_EDWARDS_KEY_PAIR_GEN` <sub>v3.0</sub> | 32  | 57 |   |   |   |   |   | ✓ |   |   |
-| `CKM_EC_MONTGOMERY_KEY_PAIR_GEN` <sub>v3.0</sub> | 32  | 57 |   |   |   |   |   | ✓ |   |   |
-| `CKM_EDDSA` <sub>v3.0</sub> | 32  | 57 |   | ✓ |   |   |   |   |   |   |
-| `CKM_AES_KEY_GEN`  | 16  | 32 |   |   |   |   |   |   | ✓ |   |
-| `CKM_AES_ECB`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_AES_CBC`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_AES_CBC_PAD`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_AES_CTR`  | 16  | 32 |   |   |   |   | ✓ |   |   |   |
-| `CKM_AES_GCM`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_AES_CCM`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_AES_CTS`  | 16  | 32 |   |   |   |   | ✓ |   |   |   |
-| `CKM_AES_ECB_ENCRYPT_DATA`  | 16  | 32 |   |   |   | ✓ |   |   |   |   |
-| `CKM_AES_CBC_ENCRYPT_DATA`  | 16  | 32 |   |   |   | ✓ |   |   |   |   |
-| `CKM_GOSTR3411`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_CHACHA20_KEY_GEN` <sub>v3.0</sub> | 32  | 32 |   |   |   |   |   |   | ✓ |   |
-| `CKM_CHACHA20` <sub>v3.0</sub> | 32  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_POLY1305_KEY_GEN` <sub>v3.0</sub> | 32  | 32 |   |   |   |   |   |   | ✓ |   |
-| `CKM_POLY1305` <sub>v3.0</sub> | 32  | 32 |   | ✓ |   |   |   |   |   |   |
-| `CKM_AES_OFB`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_AES_CFB64`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_AES_CFB8`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_AES_CFB128`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_AES_CFB1`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_AES_KEY_WRAP_PAD`  | 16  | 32 |   |   |   |   |   |   |   | ✓ |
-| `CKM_SHA_1_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SHA224_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SHA256_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SHA384_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SHA512_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SHA512_224_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SHA512_256_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SHA512_T_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_BLAKE2B_160` <sub>v3.0</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_BLAKE2B_160_HMAC` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_BLAKE2B_160_HMAC_GENERAL` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_BLAKE2B_160_KEY_DERIVE` <sub>v3.0</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_BLAKE2B_160_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_BLAKE2B_256` <sub>v3.0</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_BLAKE2B_256_HMAC` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_BLAKE2B_256_HMAC_GENERAL` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_BLAKE2B_256_KEY_DERIVE` <sub>v3.0</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_BLAKE2B_256_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_BLAKE2B_384` <sub>v3.0</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_BLAKE2B_384_HMAC` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_BLAKE2B_384_HMAC_GENERAL` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_BLAKE2B_384_KEY_DERIVE` <sub>v3.0</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_BLAKE2B_384_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_BLAKE2B_512` <sub>v3.0</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |
-| `CKM_BLAKE2B_512_HMAC` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_BLAKE2B_512_HMAC_GENERAL` <sub>v3.0</sub> | 1  | 10485760 |   | ✓ |   |   |   |   |   |   |
-| `CKM_BLAKE2B_512_KEY_DERIVE` <sub>v3.0</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |
-| `CKM_BLAKE2B_512_KEY_GEN` <sub>v3.0</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |
-| `CKM_SALSA20` <sub>v3.0</sub> | 32  | 32 |   |   |   |   | ✓ |   |   | ✓ |
-| `CKM_CHACHA20_POLY1305` <sub>v3.0</sub> | 32  | 32 |   |   |   |   | ✓ |   |   |   |
-| `CKM_SALSA20_KEY_GEN` <sub>v3.0</sub> | 32  | 32 |   |   |   |   |   |   | ✓ |   |
+| Mechanism | Min key size | Max key size | Digest | Sign, Verify | SignRecover, VerifyRecover | Derive | Encrypt, Decrypt | Generate key pair | Generate key | Wrap, Unwrap | Encapsulate, Decapsulate |
+| :---  | ---: | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `CKM_RSA_PKCS_KEY_PAIR_GEN`  | 2048  | 6144 |   |   |   |   |   | ✓ |   |   |   |
+| `CKM_RSA_PKCS`  | 2048  | 6144 |   | ✓ | ✓ |   | ✓ |   |   | ✓ |   |
+| `CKM_RSA_9796`  | 2048  | 6144 |   | ✓ | ✓ |   | ✓ |   |   |   |   |
+| `CKM_MD2_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_MD5_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA1_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_RIPEMD128_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_RIPEMD160_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_RSA_PKCS_OAEP`  | 2048  | 6144 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_RSA_X9_31_KEY_PAIR_GEN`  | 2048  | 6144 |   |   |   |   |   | ✓ |   |   |   |
+| `CKM_SHA1_RSA_X9_31`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA1_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ML_KEM_KEY_PAIR_GEN` <sub>v3.2</sub> | 800  | 1568 |   |   |   |   |   | ✓ |   |   |   |
+| `CKM_ML_KEM` <sub>v3.2</sub> | 800  | 1568 |   |   |   |   |   |   |   |   | ✓ |
+| `CKM_ML_DSA_KEY_PAIR_GEN` <sub>v3.2</sub> | 1312  | 2592 |   |   |   |   |   | ✓ |   |   |   |
+| `CKM_ML_DSA` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA224` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA256` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA384` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA512` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA3_224` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA3_256` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA3_384` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHA3_512` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHAKE128` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_ML_DSA_SHAKE256` <sub>v3.2</sub> | 1312  | 2592 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SLH_DSA_KEY_PAIR_GEN` <sub>v3.2</sub> | 32  | 64 |   |   |   |   |   | ✓ |   |   |   |
+| `CKM_SLH_DSA` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA224` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA256` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA384` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA512` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA3_224` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA3_256` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA3_384` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHA3_512` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHAKE128` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_HASH_SLH_DSA_SHAKE256` <sub>v3.2</sub> | 32  | 64 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA256_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA384_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA512_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA256_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA384_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA512_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA224_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA224_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA512_224`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA512_224_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA512_224_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA512_224_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA512_256`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA512_256_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA512_256_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA512_256_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA512_T`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA3_256_RSA_PKCS` <sub>v3.1</sub> | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_384_RSA_PKCS` <sub>v3.1</sub> | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_512_RSA_PKCS` <sub>v3.1</sub> | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_256_RSA_PKCS_PSS` <sub>v3.1</sub> | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_384_RSA_PKCS_PSS` <sub>v3.1</sub> | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_512_RSA_PKCS_PSS` <sub>v3.1</sub> | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_224_RSA_PKCS` <sub>v3.1</sub> | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_224_RSA_PKCS_PSS` <sub>v3.1</sub> | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_MD2`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_MD2_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_MD2_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_MD5`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_MD5_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_MD5_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA_1`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA_1_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA_1_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_RIPEMD128`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_RIPEMD128_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_RIPEMD128_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_RIPEMD160`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_RIPEMD160_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_RIPEMD160_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA256`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA256_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA256_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA224`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA224_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA224_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA384`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA384_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA384_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA512`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA512_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA512_HMAC_GENERAL`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_256` <sub>v3.1</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA3_256_HMAC` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_256_HMAC_GENERAL` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_256_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SHA3_224` <sub>v3.1</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA3_224_HMAC` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_224_HMAC_GENERAL` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_224_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SHA3_384` <sub>v3.1</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA3_384_HMAC` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_384_HMAC_GENERAL` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_384_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SHA3_512` <sub>v3.1</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_SHA3_512_HMAC` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_512_HMAC_GENERAL` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_SHA3_512_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_GENERIC_SECRET_KEY_GEN`  | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_CONCATENATE_BASE_AND_KEY`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_CONCATENATE_BASE_AND_DATA`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_CONCATENATE_DATA_AND_BASE`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_XOR_BASE_AND_DATA`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_EXTRACT_KEY_FROM_KEY`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_MD5_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_MD2_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA1_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA256_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA384_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA512_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA224_KEY_DERIVATION`  | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA3_256_KEY_DERIVATION` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA3_224_KEY_DERIVATION` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA3_384_KEY_DERIVATION` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHA3_512_KEY_DERIVATION` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_EC_KEY_PAIR_GEN`  | 192  | 521 |   |   |   |   |   | ✓ |   |   |   |
+| `CKM_ECDSA`  | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ECDSA_SHA1`  | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ECDSA_SHA224`  | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ECDSA_SHA256`  | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ECDSA_SHA384`  | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ECDSA_SHA512`  | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ECDSA_SHA3_224` <sub>v3.1</sub> | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ECDSA_SHA3_256` <sub>v3.1</sub> | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ECDSA_SHA3_384` <sub>v3.1</sub> | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ECDSA_SHA3_512` <sub>v3.1</sub> | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_ECDH1_DERIVE`  | 192  | 521 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_ECDH1_COFACTOR_DERIVE`  | 192  | 521 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_EC_EDWARDS_KEY_PAIR_GEN` <sub>v3.1</sub> | 32  | 57 |   |   |   |   |   | ✓ |   |   |   |
+| `CKM_EC_MONTGOMERY_KEY_PAIR_GEN` <sub>v3.1</sub> | 32  | 57 |   |   |   |   |   | ✓ |   |   |   |
+| `CKM_EDDSA` <sub>v3.1</sub> | 32  | 57 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_AES_KEY_GEN`  | 16  | 32 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_AES_ECB`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_AES_CBC`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_AES_CBC_PAD`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_AES_CTR`  | 16  | 32 |   |   |   |   | ✓ |   |   |   |   |
+| `CKM_AES_GCM`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_AES_CCM`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_AES_CTS`  | 16  | 32 |   |   |   |   | ✓ |   |   |   |   |
+| `CKM_AES_ECB_ENCRYPT_DATA`  | 16  | 32 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_AES_CBC_ENCRYPT_DATA`  | 16  | 32 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_GOSTR3411`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_CHACHA20_KEY_GEN` <sub>v3.1</sub> | 32  | 32 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_CHACHA20` <sub>v3.1</sub> | 32  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_POLY1305_KEY_GEN` <sub>v3.1</sub> | 32  | 32 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_POLY1305` <sub>v3.1</sub> | 32  | 32 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_AES_OFB`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_AES_CFB64`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_AES_CFB8`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_AES_CFB128`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_AES_CFB1`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_AES_KEY_WRAP_PAD`  | 16  | 32 |   |   |   |   |   |   |   | ✓ |   |
+| `CKM_SHA_1_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SHA224_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SHA256_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SHA384_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SHA512_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SHA512_224_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SHA512_256_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SHA512_T_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_BLAKE2B_160` <sub>v3.1</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_BLAKE2B_160_HMAC` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_BLAKE2B_160_HMAC_GENERAL` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_BLAKE2B_160_KEY_DERIVE` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_BLAKE2B_160_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_BLAKE2B_256` <sub>v3.1</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_BLAKE2B_256_HMAC` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_BLAKE2B_256_HMAC_GENERAL` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_BLAKE2B_256_KEY_DERIVE` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_BLAKE2B_256_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_BLAKE2B_384` <sub>v3.1</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_BLAKE2B_384_HMAC` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_BLAKE2B_384_HMAC_GENERAL` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_BLAKE2B_384_KEY_DERIVE` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_BLAKE2B_384_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_BLAKE2B_512` <sub>v3.1</sub> | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_BLAKE2B_512_HMAC` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_BLAKE2B_512_HMAC_GENERAL` <sub>v3.1</sub> | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_BLAKE2B_512_KEY_DERIVE` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_BLAKE2B_512_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
+| `CKM_SALSA20` <sub>v3.1</sub> | 32  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_CHACHA20_POLY1305` <sub>v3.1</sub> | 32  | 32 |   |   |   |   | ✓ |   |   |   |   |
+| `CKM_SALSA20_KEY_GEN` <sub>v3.1</sub> | 32  | 32 |   |   |   |   |   |   | ✓ |   |   |
 
 ## Elliptic curves
 _Bouncy Hsm_ supports 84 different named elliptic curves.
@@ -300,3 +329,39 @@ _Bouncy Hsm_ supports 2 different named montgomery curves.
 | ---  | --- | --- | --- |
 | Montgomery | X25519 | `id-X25519` | `1.3.101.110` |
 | Montgomery | X448 | `id-X448` | `1.3.101.111` |
+
+## ML-DSA keys
+_Bouncy Hsm_ supports 3 different ML-DSA keys.
+
+| Key |
+| ---  |
+| ML-DSA-44 |
+| ML-DSA-65 |
+| ML-DSA-87 |
+
+## SLH-DSA keys
+_Bouncy Hsm_ supports 12 different SLH-DSA keys.
+
+| Key |
+| ---  |
+| SLH-DSA-SHA2-128S |
+| SLH-DSA-SHAKE-128S |
+| SLH-DSA-SHA2-128F |
+| SLH-DSA-SHAKE-128F |
+| SLH-DSA-SHA2-192S |
+| SLH-DSA-SHAKE-192S |
+| SLH-DSA-SHA2-192F |
+| SLH-DSA-SHAKE-192F |
+| SLH-DSA-SHA2-256S |
+| SLH-DSA-SHAKE-256S |
+| SLH-DSA-SHA2-256F |
+| SLH-DSA-SHAKE-256F |
+
+## ML-KEM keys
+_Bouncy Hsm_ supports 3 different ML-KEM keys.
+
+| Key |
+| ---  |
+| ML-KEM-512 |
+| ML-KEM-768 |
+| ML-KEM-1024 |

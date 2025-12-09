@@ -10,5 +10,21 @@ namespace Pkcs11Interop.Ext.HighLevelAPI;
 
 internal interface ISessionExtensions
 {
-    public void SessionCancel(ISession session, uint CkfFlags);
+    void SessionCancel(ISession session, uint CkfFlags);
+
+    void EncapsulateKey(ISession session,
+        IMechanism mechanism,
+        IObjectHandle publicKeyHandle,
+        List<IObjectAttribute> template,
+        out byte[] ciphertext,
+        out IObjectHandle phKey);
+
+    void DecapsulateKey(ISession session,
+        IMechanism mechanism,
+        IObjectHandle publicKeyHandle,
+        List<IObjectAttribute> template,
+        byte[] ciphertext,
+        out IObjectHandle phKey);
+
+    ulong GetSessionValidationFlags(ISession session, uint type);
 }

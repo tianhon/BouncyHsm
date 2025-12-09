@@ -29,6 +29,12 @@ public abstract class PublicKeyObject : KeyObject
         set => this.values[CKA.CKA_VERIFY] = AttributeValue.Create(value);
     }
 
+    public bool CkaEncapsulate
+    {
+        get => this.values[CKA.CKA_ENCAPSULATE].AsBool();
+        set => this.values[CKA.CKA_ENCAPSULATE] = AttributeValue.Create(value);
+    }
+
     public bool CkaVerifyRecover
     {
         get => this.values[CKA.CKA_VERIFY_RECOVER].AsBool();
@@ -60,6 +66,12 @@ public abstract class PublicKeyObject : KeyObject
         set => this.values[CKA.CKA_PUBLIC_KEY_INFO] = AttributeValue.Create(value);
     }
 
+    public byte[] CkaPublicCrc64Value
+    {
+        get => this.values[CKA.CKA_PUBLIC_CRC64_VALUE].AsByteArray();
+        set => this.values[CKA.CKA_PUBLIC_CRC64_VALUE] = AttributeValue.Create(value);
+    }
+
     protected PublicKeyObject(CKK keyType, CKM genMechanism)
         : base(keyType, genMechanism)
     {
@@ -68,8 +80,10 @@ public abstract class PublicKeyObject : KeyObject
         this.CkaVerify = false;
         this.CkaVerifyRecover = false;
         this.CkaWrap = false;
+        this.CkaEncapsulate = false;
         this.CkaTrusted = false;
         this.CkaPublicKeyInfo = Array.Empty<byte>();
+        this.CkaPublicCrc64Value = Array.Empty<byte>();
     }
 
     internal PublicKeyObject(StorageObjectMemento memento)
@@ -103,6 +117,20 @@ public abstract class PublicKeyObject : KeyObject
 
     public override void ReComputeAttributes()
     {
-        // NOP
+        if (this.values.TryGetValue(CKA.CKA_VALUE, out IAttributeValue? attributeValue))
+        {
+            if (attributeValue.TypeTag == AttrTypeTag.ByteArray)
+            {
+                byte[] value = attributeValue.AsByteArray();
+                if (value.Length == 0)
+                {
+                    this.CkaPublicCrc64Value = Array.Empty<byte>();
+                }
+                else
+                {
+                    this.CkaPublicCrc64Value = System.IO.Hashing.Crc64.Hash(value);
+                }
+            }
+        }
     }
 }

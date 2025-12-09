@@ -704,6 +704,76 @@ static int CreateEddsaParams(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
     return result;
 }
 
+static int CreateSignAdditionalContextParams(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
+{
+    LOG_ENTERING_TO_FUNCTION();
+
+    int result = NMRPC_FATAL_ERROR;
+
+    if (pMechanism->ulParameterLen != sizeof(CK_SIGN_ADDITIONAL_CONTEXT))
+    {
+        log_message(LOG_LEVEL_ERROR, "Excepted CK_SIGN_ADDITIONAL_CONTEXT in mechanism.");
+        return NMRPC_FATAL_ERROR;
+    }
+
+    CK_SIGN_ADDITIONAL_CONTEXT* signAdditionalContext = (CK_SIGN_ADDITIONAL_CONTEXT*)pMechanism->pParameter;
+    Ckp_CkSignAdditionalContext signAdditionalContextParameters = { 0 };
+    Binary context;
+
+    signAdditionalContextParameters.HedgeVariant = (uint32_t)signAdditionalContext->hedgeVariant;
+    signAdditionalContextParameters.Context = NULL;
+    if (signAdditionalContext->pContext != NULL)
+    {
+        context.data = (uint8_t*)signAdditionalContext->pContext;
+        context.size = (size_t)signAdditionalContext->ulContextLen;
+        signAdditionalContextParameters.Context = &context;
+    }
+
+    result = nmrpc_writeAsBinary(&signAdditionalContextParameters, (SerializeFnPtr_t)Ckp_CkSignAdditionalContext_Serialize, &value->MechanismParamMp);
+    if (result != NMRPC_OK)
+    {
+        log_message(LOG_LEVEL_ERROR, "Failed call nmrpc_writeAsBinary in %s with result code %i.", __FUNCTION__, result);;
+    }
+
+    return result;
+}
+
+static int CreateHashSignAdditionalContextParams(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
+{
+    LOG_ENTERING_TO_FUNCTION();
+
+    int result = NMRPC_FATAL_ERROR;
+
+    if (pMechanism->ulParameterLen != sizeof(CK_HASH_SIGN_ADDITIONAL_CONTEXT))
+    {
+        log_message(LOG_LEVEL_ERROR, "Excepted CK_SIGN_ADDITIONAL_CONTEXT in mechanism.");
+        return NMRPC_FATAL_ERROR;
+    }
+
+    CK_HASH_SIGN_ADDITIONAL_CONTEXT* hashSignAdditionalContext = (CK_HASH_SIGN_ADDITIONAL_CONTEXT*)pMechanism->pParameter;
+    Ckp_CkHashSignAdditionalContext hashSignAdditionalContextParameters = { 0 };
+    Binary context;
+
+    hashSignAdditionalContextParameters.HedgeVariant = (uint32_t)hashSignAdditionalContext->hedgeVariant;
+    hashSignAdditionalContextParameters.Context = NULL;
+    if (hashSignAdditionalContext->pContext != NULL)
+    {
+        context.data = (uint8_t*)hashSignAdditionalContext->pContext;
+        context.size = (size_t)hashSignAdditionalContext->ulContextLen;
+        hashSignAdditionalContextParameters.Context = &context;
+    }
+
+    hashSignAdditionalContextParameters.Hash = (uint32_t)hashSignAdditionalContext->hash;
+
+    result = nmrpc_writeAsBinary(&hashSignAdditionalContextParameters, (SerializeFnPtr_t)Ckp_CkHashSignAdditionalContext_Serialize, &value->MechanismParamMp);
+    if (result != NMRPC_OK)
+    {
+        log_message(LOG_LEVEL_ERROR, "Failed call nmrpc_writeAsBinary in %s with result code %i.", __FUNCTION__, result);;
+    }
+
+    return result;
+}
+
 int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
 {
     LOG_ENTERING_TO_FUNCTION();
@@ -816,6 +886,36 @@ int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
 
     case CKM_EDDSA:
         return CreateEddsaParams(value, pMechanism);
+        break;
+
+    case CKM_ML_DSA:
+    case CKM_HASH_ML_DSA_SHA224:
+    case CKM_HASH_ML_DSA_SHA256:
+    case CKM_HASH_ML_DSA_SHA384:
+    case CKM_HASH_ML_DSA_SHA512:
+    case CKM_HASH_ML_DSA_SHA3_224:
+    case CKM_HASH_ML_DSA_SHA3_256:
+    case CKM_HASH_ML_DSA_SHA3_384:
+    case CKM_HASH_ML_DSA_SHA3_512:
+    case CKM_HASH_ML_DSA_SHAKE128:
+    case CKM_HASH_ML_DSA_SHAKE256:
+    case CKM_SLH_DSA:
+    case CKM_HASH_SLH_DSA_SHA224:
+    case CKM_HASH_SLH_DSA_SHA256:
+    case CKM_HASH_SLH_DSA_SHA384:
+    case CKM_HASH_SLH_DSA_SHA512:
+    case CKM_HASH_SLH_DSA_SHA3_224:
+    case CKM_HASH_SLH_DSA_SHA3_256:
+    case CKM_HASH_SLH_DSA_SHA3_384:
+    case CKM_HASH_SLH_DSA_SHA3_512:
+    case CKM_HASH_SLH_DSA_SHAKE128:
+    case CKM_HASH_SLH_DSA_SHAKE256:
+        return CreateSignAdditionalContextParams(value, pMechanism);
+        break;
+
+    case CKM_HASH_ML_DSA:
+    case CKM_HASH_SLH_DSA:
+        return CreateHashSignAdditionalContextParams(value, pMechanism);
         break;
 
     default:

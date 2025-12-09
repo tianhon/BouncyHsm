@@ -123,7 +123,7 @@ public class PkcsFacade : IPkcsFacade
             type = CKO.CKO_PRIVATE_KEY,
             id = t.Id,
             alwaysAuthenticate = t.CkaAlwaysAuthenticate,
-            canSign = t is not MontgomeryPrivateKeyObject, //Fix curent state
+            canSign = t is not MontgomeryPrivateKeyObject && t is not MlKemPrivateKeyObject, //Fix curent state
             description = t.Accept(descriptionVisitor),
             subject = null as string
         })
@@ -208,6 +208,8 @@ public class PkcsFacade : IPkcsFacade
             CKK.CKK_RSA => "SHA224WITHRSA",
             CKK.CKK_ECDSA => "SHA256WITHECDSA",
             CKK.CKK_EC_EDWARDS => this.GetEdwardsSignatureOid(privKo),
+            CKK.CKK_ML_DSA => this.GetMlDsaSignatureName(privKo),
+            CKK.CKK_SLH_DSA => this.GetSlhDsaSignatureName(privKo),
             _ => throw new InvalidProgramException($"Enum value {privKo.CkaKeyType} is not supported.")
         };
 
@@ -270,6 +272,8 @@ public class PkcsFacade : IPkcsFacade
             CKK.CKK_RSA => "SHA224WITHRSA",
             CKK.CKK_ECDSA => "SHA256WITHECDSA",
             CKK.CKK_EC_EDWARDS => this.GetEdwardsSignatureOid(privKo),
+            CKK.CKK_ML_DSA => this.GetMlDsaSignatureName(privKo),
+            CKK.CKK_SLH_DSA => this.GetSlhDsaSignatureName(privKo),
             _ => throw new InvalidProgramException($"Enum value {privKo.CkaKeyType} is not supported.")
         };
 
@@ -454,6 +458,7 @@ public class PkcsFacade : IPkcsFacade
             request.CkaLabel);
         pemObjectGenerator.ForWrap = request.Hints.ForWrap;
         pemObjectGenerator.ForEncryption = request.Hints.ForEncryption;
+        pemObjectGenerator.ForEncapsulation = request.Hints.ForEncapsulation;
         pemObjectGenerator.ForDerivation = request.Hints.ForDerivation;
         pemObjectGenerator.ForSigning = request.Hints.ForSigning;
         pemObjectGenerator.ImportMode = request.Hints.ImportMode;
@@ -559,5 +564,19 @@ public class PkcsFacade : IPkcsFacade
         // Works beacose OID for key is same as oid for singature
         DerObjectIdentifier curveOid = EdEcUtils.GetOidFromParams(value.AsByteArray());
         return curveOid.Id;
+    }
+
+    private string GetMlDsaSignatureName(PrivateKeyObject privateKeyObject)
+    {
+        System.Diagnostics.Debug.Assert(privateKeyObject.CkaKeyType == CKK.CKK_ML_DSA, "Key type is not ML-DSA.");
+
+        return MlDsaUtils.GetSignatureAlgorithmName(((MlDsaPrivateKeyObject)privateKeyObject).CkaParameterSet);
+    }
+
+    private string GetSlhDsaSignatureName(PrivateKeyObject privateKeyObject)
+    {
+        System.Diagnostics.Debug.Assert(privateKeyObject.CkaKeyType == CKK.CKK_SLH_DSA, "Key type is not SLH-DSA.");
+
+        return SlhDsaUtils.GetSignatureAlgorithmName(((SlhDsaPrivateKeyObject)privateKeyObject).CkaParameterSet);
     }
 }
