@@ -900,6 +900,16 @@ int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
     case CKM_HASH_ML_DSA_SHAKE128:
     case CKM_HASH_ML_DSA_SHAKE256:
     case CKM_SLH_DSA:
+    case CKM_HASH_SLH_DSA_SHA224:
+    case CKM_HASH_SLH_DSA_SHA256:
+    case CKM_HASH_SLH_DSA_SHA384:
+    case CKM_HASH_SLH_DSA_SHA512:
+    case CKM_HASH_SLH_DSA_SHA3_224:
+    case CKM_HASH_SLH_DSA_SHA3_256:
+    case CKM_HASH_SLH_DSA_SHA3_384:
+    case CKM_HASH_SLH_DSA_SHA3_512:
+    case CKM_HASH_SLH_DSA_SHAKE128:
+    case CKM_HASH_SLH_DSA_SHAKE256:
         return CreateSignAdditionalContextParams(value, pMechanism);
         break;
 

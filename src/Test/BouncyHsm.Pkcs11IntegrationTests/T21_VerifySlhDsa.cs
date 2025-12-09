@@ -242,6 +242,211 @@ public class T21_VerifySlhDsa
         Assert.IsFalse(isValid, "Signature is valid.");
     }
 
+    [TestMethod]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA384)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_224)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_224)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_384)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE128)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE128)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE128)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE128)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE128)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE128)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE128)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE128)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE128)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE256)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512)]
+    [DataRow(Pkcs11Interop.Ext.Common.CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512)]
+    public void VerifyHashedSlhDsa_WithoutParameters_Success(uint ckp, CKM mechanismType)
+    {
+        byte[] dataToSign = new byte[85];
+        Random.Shared.NextBytes(dataToSign);
+
+        Pkcs11InteropFactories factories = new Pkcs11InteropFactories();
+        using IPkcs11Library library = factories.Pkcs11LibraryFactory.LoadPkcs11Library(factories,
+            AssemblyTestConstants.P11LibPath,
+            AppType.SingleThreaded);
+
+        List<ISlot> slots = library.GetSlotList(SlotsType.WithTokenPresent);
+        ISlot slot = slots.SelectTestSlot();
+
+        using ISession session = slot.OpenSession(SessionType.ReadWrite);
+        session.Login(CKU.CKU_USER, AssemblyTestConstants.UserPin);
+
+        string label = $"SlhDsaTest-{DateTime.UtcNow}-{RandomNumberGenerator.GetInt32(100, 999)}";
+        byte[] ckId = session.GenerateRandom(32);
+
+        CreateSlhDsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
+
+
+        using IMechanism mechanism = factories.MechanismFactory.Create(mechanismType);
+        byte[] signature = session.Sign(mechanism, privateKey, dataToSign);
+
+        session.Verify(mechanism, publicKey, dataToSign, signature, out bool isValid);
+
+        Assert.IsTrue(isValid, "Signature is not valid.");
+
+        dataToSign[3] ^= 0xFF;
+
+        session.Verify(mechanism, publicKey, dataToSign, signature, out isValid);
+
+        Assert.IsFalse(isValid, "Signature is valid.");
+    }
+
+    [TestMethod]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA224, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, true, 16)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_256S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA512, false, 32)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA256, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_224, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_256, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_128F, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_384, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHA3_512, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHAKE_192S, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE128, true, 0)]
+    [DataRow(CK_SLH_DSA_PARAMETER_SET.CKP_SLH_DSA_SHA2_192F, CKM_V3_2.CKM_HASH_SLH_DSA_SHAKE256, true, 0)]
+    public void VerifyHashedSlhDsa_WithParameters_Success(uint ckp, CKM mechanismType, bool deterministic, int contextLength)
+    {
+        byte[] dataToSign = new byte[85];
+        byte[]? dataContent = null;
+        Random.Shared.NextBytes(dataToSign);
+
+        if (contextLength > 0)
+        {
+            dataContent = new byte[contextLength];
+            Random.Shared.NextBytes(dataContent);
+        }
+
+        Pkcs11InteropFactories factories = new Pkcs11InteropFactories();
+        using IPkcs11Library library = factories.Pkcs11LibraryFactory.LoadPkcs11Library(factories,
+            AssemblyTestConstants.P11LibPath,
+            AppType.SingleThreaded);
+
+        List<ISlot> slots = library.GetSlotList(SlotsType.WithTokenPresent);
+        ISlot slot = slots.SelectTestSlot();
+
+        using ISession session = slot.OpenSession(SessionType.ReadWrite);
+        session.Login(CKU.CKU_USER, AssemblyTestConstants.UserPin);
+
+        string label = $"SlhDsaTest-{DateTime.UtcNow}-{RandomNumberGenerator.GetInt32(100, 999)}";
+        byte[] ckId = session.GenerateRandom(32);
+
+        CreateSlhDsaKeyPair(ckp, factories, ckId, label, false, session, out IObjectHandle publicKey, out IObjectHandle privateKey);
+
+        using ICkSignAdditionalContextParams parameters = Pkcs11V3_0Factory.Instance.MechanismParamsFactory.CreateSignAdditionalContextParams(
+              deterministic ? CKH_DETERMINISTIC_REQUIRED : CKH_HEDGE_REQUIRED,
+              dataContent);
+        using IMechanism mechanism = factories.MechanismFactory.Create(mechanismType, parameters);
+        byte[] signature = session.Sign(mechanism, privateKey, dataToSign);
+
+        session.Verify(mechanism, publicKey, dataToSign, signature, out bool isValid);
+
+        Assert.IsTrue(isValid, "Signature is not valid.");
+
+        dataToSign[3] ^= 0xFF;
+
+        session.Verify(mechanism, publicKey, dataToSign, signature, out isValid);
+
+        Assert.IsFalse(isValid, "Signature is valid.");
+    }
+
     private static void CreateSlhDsaKeyPair(uint ckp, Pkcs11InteropFactories factories, byte[] ckId, string label, bool token, ISession session, out IObjectHandle publicKey, out IObjectHandle privateKey)
     {
         List<IObjectAttribute> publicKeyAttributes = new List<IObjectAttribute>()
