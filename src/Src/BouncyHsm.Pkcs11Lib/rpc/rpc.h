@@ -191,6 +191,7 @@ typedef struct _Ckp_CkHashSignAdditionalContext Ckp_CkHashSignAdditionalContext;
 
 typedef struct _Binary Binary;
 
+typedef struct _ArrayOfString ArrayOfString;
 typedef struct _ArrayOfuint32_t ArrayOfuint32_t;
 typedef struct _ArrayOfAttrValueFromNative ArrayOfAttrValueFromNative;
 typedef struct _ArrayOfGetAttributeInputValues ArrayOfGetAttributeInputValues;
@@ -205,6 +206,15 @@ int Binary_Release(Binary* value);
 
 typedef int (*SerializeFnPtr_t)(cmp_ctx_t* ctx, void* data);
 int nmrpc_writeAsBinary(void *data, SerializeFnPtr_t serialize, Binary** outBinary);
+
+typedef struct _ArrayOfString 
+{
+    char** array;
+    int length;
+} ArrayOfString;
+int ArrayOfString_Serialize(cmp_ctx_t* ctx, ArrayOfString* value);
+int ArrayOfString_Deserialize(cmp_ctx_t* ctx, cmp_object_t* start_obj_ptr, ArrayOfString* value);
+int ArrayOfString_Release(ArrayOfString* value);
 
 typedef struct _ArrayOfuint32_t 
 {
@@ -259,6 +269,7 @@ typedef struct _ExtendedClientInfo
     uint32_t CkUlongSize;
     uint32_t PointerSize;
     char* CompiuterName;
+    ArrayOfString CmdLine;
     char* Platform;
     char* LibVersion;
 } ExtendedClientInfo;

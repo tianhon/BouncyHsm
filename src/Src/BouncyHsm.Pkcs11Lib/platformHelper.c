@@ -114,3 +114,217 @@ const char* GetPlatformName()
     return  "Unknown";
 #endif
 }
+
+#ifdef _WIN32
+#ifndef _MSC_VER 
+#error "For this feature use MSVC compiler. Or open issue on github." 
+#endif 
+
+static char* LPWSTRtoUtf8(const LPWSTR src, int* out_len)
+{
+    size_t src_length = wcslen(src);
+    int length = WideCharToMultiByte(CP_UTF8, 0, src, (int)src_length, 0, 0, NULL, NULL);
+    if (length == ERROR_NO_UNICODE_TRANSLATION)
+    {
+        return NULL;
+    }
+
+    char* output_buffer = (char*)malloc(sizeof(char) * (length + 1));
+    if (output_buffer == NULL)
+    {
+        return NULL;
+    }
+
+    WideCharToMultiByte(CP_UTF8, 0, src, (int)src_length, output_buffer, length, NULL, NULL);
+    output_buffer[length] = 0;
+
+    if (out_len != NULL)
+    {
+        *out_len = length;
+    }
+
+    return output_buffer;
+}
+
+bool getProgramArgs(char*** args, int* argc)
+{
+    if (args == NULL || argc == NULL)
+    {
+        return false;
+    }
+
+    LPWSTR* szArgList = NULL;
+    int argCount;
+
+    szArgList = CommandLineToArgvW(GetCommandLine(), &argCount);
+    if (szArgList == NULL)
+    {
+        // Unable to parse command line
+        return false;
+    }
+
+    char** arguments = (char**)malloc(argCount * sizeof(char*));
+    if (arguments == NULL)
+    {
+        if (szArgList != NULL)
+        {
+            LocalFree(szArgList);
+        }
+
+        return false;
+    }
+
+    for (int i = 0; i < argCount; i++)
+    {
+        arguments[i] = LPWSTRtoUtf8(szArgList[i], NULL);
+    }
+
+    if (szArgList != NULL)
+    {
+        LocalFree(szArgList);
+    }
+
+    *args = arguments;
+    *argc = argCount;
+    return true;
+}
+
+bool freeProgramArgs(char*** args, int* argc)
+{
+    if (args == NULL || argc == NULL)
+    {
+        return false;
+    }
+
+    if (*args == NULL)
+    {
+        return true;
+    }
+
+    int i;
+    int count = *argc;
+    for (i = 0; i < count; i++)
+    {
+        char* ptr = (*args)[i];
+        if (ptr != NULL)
+        {
+            free((void*)ptr);
+        }
+    }
+
+    free((void*)*args);
+    *args = NULL;
+    *argc = 0;
+    return true;
+}
+
+#endif
+
+#ifdef __linux__
+
+bool getProgramArgs(char*** args, int* argc)
+{
+    if (args == NULL || argc == NULL)
+    {
+        return false;
+    }
+
+    FILE* fd = fopen("/proc/self/cmdline", "rb");
+    if (fd == NULL)
+    {
+        return false;
+    }
+
+    char* buffer = NULL;
+    size_t dataSize = 0;
+    char tmpBuffer[4096];
+    size_t readed;
+
+    while ((readed = fread(tmpBuffer, 1, sizeof(tmpBuffer), fd)) > 0)
+    {
+        char* newBuffer = (char*)realloc(buffer, dataSize + readed);
+        if (newBuffer == NULL)
+        {
+            if (buffer != NULL)
+            {
+                free((void*)buffer);
+            }
+
+            fclose(fd);
+            return false;
+        }
+
+        buffer = newBuffer;
+        memcpy(buffer + dataSize, tmpBuffer, readed);
+        dataSize += readed;
+    }
+
+    fclose(fd);
+
+    int arraySize = 0;
+    size_t i = 0;
+    for (i = 0; i < dataSize; i++)
+    {
+        if (buffer[i] == '\0')
+        {
+            arraySize++;
+        }
+    }
+
+    char** localArgs = (char**)malloc(arraySize * sizeof(char*));
+    if (localArgs == NULL)
+    {
+        if (buffer != NULL)
+        {
+            free((void*)buffer);
+        }
+
+        return false;
+    }
+
+    i = 0;
+    int j = 0;
+
+    while (i < dataSize)
+    {
+        localArgs[j] = strdup(&buffer[i]);
+        i += strlen(buffer + i) + 1;
+    }
+
+    free((void*)buffer);
+
+    *args = localArgs;
+    *argc = arraySize;
+    return true;
+}
+
+bool freeProgramArgs(char*** args, int* argc)
+{
+    if (args == NULL || argc == NULL)
+    {
+        return false;
+    }
+
+    if (*args == NULL)
+    {
+        return true;
+    }
+
+    int i;
+    int count = *argc;
+    for (i = 0; i < count; i++)
+    {
+        char* ptr = (*args)[i];
+        if (ptr != NULL)
+        {
+            free((void*)ptr);
+        }
+    }
+
+    free((void*)*args);
+    *args = NULL;
+    *argc = 0;
+    return true;
+}
+
+#endif

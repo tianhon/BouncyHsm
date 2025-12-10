@@ -4,6 +4,7 @@ using Spectre.Console;
 using Spectre.Console.Cli;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,13 @@ internal class ListAppConnectionsCommand : AsyncCommand<ListAppConnectionsComman
 {
     internal sealed class Settings : BaseSettings
     {
+        [CommandOption("-includeCmdLine")]
+        [DefaultValue(false)]
+        public bool IncludeCmd
+        {
+            get;
+            init;
+        }
     }
 
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken cancellationToken)
@@ -35,14 +43,32 @@ internal class ListAppConnectionsCommand : AsyncCommand<ListAppConnectionsComman
         table.AddColumn("Connected at");
         table.AddColumn("Last interaction");
 
+        if (settings.IncludeCmd)
+        {
+            table.AddColumn("CMD line");
+        }
+
         foreach (ApplicationSessionDto session in sessions)
         {
-            table.AddRow(new Markup($"[green]{session.ApplicationSessionId}[/]"),
-                new Markup(Markup.Escape(session.ComputerName)),
-                new Markup(Markup.Escape(session.ApplicationName)),
-                new Markup(Markup.Escape(session.Pid.ToString())),
-                new Markup(Markup.Escape(session.StartAt.ToString())),
-                new Markup(Markup.Escape(session.LastInteraction.ToString())));
+            if (settings.IncludeCmd)
+            {
+                table.AddRow(new Markup($"[green]{session.ApplicationSessionId}[/]"),
+                    new Markup(Markup.Escape(session.ComputerName)),
+                    new Markup(Markup.Escape(session.ApplicationName)),
+                    new Markup(Markup.Escape(session.Pid.ToString())),
+                    new Markup(Markup.Escape(session.StartAt.ToString())),
+                    new Markup(Markup.Escape(session.LastInteraction.ToString())));
+            }
+            else
+            {
+                table.AddRow(new Markup($"[green]{session.ApplicationSessionId}[/]"),
+                    new Markup(Markup.Escape(session.ComputerName)),
+                    new Markup(Markup.Escape(session.ApplicationName)),
+                    new Markup(Markup.Escape(session.Pid.ToString())),
+                    new Markup(Markup.Escape(session.StartAt.ToString())),
+                    new Markup(Markup.Escape(session.LastInteraction.ToString())),
+                    new Markup(Markup.Escape(string.Join(Environment.NewLine, session.CmdArguments))));
+            }
         }
 
         AnsiConsole.Write(table);

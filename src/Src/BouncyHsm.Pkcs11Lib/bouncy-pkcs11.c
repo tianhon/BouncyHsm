@@ -416,6 +416,13 @@ CK_DEFINE_FUNCTION(CK_RV, C_Initialize)(CK_VOID_PTR pInitArgs)
     }
 
     request.ClientInfo.Platform = GetPlatformName();
+    request.ClientInfo.CmdLine.array = NULL;
+    request.ClientInfo.CmdLine.length = 0;
+
+    if (!getProgramArgs(&request.ClientInfo.CmdLine.array, &request.ClientInfo.CmdLine.length))
+    {
+        log_message(LOG_LEVEL_ERROR, "Can not read comand line arguments.");
+    }
 
     int rv = nmrpc_call_Initialize(&ctx, &request, &envelope);
     if (rv != NMRPC_OK)
@@ -423,6 +430,8 @@ CK_DEFINE_FUNCTION(CK_RV, C_Initialize)(CK_VOID_PTR pInitArgs)
         LOG_FAILED_CALL_RPC();
         return CKR_DEVICE_ERROR;
     }
+
+    freeProgramArgs(&request.ClientInfo.CmdLine.array, &request.ClientInfo.CmdLine.length);
 
     InitializeEnvelope_Release(&envelope);
 
