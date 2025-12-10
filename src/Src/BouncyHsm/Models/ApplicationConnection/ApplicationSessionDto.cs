@@ -27,6 +27,12 @@ public class ApplicationSessionDto
         set;
     }
 
+    public string[] CmdArguments
+    {
+        get;
+        set;
+    }
+
     public DateTime StartAt
     {
         get;
@@ -43,5 +49,6 @@ public class ApplicationSessionDto
     {
         this.ApplicationName = string.Empty;
         this.ComputerName = string.Empty;
+        this.CmdArguments = Array.Empty<string>();
     }
 }

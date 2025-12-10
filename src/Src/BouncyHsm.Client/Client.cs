@@ -4569,6 +4569,9 @@ namespace BouncyHsm.Client
         [System.Text.Json.Serialization.JsonPropertyName("Pid")]
         public int Pid { get; set; } = default!;
 
+        [System.Text.Json.Serialization.JsonPropertyName("CmdArguments")]
+        public System.Collections.Generic.ICollection<string> CmdArguments { get; set; } = default!;
+
         [System.Text.Json.Serialization.JsonPropertyName("StartAt")]
         public System.DateTime StartAt { get; set; } = default!;
 

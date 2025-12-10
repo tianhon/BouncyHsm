@@ -344,6 +344,66 @@ int Binary_Release(Binary* value)
 
     return NMRPC_OK;
 }
+int ArrayOfString_Serialize(cmp_ctx_t* ctx, ArrayOfString* value)
+{
+  if (ctx == NULL || value == NULL) return NMRPC_BAD_ARGUMENT;
+  int result = 0;
+  int i = 0;
+
+    result = cmp_write_array(ctx, value->length);
+   if (!result) return NMRPC_FATAL_ERROR;
+
+  for (i = 0; i < value->length; i++)
+  {
+  result = cmp_write_str(ctx, value->array[i], (uint32_t)strlen(value->array[i]));
+   if (!result) return NMRPC_FATAL_ERROR;
+
+  }
+
+    return NMRPC_OK;
+}
+
+int ArrayOfString_Deserialize(cmp_ctx_t* ctx, cmp_object_t* start_obj_ptr, ArrayOfString* value)
+{
+  if (ctx == NULL || value == NULL) return NMRPC_BAD_ARGUMENT;
+  int result = 0;
+  cmp_object_t start_obj;
+  uint32_t array_size;
+  uint32_t i;
+
+  if (start_obj_ptr == NULL)
+  {
+    result = cmp_read_object(ctx, &start_obj);
+    if (!result) return NMRPC_DESERIALIZE_ERR;
+    start_obj_ptr = &start_obj;
+  }
+
+  result = cmp_object_as_array(start_obj_ptr, &array_size);
+  if (!result) return NMRPC_DESERIALIZE_ERR;
+
+  value->length = (int)array_size;
+  value->array = (char**) malloc(sizeof(char*) * array_size);
+  if (value->array == NULL) return NMRPC_FATAL_ERROR;
+  for (i = 0; i < array_size; i++)
+  {
+   result = cmph_read_nullable_str(ctx, &value->array[i]);
+   if (result != NMRPC_OK) return result;
+   if (value->array[i] == NULL) return NMRPC_DESERIALIZE_ERR;
+  }
+
+    return NMRPC_OK;
+}
+
+int ArrayOfString_Release(ArrayOfString* value)
+{
+     if (value == NULL) return NMRPC_BAD_ARGUMENT;
+
+  free((void*) value->array);
+
+  value->length = 0;
+  value->array = NULL;
+    return NMRPC_OK;
+}
 int ArrayOfuint32_t_Serialize(cmp_ctx_t* ctx, ArrayOfuint32_t* value)
 {
   if (ctx == NULL || value == NULL) return NMRPC_BAD_ARGUMENT;
@@ -681,7 +741,7 @@ int ExtendedClientInfo_Serialize(cmp_ctx_t* ctx, ExtendedClientInfo* value)
   if (ctx == NULL || value == NULL) return NMRPC_BAD_ARGUMENT;
   int result = 0;
 
-    result = cmp_write_array(ctx, 5);
+    result = cmp_write_array(ctx, 6);
    if (!result) return NMRPC_FATAL_ERROR;
 
   result = cmp_write_uinteger(ctx, value->CkUlongSize);
@@ -692,6 +752,9 @@ int ExtendedClientInfo_Serialize(cmp_ctx_t* ctx, ExtendedClientInfo* value)
 
   result = cmp_write_str(ctx, value->CompiuterName, (uint32_t)strlen(value->CompiuterName));
    if (!result) return NMRPC_FATAL_ERROR;
+
+  result = ArrayOfString_Serialize(ctx, &value->CmdLine);
+   if (result != NMRPC_OK) return NMRPC_FATAL_ERROR;
 
   result = cmp_write_str(ctx, value->Platform, (uint32_t)strlen(value->Platform));
    if (!result) return NMRPC_FATAL_ERROR;
@@ -719,7 +782,7 @@ int ExtendedClientInfo_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj
   }
 
   result = cmp_object_as_array(start_obj_ptr, &array_size);
-  if (!result || array_size != 5) { NMRPC_LOG_ERR_TEXT("Incorect field count."); return NMRPC_DESERIALIZE_ERR; }
+  if (!result || array_size != 6) { NMRPC_LOG_ERR_TEXT("Incorect field count."); return NMRPC_DESERIALIZE_ERR; }
 
   result = cmp_read_uint(ctx, &value->CkUlongSize);
    if (!result) return NMRPC_FATAL_ERROR;
@@ -730,6 +793,9 @@ int ExtendedClientInfo_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj
   result = cmph_read_nullable_str(ctx, &value->CompiuterName);
    if (result != NMRPC_OK) return result;
    if (value->CompiuterName == NULL) return NMRPC_DESERIALIZE_ERR;
+
+  result = ArrayOfString_Deserialize(ctx, NULL, &value->CmdLine);
+   if (result != NMRPC_OK) return result;
 
   result = cmph_read_nullable_str(ctx, &value->Platform);
    if (result != NMRPC_OK) return result;
@@ -751,6 +817,10 @@ int ExtendedClientInfo_Release(ExtendedClientInfo* value)
      free((void*) value->CompiuterName);
      value->CompiuterName = NULL;
  }
+  if(ArrayOfString_Release(&value->CmdLine) != NMRPC_OK)
+   {
+       return NMRPC_FATAL_ERROR;
+   }
  if (value->Platform != NULL)
  {
      free((void*) value->Platform);

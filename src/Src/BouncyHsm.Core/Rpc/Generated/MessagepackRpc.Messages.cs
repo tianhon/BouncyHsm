@@ -69,13 +69,20 @@ public partial class ExtendedClientInfo
     } = string.Empty;
 
     [Key(3)]
+    public string[] CmdLine
+    {
+        get;
+        set;
+    } = Array.Empty<string>();
+
+    [Key(4)]
     public string Platform
     {
         get;
         set;
     } = string.Empty;
 
-    [Key(4)]
+    [Key(5)]
     public string LibVersion
     {
         get;
