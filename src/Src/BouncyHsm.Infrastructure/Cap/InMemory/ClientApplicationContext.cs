@@ -12,12 +12,12 @@ namespace BouncyHsm.Infrastructure.Cap.InMemory;
 public class ClientApplicationContext : IClientApplicationContext
 {
     private readonly ConcurrentDictionary<string, MemorySession> apps;
-    private readonly ITimeAccessor timeAccessor;
+    private readonly TimeProvider timeProvider;
 
-    public ClientApplicationContext(ITimeAccessor timeAccessor)
+    public ClientApplicationContext(TimeProvider timeProvider)
     {
         this.apps = new ConcurrentDictionary<string, MemorySession>();
-        this.timeAccessor = timeAccessor;
+        this.timeProvider = timeProvider;
     }
 
     public IMemorySession RegisterMemorySession(string key, MemorySessionData sessionData)
@@ -26,7 +26,7 @@ public class ClientApplicationContext : IClientApplicationContext
         if (sessionData == null) throw new ArgumentNullException(nameof(sessionData));
 
         return this.apps.AddOrUpdate(key,
-            new MemorySession(sessionData, this.timeAccessor.UtcNow),
+            new MemorySession(sessionData, this.timeProvider.GetUtcNow()),
             (_, _) => throw new RpcPkcs11Exception(Core.Services.Contracts.P11.CKR.CKR_CRYPTOKI_ALREADY_INITIALIZED, $"Application with key {key} already registred."));
     }
 
@@ -59,7 +59,7 @@ public class ClientApplicationContext : IClientApplicationContext
     {
         if (this.apps.TryGetValue(key, out MemorySession? ms))
         {
-            ms.LastActivity = this.timeAccessor.UtcNow;
+            ms.LastActivity = this.timeProvider.GetUtcNow();
             memorySession = ms;
             return true;
         }

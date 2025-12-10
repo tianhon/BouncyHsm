@@ -5,5 +5,5 @@ public record ApplicationSession(Guid ApplicationSessionId,
     string ApplicationName,
     uint Pid,
     string[] CmdArguments,
-    DateTime StartAt,
-    DateTime LastInteraction);
+    DateTimeOffset StartAt,
+    DateTimeOffset LastInteraction);

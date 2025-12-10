@@ -20,13 +20,13 @@ namespace BouncyHsm.Core.UseCases.Implementation;
 public class PkcsFacade : IPkcsFacade
 {
     private readonly IPersistentRepository persistentRepository;
-    private readonly ITimeAccessor timeAccessor;
+    private readonly TimeProvider timeProvider;
     private readonly ILogger<PkcsFacade> logger;
 
-    public PkcsFacade(IPersistentRepository persistentRepository, ITimeAccessor timeAccessor, ILogger<PkcsFacade> logger)
+    public PkcsFacade(IPersistentRepository persistentRepository, TimeProvider timeProvider, ILogger<PkcsFacade> logger)
     {
         this.persistentRepository = persistentRepository;
-        this.timeAccessor = timeAccessor;
+        this.timeProvider = timeProvider;
         this.logger = logger;
     }
 
@@ -280,14 +280,14 @@ public class PkcsFacade : IPkcsFacade
         Asn1SignatureFactory asn1SignatureFactory = new Asn1SignatureFactory(algorithm,
             privKo.GetPrivateKey());
 
-        DateTime utcNow = this.timeAccessor.UtcNow;
+        DateTimeOffset utcNow = this.timeProvider.GetUtcNow();
         X509V3CertificateGenerator generator = new X509V3CertificateGenerator();
         generator.SetIssuerDN(subject);
         generator.SetSubjectDN(subject);
         generator.SetSerialNumber(Org.BouncyCastle.Math.BigInteger.One);
         generator.SetSubjectPublicKeyInfo(pubKo.GetSubjectPublicKeyInfo());
-        generator.SetNotBefore(utcNow);
-        generator.SetNotAfter(utcNow.Add(request.Validity));
+        generator.SetNotBefore(utcNow.UtcDateTime);
+        generator.SetNotAfter(utcNow.Add(request.Validity).UtcDateTime);
         generator.AddExtension(X509Extensions.KeyUsage, false, this.CreateKeyUsage(privKo));
         X509Certificate certificate = generator.Generate(asn1SignatureFactory);
 

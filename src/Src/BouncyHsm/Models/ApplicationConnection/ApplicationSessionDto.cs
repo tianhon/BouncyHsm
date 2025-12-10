@@ -33,13 +33,13 @@ public class ApplicationSessionDto
         set;
     }
 
-    public DateTime StartAt
+    public DateTimeOffset StartAt
     {
         get;
         set;
     }
 
-    public DateTime LastInteraction 
+    public DateTimeOffset LastInteraction 
     { 
         get; 
         set;

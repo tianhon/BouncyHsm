@@ -3,9 +3,7 @@ using BouncyHsm.Core.Services.Contracts.Entities;
 using BouncyHsm.Core.UseCases.Contracts;
 using BouncyHsm.Core.UseCases.Implementation;
 using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace BouncyHsm.Core.Tests.UseCases.Implementation;
 
@@ -20,7 +18,6 @@ public class PkcsFacadeTests
     [DataRow(PrivateKeyImportMode.Imported, true, 1)]
     public async Task ImportP12_Call_Success(PrivateKeyImportMode mode, bool withChain, int certId)
     {
-        Mock<ITimeAccessor> timeAccessor = new Mock<ITimeAccessor>(MockBehavior.Strict);
 
         Mock<IPersistentRepository> repository = new Mock<IPersistentRepository>(MockBehavior.Strict);
         repository.Setup(t => t.StoreObject(12U, It.Is<StorageObject>(q => q is X509CertificateObject || q is PrivateKeyObject || q is PublicKeyObject), It.IsAny<CancellationToken>()))
@@ -47,7 +44,7 @@ public class PkcsFacadeTests
             })
             .Verifiable();
 
-        PkcsFacade pkcsFacade = new PkcsFacade(repository.Object, timeAccessor.Object, new NullLogger<PkcsFacade>());
+        PkcsFacade pkcsFacade = new PkcsFacade(repository.Object, TimeProvider.System, new NullLogger<PkcsFacade>());
 
         ImportP12Request request = new ImportP12Request()
         {
@@ -653,8 +650,6 @@ public class PkcsFacadeTests
 
     private async Task ImportPemTest(string pem)
     {
-        Mock<ITimeAccessor> timeAccessor = new Mock<ITimeAccessor>(MockBehavior.Strict);
-
         Mock<IPersistentRepository> repository = new Mock<IPersistentRepository>(MockBehavior.Strict);
         repository.Setup(t => t.StoreObject(12U, It.IsAny<StorageObject>(), It.IsAny<CancellationToken>()))
             .Returns(new ValueTask())
@@ -680,7 +675,7 @@ public class PkcsFacadeTests
             })
             .Verifiable();
 
-        PkcsFacade pkcsFacade = new PkcsFacade(repository.Object, timeAccessor.Object, new NullLogger<PkcsFacade>());
+        PkcsFacade pkcsFacade = new PkcsFacade(repository.Object, TimeProvider.System, new NullLogger<PkcsFacade>());
 
         ImportPemRequest request = new ImportPemRequest()
         {
@@ -710,8 +705,6 @@ public class PkcsFacadeTests
         uint slotId = 12;
         Guid objectId = Guid.NewGuid();
 
-        Mock<ITimeAccessor> timeAccessor = new Mock<ITimeAccessor>(MockBehavior.Strict);
-
         Mock<IPersistentRepository> repository = new Mock<IPersistentRepository>(MockBehavior.Strict);
         repository.Setup(t => t.TryLoadObject(slotId, objectId, It.IsAny<CancellationToken>()))
          .ReturnsAsync(new X509CertificateObject()
@@ -739,7 +732,7 @@ pU0+bapXOCAQP9suslVRcEn3")
          })
          .Verifiable();
 
-        PkcsFacade pkcsFacade = new PkcsFacade(repository.Object, timeAccessor.Object, new NullLogger<PkcsFacade>());
+        PkcsFacade pkcsFacade = new PkcsFacade(repository.Object, TimeProvider.System, new NullLogger<PkcsFacade>());
 
         DomainResult<CertificateDetail> domianResult = await pkcsFacade.ParseCertificate(slotId, objectId, default);
         CertificateDetail result = domianResult.AssertOkValue();
