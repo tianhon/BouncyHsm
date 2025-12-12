@@ -55,7 +55,9 @@ int strncpy_s(char* destination, size_t destsz, const char* _Source, size_t coun
         return _GCC_ERANGE;
     }
 
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
     strncpy(destination, _Source, srcSize);
+#pragma GCC diagnostic push
     return 0;
 }
 

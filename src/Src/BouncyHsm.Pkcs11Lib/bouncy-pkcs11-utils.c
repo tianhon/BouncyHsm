@@ -31,7 +31,7 @@ void CopyPaddedStrToStr(char* destination, size_t destinationSize, const CK_UTF8
         return;
     }
 
-    int i = 0;
+    size_t i = 0;
     while (i < destinationSize - 1 && src[i] != '\0')
     {
         destination[i] = (char)src[i];
