@@ -33,6 +33,8 @@ internal class AesWrapperSigner : IWrapperSigner
 
     public AuthenticatedSigner IntoSigningSigner(KeyObject keyObject, SecureRandom secureRandom)
     {
+        this.logger.LogTrace("Enteri to IntoSigningSigner");
+
         AesKeyObject secretKey = this.CheckKey(keyObject);
         if (!secretKey.CkaSign)
         {
@@ -49,6 +51,8 @@ internal class AesWrapperSigner : IWrapperSigner
 
     public ISigner IntoValidationSigner(KeyObject keyObject)
     {
+        this.logger.LogTrace("Enteri to IntoValidationSigner");
+
         AesKeyObject secretKey = this.CheckKey(keyObject);
         if (!secretKey.CkaVerify)
         {

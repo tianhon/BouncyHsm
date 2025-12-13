@@ -808,6 +808,7 @@ int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
     case CKM_BLAKE2B_256_HMAC_GENERAL:
     case CKM_BLAKE2B_384_HMAC_GENERAL:
     case CKM_BLAKE2B_512_HMAC_GENERAL:
+    case CKM_AES_CMAC_GENERAL:
         return CreateMacGeneralParams(value, pMechanism);
         break;
 

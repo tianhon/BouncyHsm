@@ -127,6 +127,8 @@ internal class WrapperSignerFactory
             CKM.CKM_BLAKE2B_384_HMAC_GENERAL => this.CreateHmacGeneralWrapperSigner(mechanism, new Blake2bDigest(384), CKK.CKK_BLAKE2B_384_HMAC),
             CKM.CKM_BLAKE2B_512_HMAC_GENERAL => this.CreateHmacGeneralWrapperSigner(mechanism, new Blake2bDigest(512), CKK.CKK_BLAKE2B_512_HMAC),
 
+            CKM.CKM_AES_CMAC_GENERAL => this.CreateAesGeneralWrapperSigner(mechanism, new CMac(AesUtilities.CreateEngine())),
+
             CKM.CKM_ML_DSA => this.CreateMlDsaWrapperSigner(mechanism),
             CKM.CKM_HASH_ML_DSA => this.CreateMlDsaPrehashedWrapperSigner(mechanism),
             CKM.CKM_HASH_ML_DSA_SHA224 => this.CreateHashedMlDsaWrapperSigner(mechanism, new Sha224Digest()),
@@ -427,4 +429,30 @@ internal class WrapperSignerFactory
             null,
             this.loggerFactory.CreateLogger<AesWrapperSigner>());
     }
+
+    private AesWrapperSigner CreateAesGeneralWrapperSigner(MechanismValue mechanism, IMac mac)
+    {
+        this.logger.LogTrace("Entering to CreateAesGeneralWrapperSigner with {MechanismType}.", (CKM)mechanism.MechanismType);
+        try
+        {
+            CkP_MacGeneralParams generalParams = MessagePack.MessagePackSerializer.Deserialize<CkP_MacGeneralParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
+
+            if (generalParams.Value == 0)
+            {
+                this.logger.LogWarning("CK_MacGeneralParams with value 0 for mechanism {MechanismType}. Sign and verify returns nonsensical results.",
+                    (CKM)mechanism.MechanismType);
+            }
+
+            return new AesWrapperSigner((CKM)mechanism.MechanismType,
+             mac,
+             (int)generalParams.Value,
+             this.loggerFactory.CreateLogger<AesWrapperSigner>());
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error in builds {MechanismType} from parameter.", (CKM)mechanism.MechanismType);
+            throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
+        }
+    }
+
 }

@@ -198,6 +198,7 @@ internal static class MechanismUtils
             {CKM.CKM_BLAKE2B_256_HMAC_GENERAL, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, false, Pkcs11SpecVersion.V3_1) },
             {CKM.CKM_BLAKE2B_384_HMAC_GENERAL, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, false, Pkcs11SpecVersion.V3_1) },
             {CKM.CKM_BLAKE2B_512_HMAC_GENERAL, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, false, Pkcs11SpecVersion.V3_1) },
+            {CKM.CKM_AES_CMAC_GENERAL, new MechanismInfo(AesMinKeySize, AesMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, false, Pkcs11SpecVersion.V2_40) },
 
             // Derive using digest
             {CKM.CKM_MD2_KEY_DERIVATION, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_DERIVE, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40) },
