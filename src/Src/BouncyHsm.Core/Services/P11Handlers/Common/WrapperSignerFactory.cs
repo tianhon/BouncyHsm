@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Asn1.Nist;
+using Org.BouncyCastle.Crypto.Macs;
+using System.Net.Http.Headers;
 
 namespace BouncyHsm.Core.Services.P11Handlers.Common;
 
@@ -101,6 +103,7 @@ internal class WrapperSignerFactory
             CKM.CKM_BLAKE2B_256_HMAC => this.CreateHmacWrapperSigner(ckMechanism, new Blake2bDigest(256), CKK.CKK_BLAKE2B_256_HMAC),
             CKM.CKM_BLAKE2B_384_HMAC => this.CreateHmacWrapperSigner(ckMechanism, new Blake2bDigest(384), CKK.CKK_BLAKE2B_384_HMAC),
             CKM.CKM_BLAKE2B_512_HMAC => this.CreateHmacWrapperSigner(ckMechanism, new Blake2bDigest(512), CKK.CKK_BLAKE2B_512_HMAC),
+            CKM.CKM_AES_CMAC => this.CreateAesWrapperSigner(ckMechanism, new CMac(AesUtilities.CreateEngine())),
 
             CKM.CKM_POLY1305 => new PlainMacWrapperSigner(ckMechanism, new Org.BouncyCastle.Crypto.Macs.Poly1305(), this.loggerFactory.CreateLogger<PlainMacWrapperSigner>(), CKK.CKK_POLY1305),
 
@@ -150,6 +153,8 @@ internal class WrapperSignerFactory
             CKM.CKM_HASH_SLH_DSA_SHAKE128 => this.CreateHashedSlhDsaWrapperSigner(mechanism, new ShakeDigest(128)),
             CKM.CKM_HASH_SLH_DSA_SHAKE256 => this.CreateHashedSlhDsaWrapperSigner(mechanism, new ShakeDigest(256)),
 
+
+            // AES Signers
             _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Invalid mechanism {ckMechanism} for signing or validation.")
         };
     }
@@ -413,5 +418,13 @@ internal class WrapperSignerFactory
             mechanismParams,
             usedDigest,
             this.loggerFactory.CreateLogger<SlhDsaHashedWrapperSigner>());
+    }
+
+    private AesWrapperSigner CreateAesWrapperSigner(CKM mechanismType, IMac mac)
+    {
+        return new AesWrapperSigner(mechanismType,
+            mac,
+            null,
+            this.loggerFactory.CreateLogger<AesWrapperSigner>());
     }
 }
