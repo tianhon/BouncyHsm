@@ -33,7 +33,7 @@ int memcpy_s(void* restrictDest, size_t destsz, const void* restrictSrc, size_t 
 
 bool GetCurrentCompiuterName(char* buffer, size_t maxSize);
 const char* GetPlatformName();
-bool getProgramArgs(char*** args, int* argc);
-bool freeProgramArgs(char*** args, int* argc);
+bool getProgramArgs(const char*** args, int* argc);
+bool freeProgramArgs(const char*** args, int* argc);
 
 #endif //PLATFORM_HELPER_H

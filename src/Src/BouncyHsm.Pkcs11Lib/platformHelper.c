@@ -148,7 +148,7 @@ static char* LPWSTRtoUtf8(const LPWSTR src, int* out_len)
     return output_buffer;
 }
 
-bool getProgramArgs(char*** args, int* argc)
+bool getProgramArgs(const char*** args, int* argc)
 {
     if (args == NULL || argc == NULL)
     {
@@ -165,7 +165,7 @@ bool getProgramArgs(char*** args, int* argc)
         return false;
     }
 
-    char** arguments = (char**)malloc(argCount * sizeof(char*));
+    const char** arguments = (const char**)malloc(argCount * sizeof(char*));
     if (arguments == NULL)
     {
         if (szArgList != NULL)
@@ -191,7 +191,7 @@ bool getProgramArgs(char*** args, int* argc)
     return true;
 }
 
-bool freeProgramArgs(char*** args, int* argc)
+bool freeProgramArgs(const char*** args, int* argc)
 {
     if (args == NULL || argc == NULL)
     {
@@ -207,7 +207,7 @@ bool freeProgramArgs(char*** args, int* argc)
     int count = *argc;
     for (i = 0; i < count; i++)
     {
-        char* ptr = (*args)[i];
+        const char* ptr = (*args)[i];
         if (ptr != NULL)
         {
             free((void*)ptr);
@@ -224,7 +224,7 @@ bool freeProgramArgs(char*** args, int* argc)
 
 #ifdef __linux__
 
-bool getProgramArgs(char*** args, int* argc)
+bool getProgramArgs(const char*** args, int* argc)
 {
     if (args == NULL || argc == NULL)
     {
@@ -273,7 +273,7 @@ bool getProgramArgs(char*** args, int* argc)
         }
     }
 
-    char** localArgs = (char**)malloc(arraySize * sizeof(char*));
+    const char** localArgs = (const char**)malloc(arraySize * sizeof(char*));
     if (localArgs == NULL)
     {
         if (buffer != NULL)
@@ -300,7 +300,7 @@ bool getProgramArgs(char*** args, int* argc)
     return true;
 }
 
-bool freeProgramArgs(char*** args, int* argc)
+bool freeProgramArgs(const char*** args, int* argc)
 {
     if (args == NULL || argc == NULL)
     {
@@ -316,7 +316,7 @@ bool freeProgramArgs(char*** args, int* argc)
     int count = *argc;
     for (i = 0; i < count; i++)
     {
-        char* ptr = (*args)[i];
+        const char* ptr = (*args)[i];
         if (ptr != NULL)
         {
             free((void*)ptr);

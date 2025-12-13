@@ -46,7 +46,7 @@ internal class CmpAsciCGenerator : BaseAsciCGenerator
             #define NMRPC_LOG_ERR_TEXT(msg) log_message(LOG_LEVEL_ERROR, "Error in function %s (line %i) %s", __FUNCTION__, __LINE__, msg)
             #define NMRPC_LOG_FAILED_CLOSE_SOCKET() log_message(LOG_LEVEL_INFO, "Closing socket failed in function %s (line %i)",__FUNCTION__, __LINE__)
 
-            static int cmph_read_nullable_str(cmp_ctx_t* ctx, char** ptr)
+            static int cmph_read_nullable_str(cmp_ctx_t* ctx, const char** ptr)
             {
               cmp_object_t obj;
               if (!cmp_read_object(ctx, &obj))

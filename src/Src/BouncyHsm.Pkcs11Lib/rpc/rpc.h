@@ -209,7 +209,7 @@ int nmrpc_writeAsBinary(void *data, SerializeFnPtr_t serialize, Binary** outBina
 
 typedef struct _ArrayOfString 
 {
-    char** array;
+    const char** array;
     int length;
 } ArrayOfString;
 int ArrayOfString_Serialize(cmp_ctx_t* ctx, ArrayOfString* value);
@@ -255,8 +255,8 @@ int ArrayOfGetAttributeOutValue_Release(ArrayOfGetAttributeOutValue* value);
 
 typedef struct _AppIdentification
 {
-    char* AppName;
-    char* AppNonce;
+    const char* AppName;
+    const char* AppNonce;
     uint64_t Pid;
 } AppIdentification;
 
@@ -268,10 +268,10 @@ typedef struct _ExtendedClientInfo
 {
     uint32_t CkUlongSize;
     uint32_t PointerSize;
-    char* CompiuterName;
+    const char* CompiuterName;
     ArrayOfString CmdLine;
-    char* Platform;
-    char* LibVersion;
+    const char* Platform;
+    const char* LibVersion;
 } ExtendedClientInfo;
 
 int ExtendedClientInfo_Serialize(cmp_ctx_t* ctx, ExtendedClientInfo* value);
@@ -349,7 +349,7 @@ int GetInfoRequest_Release(GetInfoRequest* value);
 typedef struct _GetInfoEnvelope
 {
     uint32_t Rv;
-    char* ManufacturerID;
+    const char* ManufacturerID;
 } GetInfoEnvelope;
 
 int GetInfoEnvelope_Serialize(cmp_ctx_t* ctx, GetInfoEnvelope* value);
@@ -413,8 +413,8 @@ int CkSpecialUint_Release(CkSpecialUint* value);
 
 typedef struct _SlotInfo
 {
-    char* SlotDescription;
-    char* ManufacturerID;
+    const char* SlotDescription;
+    const char* ManufacturerID;
     bool FlagsTokenPresent;
     bool FlagsRemovableDevice;
     bool FlagsHwSlot;
@@ -448,10 +448,10 @@ int GetTokenInfoRequest_Release(GetTokenInfoRequest* value);
 
 typedef struct _TokenInfo
 {
-    char* Label;
-    char* ManufacturerId;
-    char* Model;
-    char* SerialNumber;
+    const char* Label;
+    const char* ManufacturerId;
+    const char* Model;
+    const char* SerialNumber;
     uint32_t Flags;
     CkSpecialUint MaxSessionCount;
     CkSpecialUint SessionCount;
@@ -465,7 +465,7 @@ typedef struct _TokenInfo
     CkSpecialUint FreePrivateMemory;
     CkVersion HardwareVersion;
     CkVersion FirmwareVersion;
-    char* UtcTime;
+    const char* UtcTime;
 } TokenInfo;
 
 int TokenInfo_Serialize(cmp_ctx_t* ctx, TokenInfo* value);
@@ -874,7 +874,7 @@ typedef struct _AttrValueFromNative
     Binary ValueRawBytes;
     bool ValueBool;
     uint32_t ValueCkUlong;
-    char* ValueCkDate;
+    const char* ValueCkDate;
 } AttrValueFromNative;
 
 int AttrValueFromNative_Serialize(cmp_ctx_t* ctx, AttrValueFromNative* value);
@@ -1043,7 +1043,7 @@ typedef struct _GetAttributeOutValue
     uint32_t ValueUint;
     bool ValueBool;
     Binary ValueBytes;
-    char* ValueCkDate;
+    const char* ValueCkDate;
 } GetAttributeOutValue;
 
 int GetAttributeOutValue_Serialize(cmp_ctx_t* ctx, GetAttributeOutValue* value);
@@ -1805,7 +1805,7 @@ typedef struct _InitTokenRequest
     AppIdentification AppId;
     uint32_t SlotId;
     Binary* Pin;
-    char* Label;
+    const char* Label;
 } InitTokenRequest;
 
 int InitTokenRequest_Serialize(cmp_ctx_t* ctx, InitTokenRequest* value);

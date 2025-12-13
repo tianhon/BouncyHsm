@@ -164,7 +164,7 @@ void AttrValueFromNative_Destroy(AttrValueFromNative* ptr, CK_ULONG ulCount)
     CK_ULONG i;
     for (i = 0; i < ulCount; i++)
     {
-        void* datePtr = ptr[i].ValueCkDate;
+        void* datePtr = (void*)ptr[i].ValueCkDate;
         if (datePtr != NULL)
         {
             free(datePtr);

@@ -15,7 +15,7 @@
 #define NMRPC_LOG_ERR_TEXT(msg) log_message(LOG_LEVEL_ERROR, "Error in function %s (line %i) %s", __FUNCTION__, __LINE__, msg)
 #define NMRPC_LOG_FAILED_CLOSE_SOCKET() log_message(LOG_LEVEL_INFO, "Closing socket failed in function %s (line %i)",__FUNCTION__, __LINE__)
 
-static int cmph_read_nullable_str(cmp_ctx_t* ctx, char** ptr)
+static int cmph_read_nullable_str(cmp_ctx_t* ctx, const char** ptr)
 {
   cmp_object_t obj;
   if (!cmp_read_object(ctx, &obj))
@@ -382,7 +382,7 @@ int ArrayOfString_Deserialize(cmp_ctx_t* ctx, cmp_object_t* start_obj_ptr, Array
   if (!result) return NMRPC_DESERIALIZE_ERR;
 
   value->length = (int)array_size;
-  value->array = (char**) malloc(sizeof(char*) * array_size);
+  value->array = (const char**) malloc(sizeof(const char*) * array_size);
   if (value->array == NULL) return NMRPC_FATAL_ERROR;
   for (i = 0; i < array_size; i++)
   {

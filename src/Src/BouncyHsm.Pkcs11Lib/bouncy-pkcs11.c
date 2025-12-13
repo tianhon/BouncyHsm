@@ -5,7 +5,6 @@
 #include "rpc/rpc.h"
 #include "rpc/tcpTransport.h"
 #include "globalContext.h"
-#include "timer.h"
 #include "logger.h"
 #include "platformHelper.h"
 #include "bouncy-pkcs11-utils.h"
@@ -341,9 +340,6 @@ CK_INTERFACE bouncyHsm_pkcs11_3_2_interface =
 #define P11SocketInit(tcpPtr) SockContext_init((tcpPtr), globalContext.server, globalContext.port)
 #define ValueHasFlag(value, flag) (((value) & (flag)) == (flag))
 
-
-//PeriodicTimer_t pingTimer = { 0 };
-
 void ExecutePing(void* pUserData)
 {
     PingRequest request;
@@ -435,12 +431,6 @@ CK_DEFINE_FUNCTION(CK_RV, C_Initialize)(CK_VOID_PTR pInitArgs)
 
     InitializeEnvelope_Release(&envelope);
 
-    //TODO: fix crash application
-    /*if (!PeriodicTimer_Create(&pingTimer, ExecutePing, NULL, 5000))
-    {
-        return CKR_GENERAL_ERROR;
-    }*/
-
     return (CK_RV)envelope.Rv;
 }
 
@@ -465,9 +455,6 @@ CK_DEFINE_FUNCTION(CK_RV, C_Finalize)(CK_VOID_PTR pReserved)
     request.IsPtrSet = pReserved != NULL;
 
     int rv = nmrpc_call_Finalize(&ctx, &request, &envelope);
-
-    //TODO
-    //PeriodicTimer_Destroy(&pingTimer);
 
     if (rv != NMRPC_OK)
     {
