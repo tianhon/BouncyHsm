@@ -77,12 +77,10 @@ Clone repository:
 git clone https://github.com/harrison314/BouncyHsm.git
 ```
 
-Edit `build_linux/Makefile` and remove `ARCH_FLAGS`.
-
 Build:
 ```
 cd BouncyHsm
 # git checkout <last tag>
 cd build_linux
-make CC=gcc
+make CC=gcc ARCH_FLAGS=""
 ```
