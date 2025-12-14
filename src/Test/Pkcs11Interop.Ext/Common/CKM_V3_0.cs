@@ -91,5 +91,5 @@ public static class CKM_V3_0
     public const CKM CKM_EDDSA = (CKM)0x00001057;
 
     public const CKM CKM_SHAKE_128_KEY_DERIVATION = (CKM)0x0000039b;
-
+    public const CKM CKM_SHAKE_256_KEY_DERIVATION = (CKM)0x0000039c;
 }
