@@ -19,7 +19,7 @@ Task(BuildTarget.RebuildDocumentation)
     .Does(() =>
     {
         DotNetRun("./src/Tools/BouncyHsm.DocGenerator/BouncyHsm.DocGenerator.csproj",
-            new ProcessArgumentBuilder().Append("Doc/SuportedAlgorithms.md"),
+            new ProcessArgumentBuilder().Append("Doc/SupportedAlgorithms.md"),
             new DotNetRunSettings()
             {
                 Configuration = configuration,

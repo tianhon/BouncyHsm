@@ -34,7 +34,7 @@ _Bouncy Hsm_ implementig PKCS#11 interface from standard version 2.40, 3.1 and v
 * Possibility to simulate _protected authentication path_ using web interface.
 * Possibility to simulate removable devices (tokens).
 * Supports RSA keys (with size 2-6K).
-* Supports [80 named elliptic curves](/Doc/SuportedAlgorithms.md#elliptic-curves) and user-defined elliptic curves.
+* Supports [80 named elliptic curves](/Doc/SupportedAlgorithms.md#elliptic-curves) and user-defined elliptic curves.
 * Edwards curves (Ed25519, Ed448).
 * Mongomery curves (X25519, X448).
 * Post-Quantum Cryptography (ML-DSA, SLH-DSA, ML-KEM)
@@ -42,7 +42,7 @@ _Bouncy Hsm_ implementig PKCS#11 interface from standard version 2.40, 3.1 and v
 * Supports AES keys.
 * Supports Salsa20 keys.
 * Supports ChaCha20 keys (also ChaCha20Poly1305 algorithm).
-* [Supports mechanisms](/Doc/SuportedAlgorithms.md)
+* [Supports mechanisms](/Doc/SupportedAlgorithms.md)
 * [Supports PKCS#11 functions](/Doc/SupportedFunctions.md)
 * Supports [custom profiles for mechanisms](/Doc/Profiles.md) (To limit mechanisms to simulate a specific type of HSM or card).
 * Same behavior and algorithm support across platforms and versions of Linux operating systems.
