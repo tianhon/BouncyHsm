@@ -18,8 +18,8 @@ string ThisVersion = "0.0.0"; //TODO - load from build properties file
 Task(BuildTarget.RebuildDocumentation)
     .Does(() =>
     {
-        DotNetRun("\"src/Tools/BouncyHsm.DocGenerator/BouncyHsm.DocGenerator.csproj",
-            new ProcessArgumentBuilder().Append("./Doc/SuportedAlgorithms.md"),
+        DotNetRun("./src/Tools/BouncyHsm.DocGenerator/BouncyHsm.DocGenerator.csproj",
+            new ProcessArgumentBuilder().Append("Doc/SuportedAlgorithms.md"),
             new DotNetRunSettings()
             {
                 Configuration = configuration,
@@ -30,7 +30,8 @@ Task(BuildTarget.RebuildDocumentation)
                     {"GitCommit", new List<string>() { gitCommit } }
                 }
                 },
-                WorkingDirectory = $"src/Tools/BouncyHsm.DocGenerator",
+               // WorkingDirectory = $"src/Tools/BouncyHsm.DocGenerator",
+               DiagnosticOutput = true
             });
     });
 

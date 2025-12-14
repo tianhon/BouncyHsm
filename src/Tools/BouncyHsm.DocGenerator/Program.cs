@@ -1,6 +1,7 @@
 ﻿using BouncyHsm.Core.UseCases.Contracts;
 using BouncyHsm.Core.UseCases.Implementation;
 using Scriban;
+using System;
 
 namespace BouncyHsm.DocGenerator;
 
@@ -14,7 +15,9 @@ public static class Program
             ouputPath = args[0];
         }
 
-        Template template = Template.Parse(File.ReadAllText("Algorithms.txt"));
+        string thisLocation = GetAssemblyDirectory();
+
+        Template template = Template.Parse(File.ReadAllText(Path.Combine(thisLocation, "Algorithms.txt")));
         DocModel model = CreateModel();
 #pragma warning disable CS8603 // Possible null reference return.
         string content = template.Render(model, new Scriban.Runtime.MemberRenamerDelegate(t => t?.Name));
@@ -22,7 +25,7 @@ public static class Program
 
         File.WriteAllText(ouputPath, content, System.Text.Encoding.UTF8);
 
-        template = Template.Parse(File.ReadAllText("SupportedFunctions.txt"));
+        template = Template.Parse(File.ReadAllText(Path.Combine(thisLocation, "SupportedFunctions.txt")));
         FunctionsModel functionModel = CreateFunctionsModel();
 #pragma warning disable CS8603 // Possible null reference return.
         string functionContent = template.Render(functionModel, new Scriban.Runtime.MemberRenamerDelegate(t => t?.Name));
@@ -95,5 +98,11 @@ public static class Program
                infoData.MaxKeySize,
                flags);
         }
+    }
+
+    private static string GetAssemblyDirectory()
+    {
+        Uri thisLocation = new Uri(typeof(Program).Assembly.Location);
+        return Path.GetDirectoryName(thisLocation.LocalPath)!;
     }
 }

@@ -1,9 +1,9 @@
 ﻿# Supported algorithms
 
-Supported algorithms for _Bouncy Hsm_ version 1.6.1.0 (commit _c929d227b8f98f8e3100fc77137187a6100fb82a_).
+Supported algorithms for _Bouncy Hsm_ version 2.0.0.0 (commit _24d1c1a8808415016ed23db35f6a5658e006e07e_).
 
 ## Mechanisms
-_Bouncy Hsm_ supports 194 mechanisms.
+_Bouncy Hsm_ supports 198 mechanisms.
 
 Supported mechanisms are by default for PKCS#11 specification [version 2.40](https://docs.oasis-open.org/pkcs11/pkcs11-curr/v2.40/os/pkcs11-curr-v2.40-os.pdf),
 and native APIs are also used for it.
@@ -138,6 +138,8 @@ and [version 3.2](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.2/pkcs11-spe
 | `CKM_SHA3_224_KEY_DERIVATION` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
 | `CKM_SHA3_384_KEY_DERIVATION` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
 | `CKM_SHA3_512_KEY_DERIVATION` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHAKE_128_KEY_DERIVATION` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_SHAKE_256_KEY_DERIVATION` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
 | `CKM_EC_KEY_PAIR_GEN`  | 192  | 521 |   |   |   |   |   | ✓ |   |   |   |
 | `CKM_ECDSA`  | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_ECDSA_SHA1`  | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
@@ -162,6 +164,8 @@ and [version 3.2](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.2/pkcs11-spe
 | `CKM_AES_GCM`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
 | `CKM_AES_CCM`  | 16  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
 | `CKM_AES_CTS`  | 16  | 32 |   |   |   |   | ✓ |   |   |   |   |
+| `CKM_AES_CMAC`  | 16  | 32 |   | ✓ |   |   | ✓ |   |   |   |   |
+| `CKM_AES_CMAC_GENERAL`  | 16  | 32 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_AES_ECB_ENCRYPT_DATA`  | 16  | 32 |   |   |   | ✓ |   |   |   |   |   |
 | `CKM_AES_CBC_ENCRYPT_DATA`  | 16  | 32 |   |   |   | ✓ |   |   |   |   |   |
 | `CKM_GOSTR3411`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
@@ -331,7 +335,7 @@ _Bouncy Hsm_ supports 2 different named montgomery curves.
 | Montgomery | X448 | `id-X448` | `1.3.101.111` |
 
 ## ML-DSA keys
-_Bouncy Hsm_ supports 3 different ML-DSA keys.
+_Bouncy Hsm_ supports 3 different ML-DSA key parameters.
 
 | Key |
 | ---  |
@@ -340,7 +344,7 @@ _Bouncy Hsm_ supports 3 different ML-DSA keys.
 | ML-DSA-87 |
 
 ## SLH-DSA keys
-_Bouncy Hsm_ supports 12 different SLH-DSA keys.
+_Bouncy Hsm_ supports 12 different SLH-DSA key parameters.
 
 | Key |
 | ---  |
@@ -358,7 +362,7 @@ _Bouncy Hsm_ supports 12 different SLH-DSA keys.
 | SLH-DSA-SHAKE-256F |
 
 ## ML-KEM keys
-_Bouncy Hsm_ supports 3 different ML-KEM keys.
+_Bouncy Hsm_ supports 3 different ML-KEM key parameters.
 
 | Key |
 | ---  |
