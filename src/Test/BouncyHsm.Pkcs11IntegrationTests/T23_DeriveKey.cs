@@ -23,6 +23,7 @@ public class T23_DeriveKey
     [DataRow(CKM.CKM_SHA512_KEY_DERIVATION)]
     [DataRow(CKM.CKM_SHA512_224_KEY_DERIVATION)]
     [DataRow(CKM.CKM_SHA512_256_KEY_DERIVATION)]
+    [DataRow(CKM_V3_0.CKM_SHAKE_128_KEY_DERIVATION)]
     public void Derive_Digest_Success(CKM mechanismType)
     {
         Pkcs11InteropFactories factories = new Pkcs11InteropFactories();
