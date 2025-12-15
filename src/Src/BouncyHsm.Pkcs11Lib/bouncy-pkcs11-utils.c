@@ -774,6 +774,52 @@ static int CreateHashSignAdditionalContextParams(MechanismValue* value, CK_MECHA
     return result;
 }
 
+static int CreateHkdfParams(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
+{
+    LOG_ENTERING_TO_FUNCTION();
+
+    int result = NMRPC_FATAL_ERROR;
+
+    if (pMechanism->ulParameterLen != sizeof(CK_HKDF_PARAMS))
+    {
+        log_message(LOG_LEVEL_ERROR, "Excepted CK_HKDF_PARAMS in mechanism.");
+        return NMRPC_FATAL_ERROR;
+    }
+
+    CK_HKDF_PARAMS* hkdfparams = (CK_HKDF_PARAMS*)pMechanism->pParameter;
+    Ckp_CkHkdfParams ckHkdfParams = { 0 };
+    Binary salt = { 0 };
+    Binary info = { 0 };
+
+    ckHkdfParams.Extract = (bool)hkdfparams->bExtract;
+    ckHkdfParams.Expand = (bool)hkdfparams->bExpand;
+    ckHkdfParams.HashMechanism = (uint32_t)hkdfparams->prfHashMechanism;
+    ckHkdfParams.SaltType = (uint32_t)hkdfparams->ulSaltType;
+    ckHkdfParams.SaltKey = (uint32_t)hkdfparams->hSaltKey;
+    
+    if (hkdfparams->pSalt != NULL)
+    {
+        salt.data = (uint8_t*)hkdfparams->pSalt;
+        salt.size = (size_t)hkdfparams->ulSaltLen;
+        ckHkdfParams.Salt = &salt;
+    }
+
+    if (hkdfparams->pInfo != NULL)
+    {
+        info.data = (uint8_t*)hkdfparams->pInfo;
+        info.size = (size_t)hkdfparams->ulInfoLen;
+        ckHkdfParams.Info = &info;
+    }
+   
+    result = nmrpc_writeAsBinary(&ckHkdfParams, (SerializeFnPtr_t)Ckp_CkHkdfParams_Serialize, &value->MechanismParamMp);
+    if (result != NMRPC_OK)
+    {
+        log_message(LOG_LEVEL_ERROR, "Failed call nmrpc_writeAsBinary in %s with result code %i.", __FUNCTION__, result);;
+    }
+
+    return result;
+}
+
 int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
 {
     LOG_ENTERING_TO_FUNCTION();
@@ -917,6 +963,10 @@ int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
     case CKM_HASH_ML_DSA:
     case CKM_HASH_SLH_DSA:
         return CreateHashSignAdditionalContextParams(value, pMechanism);
+        break;
+
+    case CKM_HKDF_DERIVE:
+        return CreateHkdfParams(value, pMechanism);
         break;
 
     default:

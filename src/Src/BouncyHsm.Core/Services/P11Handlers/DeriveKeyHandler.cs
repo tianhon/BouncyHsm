@@ -6,6 +6,8 @@ using BouncyHsm.Core.Services.Contracts.P11;
 using BouncyHsm.Core.Services.P11Handlers.Common;
 using MessagePack;
 using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Asn1.Ocsp;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Security;
 using System.Threading;
@@ -55,7 +57,7 @@ public partial class DeriveKeyHandler : IRpcRequestHandler<DeriveKeyRequest, Der
             throw new RpcPkcs11Exception(CKR.CKR_KEY_FUNCTION_NOT_PERMITTED, "Object can not enable drive.");
         }
 
-        IDeriveKeyGenerator generator = await this.CreateDeriveKeyGenerator(request.Mechanism, memorySession, p11Session);
+        IDeriveKeyGenerator generator = await this.CreateDeriveKeyGenerator(request.Mechanism, memorySession, p11Session, cancellationToken);
         generator.Init(keyTemplate);
         SecretKeyObject keyObject = generator.Generate(baseKeyObject);
 
@@ -86,7 +88,7 @@ public partial class DeriveKeyHandler : IRpcRequestHandler<DeriveKeyRequest, Der
         };
     }
 
-    private async ValueTask<IDeriveKeyGenerator> CreateDeriveKeyGenerator(MechanismValue mechanism, IMemorySession memorySession, IP11Session p11Session)
+    private async ValueTask<IDeriveKeyGenerator> CreateDeriveKeyGenerator(MechanismValue mechanism, IMemorySession memorySession, IP11Session p11Session, CancellationToken cancellationToken)
     {
         this.logger.LogTrace("Entering to CreateDeriveKeyGenerator with mechanism type {mechanismType}", (CKM)mechanism.MechanismType);
 
@@ -126,6 +128,8 @@ public partial class DeriveKeyHandler : IRpcRequestHandler<DeriveKeyRequest, Der
 
             CKM.CKM_AES_ECB_ENCRYPT_DATA => new AesDeriveKeyGenerator(CipherUtilities.GetCipher("AES/ECB/NOPADDING"), this.GetRawDataParameter(mechanism), null, this.loggerFactory.CreateLogger<AesDeriveKeyGenerator>()),
             CKM.CKM_AES_CBC_ENCRYPT_DATA => this.CreateAesCbcEncryptionGenerator(mechanism),
+
+            CKM.CKM_HKDF_DERIVE => await this.CreateHkdfGenerator(mechanism, memorySession, p11Session, cancellationToken),
 
             _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Invalid mechanism {ckMechanism} for derive key.")
         };
@@ -237,6 +241,45 @@ public partial class DeriveKeyHandler : IRpcRequestHandler<DeriveKeyRequest, Der
         catch (Exception ex)
         {
             this.logger.LogError(ex, "Error during decode CkP_CkObjectHandle.");
+            throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
+        }
+    }
+
+    private async Task<HkdfDeriveKeyGenerator> CreateHkdfGenerator(MechanismValue mechanism,
+        IMemorySession memorySession,
+        IP11Session p11Session,
+        CancellationToken cancellationToken)
+    {
+        this.logger.LogTrace("Entering to CreateHkdfGenerator.");
+
+        try
+        {
+            Ckp_CkHkdfParams hkdfParams = MessagePack.MessagePackSerializer.Deserialize<Ckp_CkHkdfParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
+
+            SecretKeyObject? keyObject = null;
+            if (hkdfParams.SaltType == HkdfDeriveKeyGenerator.CKF_HKDF_SALT_KEY)
+            {
+                keyObject = await this.hwServices.FindObjectByHandle<SecretKeyObject>(memorySession,
+                            p11Session,
+                            hkdfParams.SaltKey,
+                            cancellationToken);
+            }
+
+            IDigest? digest = DigestUtils.TryGetDigest((CKM)hkdfParams.HashMechanism);
+            if (digest == null)
+            {
+                throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID,
+                   $"Invalid value of prfHashMechanism in CK_HKDF_PARAMS - is not digest or is not supported. Value {(CKM)hkdfParams.HashMechanism}.");
+            }
+
+            return new HkdfDeriveKeyGenerator(hkdfParams,
+                keyObject,
+                digest,
+                this.loggerFactory.CreateLogger<HkdfDeriveKeyGenerator>());
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error during decode Ckp_CkHkdfParams.");
             throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
         }
     }

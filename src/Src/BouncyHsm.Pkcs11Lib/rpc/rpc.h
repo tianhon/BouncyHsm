@@ -188,6 +188,7 @@ typedef struct _Ckp_CkSalsa20ChaCha20Poly1305Params Ckp_CkSalsa20ChaCha20Poly130
 typedef struct _Ckp_CkEddsaParams Ckp_CkEddsaParams;
 typedef struct _Ckp_CkSignAdditionalContext Ckp_CkSignAdditionalContext;
 typedef struct _Ckp_CkHashSignAdditionalContext Ckp_CkHashSignAdditionalContext;
+typedef struct _Ckp_CkHkdfParams Ckp_CkHkdfParams;
 
 typedef struct _Binary Binary;
 
@@ -2139,6 +2140,21 @@ typedef struct _Ckp_CkHashSignAdditionalContext
 int Ckp_CkHashSignAdditionalContext_Serialize(cmp_ctx_t* ctx, Ckp_CkHashSignAdditionalContext* value);
 int Ckp_CkHashSignAdditionalContext_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, Ckp_CkHashSignAdditionalContext* value);
 int Ckp_CkHashSignAdditionalContext_Release(Ckp_CkHashSignAdditionalContext* value);
+
+typedef struct _Ckp_CkHkdfParams
+{
+    bool Extract;
+    bool Expand;
+    uint32_t HashMechanism;
+    uint32_t SaltType;
+    Binary* Salt;
+    uint32_t SaltKey;
+    Binary* Info;
+} Ckp_CkHkdfParams;
+
+int Ckp_CkHkdfParams_Serialize(cmp_ctx_t* ctx, Ckp_CkHkdfParams* value);
+int Ckp_CkHkdfParams_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, Ckp_CkHkdfParams* value);
+int Ckp_CkHkdfParams_Release(Ckp_CkHkdfParams* value);
 
 
 typedef void* (*nmrpc_malloc_fn_t)(size_t size);

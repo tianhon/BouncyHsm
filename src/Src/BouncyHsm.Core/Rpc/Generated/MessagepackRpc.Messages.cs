@@ -4425,3 +4425,58 @@ public partial class Ckp_CkHashSignAdditionalContext
 
 }
 
+[MessagePackObject]
+[System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
+public partial class Ckp_CkHkdfParams
+{
+    [Key(0)]
+    public bool Extract
+    {
+        get;
+        set;
+    }
+
+    [Key(1)]
+    public bool Expand
+    {
+        get;
+        set;
+    }
+
+    [Key(2)]
+    public uint HashMechanism
+    {
+        get;
+        set;
+    }
+
+    [Key(3)]
+    public uint SaltType
+    {
+        get;
+        set;
+    }
+
+    [Key(4)]
+    public byte[]? Salt
+    {
+        get;
+        set;
+    }
+
+    [Key(5)]
+    public uint SaltKey
+    {
+        get;
+        set;
+    }
+
+    [Key(6)]
+    public byte[]? Info
+    {
+        get;
+        set;
+    }
+
+}
+

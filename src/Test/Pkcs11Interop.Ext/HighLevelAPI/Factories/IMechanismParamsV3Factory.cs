@@ -1,4 +1,5 @@
 ﻿using Net.Pkcs11Interop.Common;
+using Net.Pkcs11Interop.HighLevelAPI;
 using Pkcs11Interop.Ext.HighLevelAPI.MechanismParams;
 using System;
 using System.Collections.Generic;
@@ -23,4 +24,13 @@ public interface IMechanismParamsV3Factory
     ICkSignAdditionalContextParams CreateSignAdditionalContextParams(ulong hedgeVariant, byte[]? context);
 
     ICkHashSignAdditionalContextParams CreateCkHashSignAdditionalContextParams(ulong hedgeVariant, byte[]? context, CKM hash);
+
+    ICkHkdfParams CreateCkHkdfParams(bool extract,
+        bool expand,
+        CKM hashMechanism,
+        uint saltType,
+        IObjectHandle? saltKey,
+        byte[]? salt,
+        byte[]? info);
+
 }

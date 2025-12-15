@@ -322,6 +322,7 @@ public static class StorageObjectFactory
             CKK.CKK_BLAKE2B_256_HMAC => factory.Create(StorageObjectInternalType.GenericSecretKeyObject),
             CKK.CKK_BLAKE2B_384_HMAC => factory.Create(StorageObjectInternalType.GenericSecretKeyObject),
             CKK.CKK_BLAKE2B_512_HMAC => factory.Create(StorageObjectInternalType.GenericSecretKeyObject),
+            CKK.CKK_HKDF => factory.Create(StorageObjectInternalType.GenericSecretKeyObject),
 
             CKK.CKK_AES => factory.Create(StorageObjectInternalType.AesKeyObject),
             CKK.CKK_POLY1305 => factory.Create(StorageObjectInternalType.Poly1305KeyObject),

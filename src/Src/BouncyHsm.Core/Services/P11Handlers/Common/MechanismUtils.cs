@@ -221,7 +221,7 @@ internal static class MechanismUtils
             {CKM.CKM_BLAKE2B_512_KEY_DERIVE, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_DERIVE, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },
             {CKM.CKM_SHAKE_128_KEY_DERIVATION, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_DERIVE, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },
             {CKM.CKM_SHAKE_256_KEY_DERIVATION, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_DERIVE, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },
-
+            {CKM.CKM_HKDF_DERIVE, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_DERIVE, MechanismCkf.CKF_DERIVE, false, Pkcs11SpecVersion.V3_1) },
 
             // Derive using data
             {CKM.CKM_CONCATENATE_BASE_AND_DATA, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_DERIVE, MechanismCkf.CKF_DERIVE, false, Pkcs11SpecVersion.V2_40) },

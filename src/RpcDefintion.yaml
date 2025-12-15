@@ -1454,3 +1454,14 @@ Messages:
       Context: binary?
       Hash: uint32
 
+  Ckp_CkHkdfParams:
+    Summary: Representes CK_HKDF_PARAMS
+    Fields:
+      Extract: bool
+      Expand: bool
+      HashMechanism: uint32
+      SaltType: uint32
+      Salt: binary?
+      SaltKey: uint32
+      Info: binary?
+
