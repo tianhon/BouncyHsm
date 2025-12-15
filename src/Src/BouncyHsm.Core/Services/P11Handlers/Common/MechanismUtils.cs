@@ -166,6 +166,7 @@ internal static class MechanismUtils
             {CKM.CKM_SHA512_HMAC, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40) },
             {CKM.CKM_SHA512_224_HMAC, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40) },
             {CKM.CKM_SHA512_256_HMAC, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40) },
+            {CKM.CKM_GOSTR3411_HMAC, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40) },
             {CKM.CKM_SHA3_256_HMAC, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },
             {CKM.CKM_SHA3_224_HMAC, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },
             {CKM.CKM_SHA3_384_HMAC, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },
