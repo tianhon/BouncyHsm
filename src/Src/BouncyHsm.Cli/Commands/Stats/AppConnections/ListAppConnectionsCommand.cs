@@ -15,7 +15,7 @@ internal class ListAppConnectionsCommand : AsyncCommand<ListAppConnectionsComman
 {
     internal sealed class Settings : BaseSettings
     {
-        [CommandOption("-includeCmdLine")]
+        [CommandOption("-i|--includeCmdLine")]
         [DefaultValue(false)]
         public bool IncludeCmd
         {
