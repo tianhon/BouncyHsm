@@ -1,4 +1,5 @@
-﻿using BouncyHsm.Cli.Commands.Objects;
+﻿using BouncyHsm.Cli.Commands.Migration;
+using BouncyHsm.Cli.Commands.Objects;
 using BouncyHsm.Cli.Commands.Pkcs;
 using BouncyHsm.Cli.Commands.Slot;
 using BouncyHsm.Cli.Commands.Stats;
@@ -75,6 +76,13 @@ public static class Program
                 stats.AddCommand<GetOverviewStatsCommand>("overview").WithDescription("Get overview stats.");
 
                 stats.SetDescription("Display of statistical data.");
+            });
+
+            config.AddBranch("migration", stats =>
+            {
+                stats.AddCommand<MigrateObjectsCommand>("migrate").WithDescription("Migrate crypto objects in database to new specification.");
+
+                stats.SetDescription("Migrate crypto objects in database to new specification.");
             });
         });
 

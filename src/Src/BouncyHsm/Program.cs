@@ -87,6 +87,7 @@ public class Program
         builder.Services.AddScoped<BouncyHsm.Core.UseCases.Contracts.IStatsFacade, BouncyHsm.Core.UseCases.Implementation.StatsFacade>();
         builder.Services.AddScoped<BouncyHsm.Core.UseCases.Contracts.IKeysGenerationFacade, BouncyHsm.Core.UseCases.Implementation.KeysGenerationFacade>();
         builder.Services.AddScoped<BouncyHsm.Core.UseCases.Contracts.IApplicationConnectionsFacade, BouncyHsm.Core.UseCases.Implementation.ApplicationConnectionsFacade>();
+        builder.Services.AddScoped<BouncyHsm.Core.UseCases.Contracts.IMigrationFacade, BouncyHsm.Core.UseCases.Implementation.MigrationFacade>();
 
         builder.Services.AddSingleton<BouncyHsm.Infrastructure.PapServices.IPapLoginMemoryContext, BouncyHsm.Infrastructure.PapServices.PapLoginMemoryContext>();
         builder.Services.AddTransient<IProtectedAuthPathProvider, BouncyHsm.Infrastructure.PapServices.SignalrProtectedAuthPathProvider>();
