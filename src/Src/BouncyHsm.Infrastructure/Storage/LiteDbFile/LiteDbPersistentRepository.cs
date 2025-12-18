@@ -139,7 +139,6 @@ internal class LiteDbPersistentRepository : IPersistentRepository, IDisposable
         return CryptographicOperations.FixedTimeEquals(hash, hashModel.Hash);
     }
 
-
     public ValueTask<SlotEntity?> GetSlot(uint slotId, CancellationToken cancellationToken)
     {
         this.logger.LogTrace("Entering to GetSlot with slotId {slotId}.", slotId);
@@ -166,7 +165,7 @@ internal class LiteDbPersistentRepository : IPersistentRepository, IDisposable
 
         if (specification.WithTokenPresent)
         {
-            IReadOnlyList<SlotEntity> list = collection.Find(t => !(t.IsRemovableDevice && t.IsUnplugged)).Select(t => mapper.MapSlot(t)).ToList();
+            IReadOnlyList<SlotEntity> list = collection.Find(t => !(t.IsRemovableDevice && !t.IsPlugged!.Value)).Select(t => mapper.MapSlot(t)).ToList();
             return new ValueTask<IReadOnlyList<SlotEntity>>(list);
         }
         else

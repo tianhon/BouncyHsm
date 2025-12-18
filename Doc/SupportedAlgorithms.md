@@ -1,14 +1,17 @@
 ﻿# Supported algorithms
 
-Supported algorithms for _Bouncy Hsm_ version 2.0.0.0 (commit _24d1c1a8808415016ed23db35f6a5658e006e07e_).
+Supported algorithms for _Bouncy Hsm_ version 2.0.0.0 (commit _c96ee7fb6104684e4d629531d4b027b9dede0648_).
 
 ## Mechanisms
-_Bouncy Hsm_ supports 198 mechanisms.
+_Bouncy Hsm_ supports 200 mechanisms.
 
-Supported mechanisms are by default for PKCS#11 specification [version 2.40](https://docs.oasis-open.org/pkcs11/pkcs11-curr/v2.40/os/pkcs11-curr-v2.40-os.pdf),
-and native APIs are also used for it.
-_Bouncy&nbsp;Hsm_ allows the use of some mechanisms from PKCS#11 specification [version 3.1](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.1/os/pkcs11-spec-v3.1-os.pdf)
-and [version 3.2](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.2/pkcs11-spec-v3.2.pdf).
+BouncyHsm provides PKCS#11 interfaces for versions [2.40](https://docs.oasis-open.org/pkcs11/pkcs11-curr/v2.40/os/pkcs11-curr-v2.40-os.pdf),
+[3.1](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.1/os/pkcs11-spec-v3.1-os.pdf),
+and [3.2](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.2/pkcs11-spec-v3.2.pdf),
+these versions are backward compatible.
+The specification in which the mechanism was added is indicated for each mechanism.
+
+The mechanism can also be used in older versions of the native API.
 
 | Mechanism | Min key size | Max key size | Digest | Sign, Verify | SignRecover, VerifyRecover | Derive | Encrypt, Decrypt | Generate key pair | Generate key | Wrap, Unwrap | Encapsulate, Decapsulate |
 | :---  | ---: | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -169,6 +172,7 @@ and [version 3.2](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.2/pkcs11-spe
 | `CKM_AES_ECB_ENCRYPT_DATA`  | 16  | 32 |   |   |   | ✓ |   |   |   |   |   |
 | `CKM_AES_CBC_ENCRYPT_DATA`  | 16  | 32 |   |   |   | ✓ |   |   |   |   |   |
 | `CKM_GOSTR3411`  | 0  | 0 | ✓ |   |   |   |   |   |   |   |   |
+| `CKM_GOSTR3411_HMAC`  | 1  | 10485760 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_CHACHA20_KEY_GEN` <sub>v3.1</sub> | 32  | 32 |   |   |   |   |   |   | ✓ |   |   |
 | `CKM_CHACHA20` <sub>v3.1</sub> | 32  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
 | `CKM_POLY1305_KEY_GEN` <sub>v3.1</sub> | 32  | 32 |   |   |   |   |   |   | ✓ |   |   |
@@ -209,6 +213,7 @@ and [version 3.2](https://docs.oasis-open.org/pkcs11/pkcs11-spec/v3.2/pkcs11-spe
 | `CKM_BLAKE2B_512_KEY_GEN` <sub>v3.1</sub> | 1  | 10485760 |   |   |   |   |   |   | ✓ |   |   |
 | `CKM_SALSA20` <sub>v3.1</sub> | 32  | 32 |   |   |   |   | ✓ |   |   | ✓ |   |
 | `CKM_CHACHA20_POLY1305` <sub>v3.1</sub> | 32  | 32 |   |   |   |   | ✓ |   |   |   |   |
+| `CKM_HKDF_DERIVE` <sub>v3.1</sub> | 1  | 10485760 |   |   |   | ✓ |   |   |   |   |   |
 | `CKM_SALSA20_KEY_GEN` <sub>v3.1</sub> | 32  | 32 |   |   |   |   |   |   | ✓ |   |   |
 
 ## Elliptic curves
@@ -369,3 +374,4 @@ _Bouncy Hsm_ supports 3 different ML-KEM key parameters.
 | ML-KEM-512 |
 | ML-KEM-768 |
 | ML-KEM-1024 |
+
