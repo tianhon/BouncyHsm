@@ -18,10 +18,13 @@ namespace BouncyHsm.Infrastructure.Storage.LiteDbFile;
 internal class LiteDbPersistentRepository : IPersistentRepository, IDisposable
 {
     private readonly LiteDatabase database;
+    private readonly IOptions<LiteDbPersistentRepositorySetup> persistenceSetup;
+    private readonly TimeProvider timeProvider;
     private readonly ILogger<LiteDbPersistentRepository> logger;
     private bool disposedValue;
 
     public LiteDbPersistentRepository(IOptions<LiteDbPersistentRepositorySetup> persistenceSetup,
+        TimeProvider timeProvider,
         ILogger<LiteDbPersistentRepository> logger)
     {
         ConnectionString connectionString = new ConnectionString()
@@ -44,7 +47,8 @@ internal class LiteDbPersistentRepository : IPersistentRepository, IDisposable
         }
 
         logger.LogInformation("Open database {databasePath}.", connectionString.Filename);
-
+        this.persistenceSetup = persistenceSetup;
+        this.timeProvider = timeProvider;
         this.logger = logger;
 
         this.InitAllIndex();
@@ -72,7 +76,7 @@ internal class LiteDbPersistentRepository : IPersistentRepository, IDisposable
 
         slotModel.Id = Guid.NewGuid();
         slotModel.SlotId = (uint)insertedId;
-        slotModel.Created = DateTime.UtcNow;
+        slotModel.Created = this.timeProvider.GetUtcNow().UtcDateTime;
 
         PasswordsModel passwords = new PasswordsModel()
         {
@@ -473,7 +477,7 @@ internal class LiteDbPersistentRepository : IPersistentRepository, IDisposable
             LabelHash = this.CalculateXxxHash(storageObject.CkaLabel),
             IsPrivate = storageObject.CkaPrivate,
             SlotId = slotId,
-            Created = DateTime.UtcNow
+            Created = this.timeProvider.GetUtcNow().UtcDateTime
         };
 
         StorageObjectMemento memento = storageObject.ToMemento();
@@ -584,7 +588,7 @@ internal class LiteDbPersistentRepository : IPersistentRepository, IDisposable
             currentVersion = new VersionModel()
             {
                 Id = version,
-                MigrationTime = DateTime.UtcNow
+                MigrationTime = this.timeProvider.GetUtcNow().UtcDateTime
             };
 
             collection.Insert(currentVersion);
