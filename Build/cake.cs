@@ -9,11 +9,11 @@ string ArtifactsDirectory = "./artifacts";
 string ArtifactsTmpDirectory = "./artifacts/.tmp/";
 
 GitCommit gitTip = GitLogTip(".");
-GitBranch gitBranshObj = GitBranchCurrent(".");
+GitBranch gitBranchObj = GitBranchCurrent(".");
 
 string gitCommit = gitTip.Sha;
-string gitBranch = gitBranshObj.CanonicalName;
-string ThisVersion = "0.0.0"; //TODO - load from build properties file
+string gitBranch = gitBranchObj.CanonicalName;
+string ThisVersion = XmlPeek("src/Directory.Build.props", "//Version/text()");
 
 Task(BuildTarget.RebuildDocumentation)
     .Does(() =>
