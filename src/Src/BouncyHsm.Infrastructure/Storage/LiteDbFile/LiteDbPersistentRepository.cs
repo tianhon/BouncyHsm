@@ -74,7 +74,7 @@ internal class LiteDbPersistentRepository : IPersistentRepository, IDisposable
         int insertedId = slotSequence.Insert(new SlotSequence());
         this.logger.LogDebug("Create new slotId using slot sequence {insertedId}.", insertedId);
 
-        slotModel.Id = Guid.NewGuid();
+        slotModel.Id = Guid.CreateVersion7();
         slotModel.SlotId = (uint)insertedId;
         slotModel.Created = this.timeProvider.GetUtcNow().UtcDateTime;
 
