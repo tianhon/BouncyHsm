@@ -2,6 +2,7 @@
 using BouncyHsm.Core.Services.Contracts.Entities;
 using BouncyHsm.Core.Services.Contracts.P11;
 using BouncyHsm.Core.UseCases.Contracts;
+using BouncyHsm.Core.UseCases.Implementation.SlotCommands;
 using BouncyHsm.Core.UseCases.Implementation.Visitors;
 using Microsoft.Extensions.Logging;
 
@@ -24,6 +25,12 @@ public class MigrationFacade : IMigrationFacade
 
         IReadOnlyList<SlotEntity> slots = await this.hwServices.Persistence.GetSlots(new GetSlotSpecification(false), cancellationToken);
         FindObjectSpecification specification = new FindObjectSpecification(new Dictionary<CKA, IAttributeValue>(), true);
+
+        foreach (SlotEntity slot in slots)
+        {
+            this.logger.LogTrace("Migrate slot {SlotId} <{TokenLabel}>.", slot.SlotId, slot.Token.Label);
+            await this.hwServices.Persistence.ExecuteSlotCommand(slot.SlotId, new MigrateSlotCommand(), cancellationToken);
+        }
 
         int successed = 0;
         int failed = 0;
