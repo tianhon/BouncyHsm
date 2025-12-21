@@ -5603,8 +5603,8 @@ namespace BouncyHsm.Client
         [System.Text.Json.Serialization.JsonPropertyName("IsRemovableDevice")]
         public bool IsRemovableDevice { get; set; } = default!;
 
-        [System.Text.Json.Serialization.JsonPropertyName("IsUnplugged")]
-        public bool IsUnplugged { get; set; } = default!;
+        [System.Text.Json.Serialization.JsonPropertyName("IsPlugged")]
+        public bool IsPlugged { get; set; } = default!;
 
         [System.Text.Json.Serialization.JsonPropertyName("Description")]
         public string Description { get; set; } = default!;
