@@ -1,12 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
+@inject IConfiguration Configuration
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Bouncy Hsm</title>
-    <base href="/" />
+    <base href="@(this.BasePath)" />
 
     <ResourcePreloader />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -35,3 +36,10 @@
 </body>
 
 </html>
+
+@code {
+    private string BasePath
+    {
+        get => string.Concat((this.Configuration.GetValue<string>("AppBasePath") ?? string.Empty).TrimEnd('/'), " /");
+    }
+}

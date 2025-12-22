@@ -26,7 +26,7 @@ Configure `appsettings.json`:
 - set `LiteDbPersistentRepositorySetup::DbFilePath` to `D:/BouncyHsm/Data/BouncyHsm.db`
 - set file logging in `Serilog::WriteTo::Args::path` to `D:/BouncyHsm/Logs/BouncyHsm.log.txt` (for configure logs see <https://github.com/serilog/serilog-settings-configuration>)
 - set web interface endpoint in `Kestrel::Endpoints::Http::Url`
-- set basePath for deploy URL if need in `AppBasePath` - Set base path for WebUi and REST API, it must be changed here in the configuration and in `wwwroot/index.html` in the tag `<base href="/" />` for example `"AppBasePath": "/foo"`, `<base href="/foo/" />`
+- set basePath for deploy URL if need in `AppBasePath`
 
 ### Create service account
 
