@@ -2,11 +2,9 @@ using BouncyHsm.Core.Services.Contracts;
 using BouncyHsm.Infrastructure;
 using BouncyHsm.Infrastructure.Application;
 using BouncyHsm.Services.Configuration;
-using Microsoft.Extensions.Configuration;
+using BouncyHsm.Spa;
 using Microsoft.Extensions.Hosting.WindowsServices;
 using Serilog;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
 
 namespace BouncyHsm;
 
@@ -66,6 +64,9 @@ public class Program
         });
 
         builder.Host.UseWindowsService();
+        builder.Services.AddAntiforgery();
+        builder.Services.AddRazorComponents()
+                .AddInteractiveWebAssemblyComponents();
 
         builder.Services.AddP11Handlers();
         builder.Services.AddHostedService<Infrastructure.HostedServices.TcpHostedService>();
@@ -120,17 +121,28 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+        app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 
-        app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
+        app.MapStaticAssets();
+
         app.UseRouting();
+
+        app.UseAuthorization();
+        app.UseAntiforgery();
+       
 
         app.UseAuthorization();
 
         app.MapHub<BouncyHsm.Infrastructure.LogPropagation.LogHub>("/loghub");
         app.MapHub<BouncyHsm.Infrastructure.PapServices.PapHub>("/paphub");
+
         app.MapControllers();
-        app.MapFallbackToFile("index.html");
+
+        app.MapRazorComponents<App>()
+               .AddInteractiveWebAssemblyRenderMode()
+        .AddAdditionalAssemblies(typeof(Spa._Imports).Assembly);
+        
 
         app.Run();
     }
