@@ -112,6 +112,12 @@ internal abstract class BaseKeyTimeVisitor : ICryptoApiObjectVisitor<TimeSpan>
 
     public abstract TimeSpan Visit(MlKemPrivateKeyObject mlKemPrivateKeyObject);
 
+    public TimeSpan Visit(CamelliaKeyObject camelliaKeyObject)
+    {
+        this.NotSupported(camelliaKeyObject);
+        return default;
+    }
+
     [DoesNotReturn]
     protected virtual void NotSupported(ICryptoApiObject cryptoApiObject)
     {

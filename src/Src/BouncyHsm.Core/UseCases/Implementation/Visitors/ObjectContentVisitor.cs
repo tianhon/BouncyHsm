@@ -144,6 +144,11 @@ internal class ObjectContentVisitor : ICryptoApiObjectVisitor<DomainResult<Objec
         return this.CreatePemResult("ml_kem_private_key.pem", mlKemPrivateKeyObject.GetPrivateKey());
     }
 
+    public DomainResult<ObjectContent> Visit(CamelliaKeyObject camelliaKeyObject)
+    {
+        return new DomainResult<ObjectContent>.Ok(new ObjectContent("camellia_key.bin", camelliaKeyObject.CkaValue));
+    }
+
     private DomainResult<ObjectContent> CreatePemResult(string fileName, object pemObject)
     {
         using MemoryStream ms = new MemoryStream();

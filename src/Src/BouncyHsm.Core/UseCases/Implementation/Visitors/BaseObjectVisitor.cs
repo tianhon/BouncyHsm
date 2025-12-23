@@ -104,34 +104,39 @@ internal abstract class BaseObjectVisitor<T> : ICryptoApiObjectVisitor<T>
         return this.ProcessStorageObject(trustObject);
     }
 
-    public T Visit(MlDsaPublicKeyObject mlDsaPublicKeyObject)
+    public virtual T Visit(MlDsaPublicKeyObject mlDsaPublicKeyObject)
     {
         return this.ProcessStorageObject(mlDsaPublicKeyObject);
     }
 
-    public T Visit(MlDsaPrivateKeyObject mlDsaPrivateKeyObject)
+    public virtual T Visit(MlDsaPrivateKeyObject mlDsaPrivateKeyObject)
     {
         return this.ProcessStorageObject(mlDsaPrivateKeyObject);
     }
 
-    public T Visit(SlhDsaPublicKeyObject slhDsaPublicKeyObject)
+    public virtual T Visit(SlhDsaPublicKeyObject slhDsaPublicKeyObject)
     {
         return this.ProcessStorageObject(slhDsaPublicKeyObject);
     }
 
-    public T Visit(SlhDsaPrivateKeyObject slhDsaPrivateKeyObject)
+    public virtual T Visit(SlhDsaPrivateKeyObject slhDsaPrivateKeyObject)
     {
         return this.ProcessStorageObject(slhDsaPrivateKeyObject);
     }
 
-    public T Visit(MlKemPublicKeyObject mlKemPublicKeyObject)
+    public virtual T Visit(MlKemPublicKeyObject mlKemPublicKeyObject)
     {
         return this.ProcessStorageObject(mlKemPublicKeyObject);
     }
 
-    public T Visit(MlKemPrivateKeyObject mlKemPrivateKeyObject)
+    public virtual T Visit(MlKemPrivateKeyObject mlKemPrivateKeyObject)
     {
         return this.ProcessStorageObject(mlKemPrivateKeyObject);
+    }
+
+    public virtual T Visit(CamelliaKeyObject camelliaKeyObject)
+    {
+        return this.ProcessStorageObject(camelliaKeyObject);
     }
 
     protected virtual T ProcessStorageObject(ICryptoApiObject storageObject)

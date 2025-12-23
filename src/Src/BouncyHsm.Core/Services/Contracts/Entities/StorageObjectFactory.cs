@@ -37,7 +37,8 @@ public static class StorageObjectFactory
         SlhDsaPrivateKeyObject,
         SlhDsaPublicKeyObject,
         MlKemPrivateKeyObject,
-        MlKemPublicKeyObject
+        MlKemPublicKeyObject,
+        CamelliaKeyObject,
     }
 
     internal interface IStorageObjectInternalFactory
@@ -80,6 +81,7 @@ public static class StorageObjectFactory
                 StorageObjectInternalType.SlhDsaPublicKeyObject => new SlhDsaPublicKeyObject(),
                 StorageObjectInternalType.MlKemPublicKeyObject => new MlKemPublicKeyObject(),
                 StorageObjectInternalType.MlKemPrivateKeyObject => new MlKemPrivateKeyObject(),
+                StorageObjectInternalType.CamelliaKeyObject => new CamelliaKeyObject(),
                 _ => throw new InvalidProgramException($"Enum value {storageObjectType} is not supported.")
             };
         }
@@ -122,6 +124,7 @@ public static class StorageObjectFactory
                 StorageObjectInternalType.SlhDsaPublicKeyObject => new SlhDsaPublicKeyObject(this.memento),
                 StorageObjectInternalType.MlKemPublicKeyObject => new MlKemPublicKeyObject(this.memento),
                 StorageObjectInternalType.MlKemPrivateKeyObject => new MlKemPrivateKeyObject(this.memento),
+                StorageObjectInternalType.CamelliaKeyObject => new CamelliaKeyObject(this.memento),
                 _ => throw new InvalidProgramException($"Enum value {storageObjectType} is not supported.")
             };
         }
@@ -328,6 +331,7 @@ public static class StorageObjectFactory
             CKK.CKK_POLY1305 => factory.Create(StorageObjectInternalType.Poly1305KeyObject),
             CKK.CKK_CHACHA20 => factory.Create(StorageObjectInternalType.ChaCha20KeyObject),
             CKK.CKK_SALSA20 => factory.Create(StorageObjectInternalType.Salsa20KeyObject),
+            CKK.CKK_CAMELLIA => factory.Create(StorageObjectInternalType.CamelliaKeyObject),
             _ => throw new RpcPkcs11Exception(CKR.CKR_TEMPLATE_INCONSISTENT, $"Value {keyType} for CKO_SECRET_KEY is not defined.")
         };
 

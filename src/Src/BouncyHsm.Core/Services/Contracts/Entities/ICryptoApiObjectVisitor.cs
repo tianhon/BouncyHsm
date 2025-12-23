@@ -51,6 +51,8 @@ public interface ICryptoApiObjectVisitor
     void Visit(MlKemPublicKeyObject mlKemPublicKeyObject);
     
     void Visit(MlKemPrivateKeyObject mlKemPrivateKeyObject);
+
+    void Visit(CamelliaKeyObject camelliaKeyObject);
 }
 
 public interface ICryptoApiObjectVisitor<out T>
@@ -104,4 +106,6 @@ public interface ICryptoApiObjectVisitor<out T>
     T Visit(MlKemPublicKeyObject mlKemPublicKeyObject);
     
     T Visit(MlKemPrivateKeyObject mlKemPrivateKeyObject);
+
+    T Visit(CamelliaKeyObject camelliaKeyObject);
 }

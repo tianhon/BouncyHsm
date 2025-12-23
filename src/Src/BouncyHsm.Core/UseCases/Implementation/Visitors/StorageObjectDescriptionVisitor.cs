@@ -145,4 +145,9 @@ internal class StorageObjectDescriptionVisitor : ICryptoApiObjectVisitor<string>
     {
         return $"Private key {MlKemUtils.GetParametersName(mlKemPrivateKeyObject.CkaParameterSet)}";
     }
+
+    public string Visit(CamelliaKeyObject camelliaKeyObject)
+    {
+        return $"CAMELLIA-{camelliaKeyObject.CkaValueLen * 8} Key";
+    }
 }
