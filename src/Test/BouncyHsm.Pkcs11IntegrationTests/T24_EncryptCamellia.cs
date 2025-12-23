@@ -64,6 +64,7 @@ public class T24_EncryptCamellia
 
     [TestMethod]
     [DataRow(CKM.CKM_CAMELLIA_CBC)]
+    [DataRow(CKM.CKM_CAMELLIA_CBC_PAD)]
     public void Encrypt_CamelliaWithIv_Success(CKM mechanismType)
     {
         byte[] plainText = new byte[16];

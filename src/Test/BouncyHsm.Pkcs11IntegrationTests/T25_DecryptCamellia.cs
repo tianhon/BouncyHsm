@@ -70,6 +70,7 @@ public class T25_DecryptCamellia
 
     [TestMethod]
     [DataRow(CKM.CKM_CAMELLIA_CBC)]
+    [DataRow(CKM.CKM_CAMELLIA_CBC_PAD)]
     public void Decrypt_CamelliaWithIv_Success(CKM mechanismType)
     {
         byte[] plainText = new byte[16];

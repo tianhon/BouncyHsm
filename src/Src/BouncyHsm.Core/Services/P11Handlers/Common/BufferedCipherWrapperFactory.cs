@@ -62,6 +62,7 @@ internal class BufferedCipherWrapperFactory
 
             CKM.CKM_CAMELLIA_ECB => this.CreateCamelliaWithoutIv(CipherUtilities.GetCipher("CAMELLIA/ECB/NOPADDING"), mechanism),
             CKM.CKM_CAMELLIA_CBC => this.CreateCamellia(CipherUtilities.GetCipher("CAMELLIA/CBC/NOPADDING"), true, mechanism),
+            CKM.CKM_CAMELLIA_CBC_PAD => this.CreateCamellia(CipherUtilities.GetCipher("CAMELLIA/CBC/PKCS7PADDING"), false, mechanism),
 
 
             _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Invalid mechanism {ckMechanism} for encrypt, decrypt, wrap or unwrap.")

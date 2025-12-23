@@ -279,6 +279,7 @@ internal static class MechanismUtils
             {CKM.CKM_CAMELLIA_KEY_GEN, new MechanismInfo(CamelliaMinKeySize, CamelliaMaxKeySize, MechanismCkf.CKF_GENERATE, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40)},
             {CKM.CKM_CAMELLIA_ECB, new MechanismInfo(CamelliaMinKeySize, CamelliaMaxKeySize, MechanismCkf.CKF_ENCRYPT | MechanismCkf.CKF_DECRYPT | MechanismCkf.CKF_WRAP | MechanismCkf.CKF_UNWRAP, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40)},
             {CKM.CKM_CAMELLIA_CBC, new MechanismInfo(CamelliaMinKeySize, CamelliaMaxKeySize, MechanismCkf.CKF_ENCRYPT | MechanismCkf.CKF_DECRYPT | MechanismCkf.CKF_WRAP | MechanismCkf.CKF_UNWRAP, MechanismCkf.CKF_ENCRYPT | MechanismCkf.CKF_DECRYPT| MechanismCkf.CKF_WRAP | MechanismCkf.CKF_UNWRAP, false, Pkcs11SpecVersion.V2_40)},
+            {CKM.CKM_CAMELLIA_CBC_PAD, new MechanismInfo(CamelliaMinKeySize, CamelliaMaxKeySize, MechanismCkf.CKF_ENCRYPT | MechanismCkf.CKF_DECRYPT | MechanismCkf.CKF_WRAP | MechanismCkf.CKF_UNWRAP, MechanismCkf.CKF_ENCRYPT | MechanismCkf.CKF_DECRYPT| MechanismCkf.CKF_WRAP | MechanismCkf.CKF_UNWRAP, false, Pkcs11SpecVersion.V2_40)},
 
             // Edwards key
             {CKM.CKM_EC_EDWARDS_KEY_PAIR_GEN, new MechanismInfo(EdwardsMinKeySize, EdwardsMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR | MechanismCkf.CKF_EC_NAMEDCURVE | MechanismCkf.CKF_EC_CURVENAME, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },

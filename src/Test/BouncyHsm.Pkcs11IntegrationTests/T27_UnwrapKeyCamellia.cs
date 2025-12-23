@@ -16,6 +16,7 @@ public class T27_UnwrapKeyCamellia
     [TestMethod]
     [DataRow(CKM.CKM_CAMELLIA_ECB, 0)]
     [DataRow(CKM.CKM_CAMELLIA_CBC, 16)]
+    [DataRow(CKM.CKM_CAMELLIA_CBC_PAD, 16)]
     public void Unwrap_CamelliaKeyUpadedSecret_Success(CKM aesMechanism, int ivLen)
     {
         Pkcs11InteropFactories factories = new Pkcs11InteropFactories();
@@ -69,6 +70,7 @@ public class T27_UnwrapKeyCamellia
     [TestMethod]
     [DataRow(CKM.CKM_CAMELLIA_ECB, 0)]
     [DataRow(CKM.CKM_CAMELLIA_CBC, 16)]
+    [DataRow(CKM.CKM_CAMELLIA_CBC_PAD, 16)]
     public void Unwrap_CamelliaKeyUpadedRsa_Success(CKM aesMechanism, int ivLen)
     {
         Pkcs11InteropFactories factories = new Pkcs11InteropFactories();
