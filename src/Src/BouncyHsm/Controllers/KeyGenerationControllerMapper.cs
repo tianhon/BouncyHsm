@@ -38,4 +38,6 @@ internal static partial class KeyGenerationControllerMapper
     public static partial GenerateSlhDsaKeyPairRequest MapFromDto(GenerateSlhDsaKeyPairRequestDto model);
 
     public static partial GenerateMLKemKeyPairRequest MapFromDto(GenerateMlKemKeyPairRequestDto model);
+
+    public static partial GenerateCamelliaKeyRequest MapFromDto(GenerateCamelliaKeyRequestDto model);
 }

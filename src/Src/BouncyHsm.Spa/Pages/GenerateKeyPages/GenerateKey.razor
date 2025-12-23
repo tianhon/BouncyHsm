@@ -41,6 +41,7 @@ else
                         <option value="@GeneratedKeyType.SlhDsa">SLH-DSA key pair</option>
                         <option value="@GeneratedKeyType.MlKem">ML-KEM key pair</option>
                         <option value="@GeneratedKeyType.Aes">AES key</option>
+                        <option value="@GeneratedKeyType.Camellia">CAMELLIA key</option>
                         <option value="@GeneratedKeyType.Poly1305">POLY1305 key</option>
                         <option value="@GeneratedKeyType.ChaCha20">ChaCha20 key</option>
                         <option value="@GeneratedKeyType.Salsa20">Salsa20 key</option>
@@ -53,19 +54,19 @@ else
 
             @if (this.KeyType == GeneratedKeyType.Rsa)
             {
-                <GenerateRsaKeys SlotId="@this.SlotId" OnLoadingChanged="e=>this.isInLoading = e" />
+                <GenerateRsaKeys SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
             }
             else if (this.KeyType == GeneratedKeyType.Ec)
             {
-                <GenerateEcKeys SlotId="@this.SlotId" OnLoadingChanged="e=>this.isInLoading = e" />
+                <GenerateEcKeys SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
             }
             else if (this.KeyType == GeneratedKeyType.Edwards)
             {
-                <GenerateEdwardsKeys SlotId="@this.SlotId" OnLoadingChanged="e=>this.isInLoading = e" />
+                <GenerateEdwardsKeys SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
             }
             else if (this.KeyType == GeneratedKeyType.Mongomery)
             {
-                <GenerateMongomeryKeys SlotId="@this.SlotId" OnLoadingChanged="e=>this.isInLoading = e" />
+                <GenerateMongomeryKeys SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
             }
             else if (this.KeyType == GeneratedKeyType.MlDsa)
             {
@@ -81,30 +82,50 @@ else
             }
             else if (this.KeyType == GeneratedKeyType.Aes)
             {
-                <GenerateAesKey SlotId="@this.SlotId" OnLoadingChanged="e=>this.isInLoading = e" />
+                <GenerateAesKey SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
+            }
+            else if (this.KeyType == GeneratedKeyType.Camellia)
+            {
+                <GenerateCamelliaKey SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
             }
             else if (this.KeyType == GeneratedKeyType.Poly1305)
             {
-                <GeneratePoly1305Key SlotId="@this.SlotId" OnLoadingChanged="e=>this.isInLoading = e" />
+                <GeneratePoly1305Key SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
             }
             else if (this.KeyType == GeneratedKeyType.ChaCha20)
             {
-                <GenerateChaChaKey SlotId="@this.SlotId" OnLoadingChanged="e=>this.isInLoading = e" />
+                <GenerateChaChaKey SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
             }
             else if (this.KeyType == GeneratedKeyType.Salsa20)
             {
-                <GenerateSalsaKey SlotId="@this.SlotId" OnLoadingChanged="e=>this.isInLoading = e" />
+                <GenerateSalsaKey SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
             }
             else if (this.KeyType == GeneratedKeyType.Secret)
             {
-                <GenerateSecretKey SlotId="@this.SlotId" OnLoadingChanged="e=>this.isInLoading = e" />
+                <GenerateSecretKey SlotId="@this.SlotId" OnLoadingChanged="e => this.isInLoading = e" />
             }
         </div>
     </div>
 }
 
 @code {
-    internal enum GeneratedKeyType { None, Rsa, Ec, Edwards, Mongomery, MlDsa, SlhDsa, MlKem, Aes, Poly1305, ChaCha20, Salsa20, Secret }
+    internal enum GeneratedKeyType
+    {
+        None,
+        Rsa,
+        Ec,
+        Edwards,
+        Mongomery,
+        MlDsa,
+        SlhDsa,
+        MlKem,
+        Aes,
+        Camellia,
+        Poly1305,
+        ChaCha20,
+        Salsa20,
+        Secret
+    }
 
     [Parameter]
     public int SlotId

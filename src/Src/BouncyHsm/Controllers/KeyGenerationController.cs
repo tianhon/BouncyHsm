@@ -162,4 +162,16 @@ public class KeyGenerationController : Controller
 
         return result.MapOk(KeyGenerationControllerMapper.ToDto).ToActionResult();
     }
+
+    [HttpPost("{slotId}/GenerateCamelliaKey", Name = nameof(GenerateCamelliaKey))]
+    [ProducesResponseType(typeof(GeneratedKeyPairIdsDto), 200)]
+    public async Task<IActionResult> GenerateCamelliaKey(uint slotId, [FromBody] GenerateCamelliaKeyRequestDto model)
+    {
+        this.logger.LogTrace("Entering to GenerateCamelliaKey with slotId {slotId}.", slotId);
+
+        GenerateCamelliaKeyRequest request = KeyGenerationControllerMapper.MapFromDto(model);
+        DomainResult<GeneratedSecretId> result = await this.keyGenerationFacade.GenerateCamelliaKey(slotId, request, this.HttpContext.RequestAborted);
+
+        return result.MapOk(KeyGenerationControllerMapper.ToDto).ToActionResult();
+    }
 }

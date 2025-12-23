@@ -319,6 +319,40 @@ public class KeysGenerationFacadeTests
     }
 
     [TestMethod]
+    public async Task GenerateCamelliaKey_Call_Success()
+    {
+        Mock<IPersistentRepository> repository = new Mock<IPersistentRepository>(MockBehavior.Strict);
+        repository.Setup(t => t.StoreObject(12U, It.Is<StorageObject>(q => q is CamelliaKeyObject), It.IsAny<CancellationToken>()))
+            .Returns(new ValueTask())
+            .Verifiable();
+
+        repository.Setup(t => t.GetSlot(12U, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(this.GetClotEnity())
+            .Verifiable();
+
+        KeysGenerationFacade pkcsFacade = new KeysGenerationFacade(repository.Object, new NullLoggerFactory(), new NullLogger<KeysGenerationFacade>());
+
+        GenerateCamelliaKeyRequest request = new GenerateCamelliaKeyRequest()
+        {
+            Size = 32,
+            KeyAttributes = new GenerateKeyAttributes()
+            {
+                CkaId = null,
+                CkaLabel = "test1",
+                Exportable = false,
+                ForDerivation = false,
+                ForEncryption = true,
+                ForSigning = true,
+                ForWrap = false,
+                Sensitive = true,
+            }
+        };
+
+        DomainResult<GeneratedSecretId> result = await pkcsFacade.GenerateCamelliaKey(12U, request, default);
+        Assert.IsTrue(result.MatchOk(_ => true, () => false));
+    }
+
+    [TestMethod]
     [DataRow(Core.Services.Contracts.P11.CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_44)]
     [DataRow(Core.Services.Contracts.P11.CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_65)]
     [DataRow(Core.Services.Contracts.P11.CK_ML_DSA_PARAMETER_SET.CKP_ML_DSA_87)]

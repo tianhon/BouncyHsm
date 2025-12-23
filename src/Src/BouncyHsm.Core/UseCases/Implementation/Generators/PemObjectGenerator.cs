@@ -273,6 +273,7 @@ internal class PemObjectGenerator
         {
             "GENERIC SECRET" => this.CreateGenericSecret(pemObject.Content, pemObject.Headers),
             "AES SECRET KEY" => this.CreateAesKey(pemObject.Content),
+            "CAMELLIA SECRET KEY" => this.CreateCamelliaKey(pemObject.Content),
             "POLY1305 SECRET KEY" => this.CreatePoly1305Key(pemObject.Content),
             "CHACHA20 SECRET KEY" => this.CreateChaCha20Key(pemObject.Content),
             "SALSA20 SECRET KEY" => this.CreateSalsa20Key(pemObject.Content),
@@ -301,6 +302,11 @@ internal class PemObjectGenerator
         if (keyType == CKK.CKK_AES)
         {
             return this.CreateAesKey(content);
+        }
+
+        if (keyType == CKK.CKK_CAMELLIA)
+        {
+            return this.CreateCamelliaKey(content);
         }
 
         GenericSecretKeyObject genericSecretKeyObject = new GenericSecretKeyObject();
@@ -352,6 +358,32 @@ internal class PemObjectGenerator
         aesKeyObject.ReComputeAttributes();
 
         return aesKeyObject;
+    }
+
+    private StorageObject CreateCamelliaKey(byte[] content)
+    {
+        CamelliaKeyObject camelliaKeyObject = new CamelliaKeyObject();
+        camelliaKeyObject.CkaCopyable = false;
+        camelliaKeyObject.CkaDecrypt = this.ForEncryption;
+        camelliaKeyObject.CkaDerive = this.ForDerivation;
+        camelliaKeyObject.CkaDestroyable = true;
+        camelliaKeyObject.CkaEncrypt = this.ForEncryption;
+        camelliaKeyObject.CkaId = this.ckaId;
+        camelliaKeyObject.CkaLabel = this.ckaLabel;
+        camelliaKeyObject.CkaModifiable = false;
+        camelliaKeyObject.CkaPrivate = true;
+        camelliaKeyObject.CkaSign = this.ForSigning;
+        camelliaKeyObject.CkaToken = true;
+        camelliaKeyObject.CkaTrusted = true;
+        camelliaKeyObject.CkaUnwrap = this.ForWrap;
+
+        camelliaKeyObject.SetSecret(content);
+
+        this.UpdateAttributesByMode(camelliaKeyObject);
+
+        camelliaKeyObject.ReComputeAttributes();
+
+        return camelliaKeyObject;
     }
 
     private StorageObject CreatePoly1305Key(byte[] content)
