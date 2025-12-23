@@ -277,6 +277,7 @@ internal static class MechanismUtils
 
             // Camellia
             {CKM.CKM_CAMELLIA_KEY_GEN, new MechanismInfo(CamelliaMinKeySize, CamelliaMaxKeySize, MechanismCkf.CKF_GENERATE, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40)},
+            {CKM.CKM_CAMELLIA_ECB, new MechanismInfo(CamelliaMinKeySize, CamelliaMaxKeySize, MechanismCkf.CKF_ENCRYPT | MechanismCkf.CKF_DECRYPT | MechanismCkf.CKF_WRAP | MechanismCkf.CKF_UNWRAP, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40)},
 
             // Edwards key
             {CKM.CKM_EC_EDWARDS_KEY_PAIR_GEN, new MechanismInfo(EdwardsMinKeySize, EdwardsMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR | MechanismCkf.CKF_EC_NAMEDCURVE | MechanismCkf.CKF_EC_CURVENAME, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },
@@ -399,6 +400,7 @@ internal static class MechanismUtils
             CKM.CKM_AES_CFB8 => true,
             CKM.CKM_AES_CFB128 => true,
             CKM.CKM_AES_CFB1 => true,
+            CKM.CKM_CAMELLIA_ECB => true,
             _ => false
         };
     }
