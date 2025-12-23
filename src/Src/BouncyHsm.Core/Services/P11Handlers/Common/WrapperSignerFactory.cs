@@ -105,6 +105,7 @@ internal class WrapperSignerFactory
             CKM.CKM_BLAKE2B_384_HMAC => this.CreateHmacWrapperSigner(ckMechanism, new Blake2bDigest(384), CKK.CKK_BLAKE2B_384_HMAC),
             CKM.CKM_BLAKE2B_512_HMAC => this.CreateHmacWrapperSigner(ckMechanism, new Blake2bDigest(512), CKK.CKK_BLAKE2B_512_HMAC),
             CKM.CKM_AES_CMAC => this.CreateAesWrapperSigner(ckMechanism, new CMac(AesUtilities.CreateEngine())),
+            CKM.CKM_CAMELLIA_MAC => this.CreateCamelliaWrapperSigner(ckMechanism, new CMac(new CamelliaEngine())),
 
             CKM.CKM_POLY1305 => new PlainMacWrapperSigner(ckMechanism, new Org.BouncyCastle.Crypto.Macs.Poly1305(), this.loggerFactory.CreateLogger<PlainMacWrapperSigner>(), CKK.CKK_POLY1305),
 
@@ -429,6 +430,14 @@ internal class WrapperSignerFactory
             mac,
             null,
             this.loggerFactory.CreateLogger<AesWrapperSigner>());
+    }
+
+    private CamelliaWrapperSigner CreateCamelliaWrapperSigner(CKM mechanismType, IMac mac)
+    {
+        return new CamelliaWrapperSigner(mechanismType,
+            mac,
+            null,
+            this.loggerFactory.CreateLogger<CamelliaWrapperSigner>());
     }
 
     private AesWrapperSigner CreateAesGeneralWrapperSigner(MechanismValue mechanism, IMac mac)

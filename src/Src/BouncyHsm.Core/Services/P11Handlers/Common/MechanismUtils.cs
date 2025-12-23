@@ -180,6 +180,7 @@ internal static class MechanismUtils
             {CKM.CKM_BLAKE2B_512_HMAC, new MechanismInfo(1, SecretMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },
 
             {CKM.CKM_AES_CMAC, new MechanismInfo(AesMinKeySize, AesMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40) },
+            {CKM.CKM_CAMELLIA_MAC, new MechanismInfo(CamelliaMinKeySize, CamelliaMaxKeySize, MechanismCkf.CKF_SIGN | MechanismCkf.CKF_VERIFY, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40) },
 
 
             //General hmacing
