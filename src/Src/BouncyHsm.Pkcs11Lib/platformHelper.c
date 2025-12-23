@@ -12,6 +12,7 @@
 
 #define _GCC_EINVAL 22
 #define _GCC_ERANGE 34
+
 int strcpy_s(char* destination, size_t SizeInBytes, const char* _Source)
 {
     if (destination == NULL) return _GCC_EINVAL;
@@ -56,8 +57,11 @@ int strncpy_s(char* destination, size_t destsz, const char* _Source, size_t coun
     }
 
 #pragma GCC diagnostic ignored "-Wstringop-overflow"
+#pragma GCC diagnostic ignored "-Wstringop-truncation"
     strncpy(destination, _Source, srcSize);
 #pragma GCC diagnostic push
+#pragma GCC diagnostic push
+
     return 0;
 }
 
@@ -118,9 +122,6 @@ const char* GetPlatformName()
 }
 
 #ifdef _WIN32
-#ifndef _MSC_VER 
-#error "For this feature use MSVC compiler. Or open issue on github." 
-#endif 
 
 static char* LPWSTRtoUtf8(const LPWSTR src, int* out_len)
 {
