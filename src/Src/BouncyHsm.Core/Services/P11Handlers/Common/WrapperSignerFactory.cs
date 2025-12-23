@@ -105,7 +105,6 @@ internal class WrapperSignerFactory
             CKM.CKM_BLAKE2B_384_HMAC => this.CreateHmacWrapperSigner(ckMechanism, new Blake2bDigest(384), CKK.CKK_BLAKE2B_384_HMAC),
             CKM.CKM_BLAKE2B_512_HMAC => this.CreateHmacWrapperSigner(ckMechanism, new Blake2bDigest(512), CKK.CKK_BLAKE2B_512_HMAC),
             CKM.CKM_AES_CMAC => this.CreateAesWrapperSigner(ckMechanism, new CMac(AesUtilities.CreateEngine())),
-            CKM.CKM_CAMELLIA_MAC => this.CreateCamelliaWrapperSigner(ckMechanism, new CMac(new CamelliaEngine())),
 
             CKM.CKM_POLY1305 => new PlainMacWrapperSigner(ckMechanism, new Org.BouncyCastle.Crypto.Macs.Poly1305(), this.loggerFactory.CreateLogger<PlainMacWrapperSigner>(), CKK.CKK_POLY1305),
 
@@ -130,7 +129,6 @@ internal class WrapperSignerFactory
             CKM.CKM_BLAKE2B_512_HMAC_GENERAL => this.CreateHmacGeneralWrapperSigner(mechanism, new Blake2bDigest(512), CKK.CKK_BLAKE2B_512_HMAC),
 
             CKM.CKM_AES_CMAC_GENERAL => this.CreateAesGeneralWrapperSigner(mechanism, new CMac(AesUtilities.CreateEngine())),
-            CKM.CKM_CAMELLIA_MAC_GENERAL => this.CreateCamelliaGeneralWrapperSigner(mechanism, new CMac(new CamelliaEngine())),
 
             CKM.CKM_ML_DSA => this.CreateMlDsaWrapperSigner(mechanism),
             CKM.CKM_HASH_ML_DSA => this.CreateMlDsaPrehashedWrapperSigner(mechanism),
@@ -433,14 +431,6 @@ internal class WrapperSignerFactory
             this.loggerFactory.CreateLogger<AesWrapperSigner>());
     }
 
-    private CamelliaWrapperSigner CreateCamelliaWrapperSigner(CKM mechanismType, IMac mac)
-    {
-        return new CamelliaWrapperSigner(mechanismType,
-            mac,
-            null,
-            this.loggerFactory.CreateLogger<CamelliaWrapperSigner>());
-    }
-
     private AesWrapperSigner CreateAesGeneralWrapperSigner(MechanismValue mechanism, IMac mac)
     {
         this.logger.LogTrace("Entering to CreateAesGeneralWrapperSigner with {MechanismType}.", (CKM)mechanism.MechanismType);
@@ -465,30 +455,4 @@ internal class WrapperSignerFactory
             throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
         }
     }
-
-    private CamelliaWrapperSigner CreateCamelliaGeneralWrapperSigner(MechanismValue mechanism, IMac mac)
-    {
-        this.logger.LogTrace("Entering to CreateCamelliaGeneralWrapperSigner with {MechanismType}.", (CKM)mechanism.MechanismType);
-        try
-        {
-            CkP_MacGeneralParams generalParams = MessagePack.MessagePackSerializer.Deserialize<CkP_MacGeneralParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
-
-            if (generalParams.Value == 0)
-            {
-                this.logger.LogWarning("CK_MacGeneralParams with value 0 for mechanism {MechanismType}. Sign and verify returns nonsensical results.",
-                    (CKM)mechanism.MechanismType);
-            }
-
-            return new CamelliaWrapperSigner((CKM)mechanism.MechanismType,
-             mac,
-             (int)generalParams.Value,
-             this.loggerFactory.CreateLogger<CamelliaWrapperSigner>());
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Error in builds {MechanismType} from parameter.", (CKM)mechanism.MechanismType);
-            throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
-        }
-    }
-
 }
