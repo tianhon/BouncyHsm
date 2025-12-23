@@ -91,6 +91,7 @@ public partial class GenerateKeyHandler : IRpcRequestHandler<GenerateKeyRequest,
             CKM.CKM_POLY1305_KEY_GEN => new Poly1305KeyGenerator(this.loggerFactory.CreateLogger<Poly1305KeyGenerator>()),
             CKM.CKM_CHACHA20_KEY_GEN => new ChaCha20KeyGenerator(this.loggerFactory.CreateLogger<ChaCha20KeyGenerator>()),
             CKM.CKM_SALSA20_KEY_GEN => new Salsa20KeyGenerator(this.loggerFactory.CreateLogger<Salsa20KeyGenerator>()),
+            CKM.CKM_CAMELLIA_KEY_GEN => new CamelliaKeyGenerator(this.loggerFactory.CreateLogger<CamelliaKeyGenerator>()),
 
             CKM.CKM_SHA_1_KEY_GEN => new GenericSecretHmacKeyGenerator(CKK.CKK_SHA_1_HMAC, this.loggerFactory.CreateLogger<GenericSecretHmacKeyGenerator>()),
             CKM.CKM_SHA224_KEY_GEN => new GenericSecretHmacKeyGenerator(CKK.CKK_SHA224_HMAC, this.loggerFactory.CreateLogger<GenericSecretHmacKeyGenerator>()),

@@ -22,6 +22,9 @@ internal static class MechanismUtils
     private const uint AesMinKeySize = 16;
     private const uint AesMaxKeySize = 32;
 
+    private const uint CamelliaMinKeySize = 16;
+    private const uint CamelliaMaxKeySize = 32;
+
     private const MechanismCkf EcdsaSignVerify = MechanismCkf.CKF_SIGN
         | MechanismCkf.CKF_VERIFY
         | MechanismCkf.CKF_EC_NAMEDCURVE
@@ -271,6 +274,9 @@ internal static class MechanismUtils
             {CKM.CKM_SALSA20_KEY_GEN, new MechanismInfo(Salsa20KeySize, Salsa20KeySize, MechanismCkf.CKF_GENERATE, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },
             {CKM.CKM_SALSA20, new MechanismInfo(Salsa20KeySize, Salsa20KeySize, MechanismCkf.CKF_ENCRYPT| MechanismCkf.CKF_DECRYPT | MechanismCkf.CKF_WRAP | MechanismCkf.CKF_UNWRAP, MechanismCkf.CKF_ENCRYPT| MechanismCkf.CKF_DECRYPT | MechanismCkf.CKF_WRAP | MechanismCkf.CKF_UNWRAP, false, Pkcs11SpecVersion.V3_1) },
             //{CKM.CKM_SALSA20_POLY1305, new MechanismInfo(Salsa20KeySize, Salsa20KeySize, MechanismCkf.CKF_ENCRYPT| MechanismCkf.CKF_DECRYPT, MechanismCkf.CKF_ENCRYPT| MechanismCkf.CKF_DECRYPT, false, Pkcs11SpecVersion.V3_0) },
+
+            // Camellia
+            {CKM.CKM_CAMELLIA_KEY_GEN, new MechanismInfo(CamelliaMinKeySize, CamelliaMaxKeySize, MechanismCkf.CKF_GENERATE, MechanismCkf.NONE, false, Pkcs11SpecVersion.V2_40)},
 
             // Edwards key
             {CKM.CKM_EC_EDWARDS_KEY_PAIR_GEN, new MechanismInfo(EdwardsMinKeySize, EdwardsMaxKeySize, MechanismCkf.CKF_GENERATE_KEY_PAIR | MechanismCkf.CKF_EC_NAMEDCURVE | MechanismCkf.CKF_EC_CURVENAME, MechanismCkf.NONE, false, Pkcs11SpecVersion.V3_1) },
