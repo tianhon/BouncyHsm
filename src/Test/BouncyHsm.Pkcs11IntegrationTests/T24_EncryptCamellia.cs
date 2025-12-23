@@ -62,6 +62,33 @@ public class T24_EncryptCamellia
         session.Encrypt(mechanism, key, plainTextMs, ciperTextMs, 32);
     }
 
+    [TestMethod]
+    [DataRow(CKM.CKM_CAMELLIA_CBC)]
+    public void Encrypt_CamelliaWithIv_Success(CKM mechanismType)
+    {
+        byte[] plainText = new byte[16];
+        Random.Shared.NextBytes(plainText);
+
+        Pkcs11InteropFactories factories = new Pkcs11InteropFactories();
+        using IPkcs11Library library = factories.Pkcs11LibraryFactory.LoadPkcs11Library(factories,
+            AssemblyTestConstants.P11LibPath,
+            AppType.SingleThreaded);
+
+        List<ISlot> slots = library.GetSlotList(SlotsType.WithTokenPresent);
+        ISlot slot = slots.SelectTestSlot();
+
+        using ISession session = slot.OpenSession(SessionType.ReadWrite);
+        session.Login(CKU.CKU_USER, AssemblyTestConstants.UserPin);
+
+        IObjectHandle key = this.GenerateCamelliaKey(session, 32);
+        byte[] iv = session.GenerateRandom(16);
+
+        using IMechanism mechanism = session.Factories.MechanismFactory.Create(mechanismType, iv);
+        byte[] cipherText = session.Encrypt(mechanism, key, plainText);
+
+        Assert.IsNotNull(cipherText);
+    }
+
     public IObjectHandle GenerateCamelliaKey(ISession session, int size)
     {
         string label = $"Camellia-{DateTime.UtcNow}-{Random.Shared.Next(100, 999)}";
