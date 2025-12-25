@@ -1465,3 +1465,10 @@ Messages:
       SaltKey: uint32
       Info: binary?
 
+  Ckp_CkCamelliaCbcEncryptDataParams:
+    Summary: Representes CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS
+    Fields:
+      Iv: binary
+      Data: binary
+
+

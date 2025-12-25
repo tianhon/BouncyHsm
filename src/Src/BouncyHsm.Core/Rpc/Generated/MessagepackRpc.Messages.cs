@@ -4480,3 +4480,23 @@ public partial class Ckp_CkHkdfParams
 
 }
 
+[MessagePackObject]
+[System.CodeDom.Compiler.GeneratedCode("BouncyHsm.RpcGenerator.Generators", "1.2.0")]
+public partial class Ckp_CkCamelliaCbcEncryptDataParams
+{
+    [Key(0)]
+    public byte[] Iv
+    {
+        get;
+        set;
+    } = Array.Empty<byte>();
+
+    [Key(1)]
+    public byte[] Data
+    {
+        get;
+        set;
+    } = Array.Empty<byte>();
+
+}
+

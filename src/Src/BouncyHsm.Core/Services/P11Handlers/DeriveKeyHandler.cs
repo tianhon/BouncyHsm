@@ -132,6 +132,7 @@ public partial class DeriveKeyHandler : IRpcRequestHandler<DeriveKeyRequest, Der
             CKM.CKM_HKDF_DERIVE => await this.CreateHkdfGenerator(mechanism, memorySession, p11Session, cancellationToken),
 
             CKM.CKM_CAMELLIA_ECB_ENCRYPT_DATA => new CamelliaDeriveKeyGenerator(CipherUtilities.GetCipher("CAMELLIA/ECB/NOPADDING"), this.GetRawDataParameter(mechanism), null, this.loggerFactory.CreateLogger<CamelliaDeriveKeyGenerator>()),
+            CKM.CKM_CAMELLIA_CBC_ENCRYPT_DATA => this.CreateCamelliaCbcEncryptionGenerator(mechanism),
 
             _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Invalid mechanism {ckMechanism} for derive key.")
         };
@@ -282,6 +283,44 @@ public partial class DeriveKeyHandler : IRpcRequestHandler<DeriveKeyRequest, Der
         catch (Exception ex)
         {
             this.logger.LogError(ex, "Error during decode Ckp_CkHkdfParams.");
+            throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
+        }
+    }
+
+    private CamelliaDeriveKeyGenerator CreateCamelliaCbcEncryptionGenerator(MechanismValue mechanism)
+    {
+        this.logger.LogTrace("Entering to CreateCamelliaCbcEncryptionGenerator.");
+
+        try
+        {
+            Ckp_CkCamelliaCbcEncryptDataParams cbcEncryptData = MessagePack.MessagePackSerializer.Deserialize<Ckp_CkCamelliaCbcEncryptDataParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
+
+            if (cbcEncryptData.Iv == null || cbcEncryptData.Iv.Length != 16)
+            {
+                this.logger.LogError("Invalid IV in CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS. Must by present with length 16B. Actual length: {IvLength}.",
+                    cbcEncryptData.Iv?.Length ?? 0);
+
+                throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID,
+                    $"Invalid IV in CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS. Must by present with length 16B.");
+            }
+
+            if (cbcEncryptData.Data.Length % 16 != 0)
+            {
+                this.logger.LogError("Invalid Data in CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS. Must by present with length must be a multiple of 16B. Actual length: {IvLength}.",
+                    cbcEncryptData.Data.Length);
+
+                throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID,
+                    $"Invalid Data in CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS. Must by present with length must be a multiple of 16B.");
+            }
+
+            return new CamelliaDeriveKeyGenerator(CipherUtilities.GetCipher("CAMELLIA/CBC/NOPADDING"),
+                cbcEncryptData.Data,
+                cbcEncryptData.Iv,
+                this.loggerFactory.CreateLogger<CamelliaDeriveKeyGenerator>());
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error during decode Ckp_CkCamelliaCbcEncryptDataParams.");
             throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
         }
     }

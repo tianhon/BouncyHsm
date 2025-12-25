@@ -189,6 +189,7 @@ typedef struct _Ckp_CkEddsaParams Ckp_CkEddsaParams;
 typedef struct _Ckp_CkSignAdditionalContext Ckp_CkSignAdditionalContext;
 typedef struct _Ckp_CkHashSignAdditionalContext Ckp_CkHashSignAdditionalContext;
 typedef struct _Ckp_CkHkdfParams Ckp_CkHkdfParams;
+typedef struct _Ckp_CkCamelliaCbcEncryptDataParams Ckp_CkCamelliaCbcEncryptDataParams;
 
 typedef struct _Binary Binary;
 
@@ -2155,6 +2156,16 @@ typedef struct _Ckp_CkHkdfParams
 int Ckp_CkHkdfParams_Serialize(cmp_ctx_t* ctx, Ckp_CkHkdfParams* value);
 int Ckp_CkHkdfParams_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, Ckp_CkHkdfParams* value);
 int Ckp_CkHkdfParams_Release(Ckp_CkHkdfParams* value);
+
+typedef struct _Ckp_CkCamelliaCbcEncryptDataParams
+{
+    Binary Iv;
+    Binary Data;
+} Ckp_CkCamelliaCbcEncryptDataParams;
+
+int Ckp_CkCamelliaCbcEncryptDataParams_Serialize(cmp_ctx_t* ctx, Ckp_CkCamelliaCbcEncryptDataParams* value);
+int Ckp_CkCamelliaCbcEncryptDataParams_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* start_obj, Ckp_CkCamelliaCbcEncryptDataParams* value);
+int Ckp_CkCamelliaCbcEncryptDataParams_Release(Ckp_CkCamelliaCbcEncryptDataParams* value);
 
 
 typedef void* (*nmrpc_malloc_fn_t)(size_t size);

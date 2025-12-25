@@ -280,6 +280,33 @@ static int CreateAesCbcEncryptDataparams(MechanismValue* value, CK_MECHANISM_PTR
     return result;
 }
 
+static int CreateCamelliaCbcEncryptDataparams(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
+{
+    LOG_ENTERING_TO_FUNCTION();
+
+    int result = NMRPC_FATAL_ERROR;
+    if (pMechanism->ulParameterLen != sizeof(CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS))
+    {
+        log_message(LOG_LEVEL_ERROR, "Excepted CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS in mechanism.");
+        return NMRPC_FATAL_ERROR;
+    }
+
+    CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS_PTR cedp = (CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS_PTR)pMechanism->pParameter;
+    Ckp_CkCamelliaCbcEncryptDataParams cbcData = { 0 };
+    cbcData.Iv.data = (uint8_t*)cedp->iv;
+    cbcData.Iv.size = sizeof(cedp->iv);
+    cbcData.Data.data = (uint8_t*)cedp->pData;
+    cbcData.Data.size = (size_t)cedp->length;
+
+    result = nmrpc_writeAsBinary(&cbcData, (SerializeFnPtr_t)Ckp_CkCamelliaCbcEncryptDataParams_Serialize, &value->MechanismParamMp);
+    if (result != NMRPC_OK)
+    {
+        log_message(LOG_LEVEL_ERROR, "Failed call nmrpc_writeAsBinary in %s with result code %i.", __FUNCTION__, result);;
+    }
+
+    return result;
+}
+
 static int CreateConcatableBaseAndKey(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
 {
     LOG_ENTERING_TO_FUNCTION();
@@ -880,6 +907,10 @@ int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
 
     case CKM_AES_CBC_ENCRYPT_DATA:
         return CreateAesCbcEncryptDataparams(value, pMechanism);
+        break;
+
+    case CKM_CAMELLIA_CBC_ENCRYPT_DATA:
+        return CreateCamelliaCbcEncryptDataparams(value, pMechanism);
         break;
 
     case CKM_CONCATENATE_BASE_AND_KEY:
