@@ -131,6 +131,8 @@ public partial class DeriveKeyHandler : IRpcRequestHandler<DeriveKeyRequest, Der
 
             CKM.CKM_HKDF_DERIVE => await this.CreateHkdfGenerator(mechanism, memorySession, p11Session, cancellationToken),
 
+            CKM.CKM_CAMELLIA_ECB_ENCRYPT_DATA => new CamelliaDeriveKeyGenerator(CipherUtilities.GetCipher("CAMELLIA/ECB/NOPADDING"), this.GetRawDataParameter(mechanism), null, this.loggerFactory.CreateLogger<CamelliaDeriveKeyGenerator>()),
+
             _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Invalid mechanism {ckMechanism} for derive key.")
         };
     }
