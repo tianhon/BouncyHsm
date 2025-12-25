@@ -257,8 +257,6 @@ static int CreateAesCbcEncryptDataparams(MechanismValue* value, CK_MECHANISM_PTR
 {
     LOG_ENTERING_TO_FUNCTION();
 
-    LOG_ENTERING_TO_FUNCTION();
-
     int result = NMRPC_FATAL_ERROR;
     if (pMechanism->ulParameterLen != sizeof(CK_AES_CBC_ENCRYPT_DATA_PARAMS))
     {
@@ -267,7 +265,7 @@ static int CreateAesCbcEncryptDataparams(MechanismValue* value, CK_MECHANISM_PTR
     }
 
     CK_AES_CBC_ENCRYPT_DATA_PARAMS_PTR cedp = (CK_AES_CBC_ENCRYPT_DATA_PARAMS_PTR)pMechanism->pParameter;
-    Ckp_CkAesCbcEnryptDataParams cbcData;
+    Ckp_CkAesCbcEnryptDataParams cbcData = { 0 };
     cbcData.Iv.data = (uint8_t*)cedp->iv;
     cbcData.Iv.size = sizeof(cedp->iv);
     cbcData.Data.data = (uint8_t*)cedp->pData;
