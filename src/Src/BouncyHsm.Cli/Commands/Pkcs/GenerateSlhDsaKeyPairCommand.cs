@@ -34,7 +34,7 @@ internal class GenerateSlhDsaKeyPairCommand : AsyncCommand<GenerateSlhDsaKeyPair
         } = default!;
 
         [CommandArgument(3, "[SLH-DSAParameter]")]
-        [Description("SLH-DSA parameter")]
+        [Description("SLH-DSA parameter (CKP_SLH_DSA_SHA2_128S, CKP_SLH_DSA_SHAKE_128S, CKP_SLH_DSA_SHA2_128F, CKP_SLH_DSA_SHAKE_128F, CKP_SLH_DSA_SHA2_192S, CKP_SLH_DSA_SHAKE_192S, CKP_SLH_DSA_SHA2_192F, CKP_SLH_DSA_SHAKE_192F, CKP_SLH_DSA_SHA2_256S, CKP_SLH_DSA_SHAKE_256S, CKP_SLH_DSA_SHA2_256F, CKP_SLH_DSA_SHAKE_256F)")]
         public CK_SLH_DSA_PARAMETER_SET SlhDsaParameter
         {
             get;

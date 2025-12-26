@@ -34,7 +34,7 @@ internal class GenerateMlKemKeyPairCommand : AsyncCommand<GenerateMlKemKeyPairCo
         } = default!;
 
         [CommandArgument(3, "[ML-KEMParameter]")]
-        [Description("ML-KEM parameter")]
+        [Description("ML-KEM parameter (CKP_ML_KEM_512, CKP_ML_KEM_768, CKP_ML_KEM_1024)")]
         public CK_ML_KEM_PARAMETER_SET MlKemParameter
         {
             get;
