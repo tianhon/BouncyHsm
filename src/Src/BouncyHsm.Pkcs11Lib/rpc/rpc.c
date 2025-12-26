@@ -355,9 +355,17 @@ int ArrayOfString_Serialize(cmp_ctx_t* ctx, ArrayOfString* value)
 
   for (i = 0; i < value->length; i++)
   {
-  result = cmp_write_str(ctx, value->array[i], (uint32_t)strlen(value->array[i]));
-   if (!result) return NMRPC_FATAL_ERROR;
-
+    char* strValue = value->array[i];
+    if (strValue != NULL)
+    {
+      result = cmp_write_str(ctx, strValue, (uint32_t)strlen(strValue));
+      if (!result) return NMRPC_FATAL_ERROR;
+    }
+    else
+    {
+      result = cmp_write_nil(ctx);
+      if (!result) return NMRPC_FATAL_ERROR;
+    }
   }
 
     return NMRPC_OK;

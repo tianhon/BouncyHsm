@@ -647,10 +647,17 @@ internal class CmpAsciCGenerator : BaseAsciCGenerator
         {
             if (type.BaseDefinition == CDeclaredType.StringName)
             {
-
-                body.AppendLine($"  result = cmp_write_str(ctx, value->array[i], (uint32_t)strlen(value->array[i]));");
-                body.AppendLine("   if (!result) return NMRPC_FATAL_ERROR;");
-                body.AppendLine();
+                body.AppendLine("    char* strValue = value->array[i];");
+                body.AppendLine("    if (strValue != NULL)");
+                body.AppendLine("    {");
+                body.AppendLine("      result = cmp_write_str(ctx, strValue, (uint32_t)strlen(strValue));");
+                body.AppendLine("      if (!result) return NMRPC_FATAL_ERROR;");
+                body.AppendLine("    }");
+                body.AppendLine("    else");
+                body.AppendLine("    {");
+                body.AppendLine("      result = cmp_write_nil(ctx);");
+                body.AppendLine("      if (!result) return NMRPC_FATAL_ERROR;");
+                body.AppendLine("    }");
             }
 
             if (type.BaseDefinition == CDeclaredType.BinaryName)

@@ -245,7 +245,7 @@ bool getProgramArgs(const char*** args, int* argc)
 
     while ((readed = fread(tmpBuffer, 1, sizeof(tmpBuffer), fd)) > 0)
     {
-        char* newBuffer = (char*)realloc(buffer, dataSize + readed);
+        char* newBuffer = (char*)realloc(buffer, dataSize + readed + 1);
         if (newBuffer == NULL)
         {
             if (buffer != NULL)
@@ -260,6 +260,7 @@ bool getProgramArgs(const char*** args, int* argc)
         buffer = newBuffer;
         memcpy(buffer + dataSize, tmpBuffer, readed);
         dataSize += readed;
+        buffer[dataSize] = '\0';
     }
 
     fclose(fd);
@@ -315,6 +316,7 @@ bool getProgramArgs(const char*** args, int* argc)
         }
 
         localArgs[j] = dumpArgument;
+        j++;
         i += strlen(&buffer[i]) + 1;
     }
 
