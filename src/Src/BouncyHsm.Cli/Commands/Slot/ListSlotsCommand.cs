@@ -58,6 +58,6 @@ internal class ListSlotsCommand : AsyncCommand<ListSlotsCommand.Settings>
             return "[grey]alwais[/]";
         }
 
-        return slot.IsUnplugged ? "[red]no[/]" : "[green]yes[/]";
+        return slot.IsPlugged ? "[green]yes[/]" : "[red]no[/]";
     }
 }
