@@ -4,7 +4,7 @@ using NativeULong = System.UInt64;
 
 namespace Pkcs11Interop.Ext.HighLevelAPI80.MechanismParams;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, Pack = 0, CharSet = CharSet.Unicode)]
 internal struct CK_HKDF_PARAMS
 {
     public byte bExtract;
