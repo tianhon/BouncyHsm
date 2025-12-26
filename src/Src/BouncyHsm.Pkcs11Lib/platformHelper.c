@@ -290,8 +290,32 @@ bool getProgramArgs(const char*** args, int* argc)
 
     while (i < dataSize)
     {
-        localArgs[j] = strdup(&buffer[i]);
-        i += strlen(buffer + i) + 1;
+        char* dumpArgument = strdup(&buffer[i]);
+        if (dumpArgument == NULL)
+        {
+            if (buffer != NULL)
+            {
+                free((void*)buffer);
+            }
+
+            if (localArgs != NULL)
+            {
+                int k;
+                for (k = 0; k < j; k++)
+                {
+                    if (localArgs[k] != NULL)
+                    {
+                        free((void*)localArgs[k]);
+                    }
+                }
+                free((void*)localArgs);
+            }
+
+            return false;
+        }
+
+        localArgs[j] = dumpArgument;
+        i += strlen(&buffer[i]) + 1;
     }
 
     free((void*)buffer);
