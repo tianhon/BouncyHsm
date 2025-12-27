@@ -21,7 +21,7 @@ internal class UnplugDeviceCommand : IPersistentRepositorySlotCommand
 
         if (slotEntity.IsPlugged)
         {
-            slotEntity.IsPlugged = true;
+            slotEntity.IsPlugged = false;
             return true;
         }
         else
