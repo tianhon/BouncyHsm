@@ -185,4 +185,22 @@ internal abstract class P11EncapsulatorBase<TPublicKey, TPrivateKey> : IP11Encap
 
         secretKeyObject.SetSecret(secret);
     }
+
+    protected int GetMinimalSecretLength()
+    {
+        System.Diagnostics.Debug.Assert(this.secretKeyObject != null, "Init must be called first.");
+        uint? requiredSecretkeyLen = this.secretKeyObject.GetRequiredSecretLen();
+
+        if (!requiredSecretkeyLen.HasValue)
+        {
+            requiredSecretkeyLen = this.requestedKeyLenusingAttribute;
+        }
+
+        if (!requiredSecretkeyLen.HasValue)
+        {
+            requiredSecretkeyLen = this.secretKeyObject.GetMinimalSecretLen();
+        }
+
+        return (int)requiredSecretkeyLen.Value;
+    }
 }
