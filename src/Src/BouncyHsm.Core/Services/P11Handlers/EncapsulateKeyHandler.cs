@@ -44,7 +44,8 @@ public partial class EncapsulateKeyHandler : IRpcRequestHandler<EncapsulateKeyRe
         Dictionary<CKA, IAttributeValue> template = AttrTypeUtils.BuildDictionaryTemplate(request.Template);
 
         this.logger.LogTrace("Entering to CreateEncapsulator with mechanism type {mechanismType}", (CKM)request.Mechanism.MechanismType);
-        IP11Encapsulator encapsulator = P11EncapsulatorFactory.Create(request.Mechanism, this.loggerFactory);
+        P11EncapsulatorFactory p11EncapsulatorFactory = new P11EncapsulatorFactory(this.loggerFactory);
+        IP11Encapsulator encapsulator = p11EncapsulatorFactory.Create(request.Mechanism);
 
         encapsulator.Init(template);
 
