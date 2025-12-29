@@ -71,7 +71,7 @@ public class T38_EncapsulateKeyRsa
     }
 
     [TestMethod]
-    [DataRow(CKM.CKM_SHA_1, CKG.CKG_MGF1_SHA1,0)]
+    [DataRow(CKM.CKM_SHA_1, CKG.CKG_MGF1_SHA1, 0)]
     [DataRow(CKM.CKM_SHA256, CKG.CKG_MGF1_SHA256, 0)]
     [DataRow(CKM.CKM_SHA512, CKG.CKG_MGF1_SHA512, 0)]
     [DataRow(CKM.CKM_SHA_1, CKG.CKG_MGF1_SHA1, 8)]
@@ -157,7 +157,7 @@ public class T38_EncapsulateKeyRsa
             session.Factories.ObjectAttributeFactory.Create(CKA.CKA_VERIFY, false),
             session.Factories.ObjectAttributeFactory.Create(CKA.CKA_VERIFY_RECOVER, false),
             session.Factories.ObjectAttributeFactory.Create(CKA.CKA_WRAP, false),
-             session.Factories.ObjectAttributeFactory.Create(CKA_V3_2.CKA_ENCAPSULATE, true),
+            session.Factories.ObjectAttributeFactory.Create(CKA_V3_2.CKA_ENCAPSULATE, true),
             session.Factories.ObjectAttributeFactory.Create(CKA.CKA_MODULUS_BITS, 2048),
             session.Factories.ObjectAttributeFactory.Create(CKA.CKA_PUBLIC_EXPONENT, new byte[] { 0x01, 0x00, 0x01 })
         };

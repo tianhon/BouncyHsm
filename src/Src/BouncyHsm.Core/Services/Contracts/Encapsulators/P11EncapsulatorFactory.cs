@@ -1,4 +1,6 @@
 ﻿using BouncyHsm.Core.Rpc;
+using BouncyHsm.Core.Services.Contracts.Entities;
+using BouncyHsm.Core.Services.Contracts.Generators;
 using BouncyHsm.Core.Services.Contracts.P11;
 using BouncyHsm.Core.Services.P11Handlers.Common;
 using Microsoft.Extensions.Logging;
@@ -20,23 +22,24 @@ internal class P11EncapsulatorFactory
         this.logger = loggerFactory.CreateLogger<P11EncapsulatorFactory>();
     }
 
-    public IP11Encapsulator Create(MechanismValue mechanism)
+    public IP11Encapsulator Create(MechanismValue mechanism, KeyObject usedKey)
     {
         CKM mechanismType = (CKM)mechanism.MechanismType;
 
         return mechanismType switch
         {
             CKM.CKM_ML_KEM => new MlKemP11Encapsulator(this.loggerFactory.CreateLogger<MlKemP11Encapsulator>()),
-            CKM.CKM_RSA_PKCS => new RsaP11Encapsulator(CipherUtilities.GetCipher("RSA//PKCS1PADDING"),
-                this.loggerFactory.CreateLogger<RsaP11Encapsulator>(),
-                mechanismType),
-            CKM.CKM_RSA_PKCS_OAEP => this.CreateRsaOaep(mechanism),
+            CKM.CKM_RSA_PKCS => new RsaP11Encapsulator(CipherUtilities.GetCipher("RSA//PKCS1PADDING"), this.loggerFactory.CreateLogger<RsaP11Encapsulator>(), mechanismType),
+            CKM.CKM_RSA_PKCS_OAEP => this.CreateRsaOaepEncapsulator(mechanism),
+            CKM.CKM_ECDH1_DERIVE => this.CreateEcDh1Encapsulator(mechanism, usedKey),
             _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Mechanism {mechanismType} is not supported for encapsulation."),
         };
     }
 
-    private RsaP11Encapsulator CreateRsaOaep(MechanismValue mechanism)
+    private RsaP11Encapsulator CreateRsaOaepEncapsulator(MechanismValue mechanism)
     {
+        this.logger.LogTrace("Entering to CreateRsaOaepEncapsulator.");
+
         try
         {
             Ckp_CkRsaPkcsOaepParams rsaPkcsOaepParams = MessagePack.MessagePackSerializer.Deserialize<Ckp_CkRsaPkcsOaepParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
@@ -78,6 +81,39 @@ internal class P11EncapsulatorFactory
         catch (Exception ex)
         {
             this.logger.LogError(ex, "Error in builds {MechanismType} from parameter.", (CKM)mechanism.MechanismType);
+            throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
+        }
+    }
+
+    private IP11Encapsulator CreateEcDh1Encapsulator(MechanismValue mechanism, KeyObject usedKey)
+    {
+        this.logger.LogTrace("Entering to CreateEcDh1Encapsulator.");
+
+        try
+        {
+            Ckp_CkEcdh1DeriveParams deriveParams = MessagePack.MessagePackSerializer.Deserialize<Ckp_CkEcdh1DeriveParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
+            Ecdh1DeriveParams ecDeriveParams = new Ecdh1DeriveParams((CKD)deriveParams.Kdf,
+                deriveParams.PublicData,
+                deriveParams.SharedData);
+
+            if (usedKey is MontgomeryPrivateKeyObject or MontgomeryPublicKeyObject)
+            {
+                this.logger.LogTrace("Create MontgomeryDhEncapsulator for key {usedKey}.", usedKey);
+                return new MontgomeryDhEncapsulator(ecDeriveParams, this.loggerFactory.CreateLogger<MontgomeryDhEncapsulator>());
+            }
+
+            if (usedKey is EcdsaPrivateKeyObject or EcdsaPublicKeyObject)
+            {
+                this.logger.LogTrace("Create EcDhEncapsulator for key {usedKey}.", usedKey);
+                return new EcDhEncapsulator(ecDeriveParams, this.loggerFactory.CreateLogger<EcDhEncapsulator>());
+            }
+
+            throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Invalid key type {usedKey.GetType().Name} for mechanism {(CKM)mechanism.MechanismType}.");
+
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error during decode Ckp_CkEcdh1DeriveParams.");
             throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
         }
     }
