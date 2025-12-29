@@ -1,6 +1,6 @@
 ﻿# Supported algorithms
 
-Supported algorithms for _Bouncy Hsm_ version 2.0.0.0 (commit _8f4b164e7dbff9c360b3bec9d24557ab265b0821_).
+Supported algorithms for _Bouncy Hsm_ version 2.0.0.0 (commit _6f7c8942f7dde13e7819a96b6de99d0bbda5faf1_).
 
 ## Mechanisms
 _Bouncy Hsm_ supports 206 mechanisms.
@@ -16,14 +16,14 @@ The mechanism can also be used in older versions of the native API.
 | Mechanism | Min key size | Max key size | Digest | Sign, Verify | SignRecover, VerifyRecover | Derive | Encrypt, Decrypt | Generate key pair | Generate key | Wrap, Unwrap | Encapsulate, Decapsulate |
 | :---  | ---: | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `CKM_RSA_PKCS_KEY_PAIR_GEN`  | 2048  | 6144 |   |   |   |   |   | ✓ |   |   |   |
-| `CKM_RSA_PKCS`  | 2048  | 6144 |   | ✓ | ✓ |   | ✓ |   |   | ✓ |   |
+| `CKM_RSA_PKCS`  | 2048  | 6144 |   | ✓ | ✓ |   | ✓ |   |   | ✓ | ✓ |
 | `CKM_RSA_9796`  | 2048  | 6144 |   | ✓ | ✓ |   | ✓ |   |   |   |   |
 | `CKM_MD2_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_MD5_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_SHA1_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_RIPEMD128_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_RIPEMD160_RSA_PKCS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
-| `CKM_RSA_PKCS_OAEP`  | 2048  | 6144 |   |   |   |   | ✓ |   |   | ✓ |   |
+| `CKM_RSA_PKCS_OAEP`  | 2048  | 6144 |   |   |   |   | ✓ |   |   | ✓ | ✓ |
 | `CKM_RSA_X9_31_KEY_PAIR_GEN`  | 2048  | 6144 |   |   |   |   |   | ✓ |   |   |   |
 | `CKM_SHA1_RSA_X9_31`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_RSA_PKCS_PSS`  | 2048  | 6144 |   | ✓ |   |   | ✓ |   |   |   |   |
@@ -160,8 +160,8 @@ The mechanism can also be used in older versions of the native API.
 | `CKM_ECDSA_SHA3_256` <sub>v3.1</sub> | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_ECDSA_SHA3_384` <sub>v3.1</sub> | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
 | `CKM_ECDSA_SHA3_512` <sub>v3.1</sub> | 192  | 521 |   | ✓ |   |   | ✓ |   |   |   |   |
-| `CKM_ECDH1_DERIVE`  | 192  | 521 |   |   |   | ✓ |   |   |   |   |   |
-| `CKM_ECDH1_COFACTOR_DERIVE`  | 192  | 521 |   |   |   | ✓ |   |   |   |   |   |
+| `CKM_ECDH1_DERIVE`  | 192  | 521 |   |   |   | ✓ |   |   |   |   | ✓ |
+| `CKM_ECDH1_COFACTOR_DERIVE`  | 192  | 521 |   |   |   | ✓ |   |   |   |   | ✓ |
 | `CKM_EC_EDWARDS_KEY_PAIR_GEN` <sub>v3.1</sub> | 32  | 57 |   |   |   |   |   | ✓ |   |   |   |
 | `CKM_EC_MONTGOMERY_KEY_PAIR_GEN` <sub>v3.1</sub> | 32  | 57 |   |   |   |   |   | ✓ |   |   |   |
 | `CKM_EDDSA` <sub>v3.1</sub> | 32  | 57 |   | ✓ |   |   | ✓ |   |   |   |   |
