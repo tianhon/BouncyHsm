@@ -83,7 +83,7 @@ internal class EcDhCofactorEncapsulator : P11EncapsulatorBase<EcdsaPublicKeyObje
         if (this.ecDeriveParams.PublicKeyData != null && this.ecDeriveParams.PublicKeyData.Length > 0)
         {
             throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID,
-                "When mechanism CKM_ECDH1_DERIVE is used in C_EncapsulateKey and C_DecapsulateKey, the mechanism parameters pPublicData and ulPublicDataLen must be set to NULL and 0 respectively.");
+                "When mechanism CKM_ECDH1_COFACTOR_DERIVE is used in C_EncapsulateKey and C_DecapsulateKey, the mechanism parameters pPublicData and ulPublicDataLen must be set to NULL and 0 respectively.");
         }
     }
 
