@@ -32,6 +32,7 @@ internal class P11EncapsulatorFactory
             CKM.CKM_RSA_PKCS => new RsaP11Encapsulator(CipherUtilities.GetCipher("RSA//PKCS1PADDING"), this.loggerFactory.CreateLogger<RsaP11Encapsulator>(), mechanismType),
             CKM.CKM_RSA_PKCS_OAEP => this.CreateRsaOaepEncapsulator(mechanism),
             CKM.CKM_ECDH1_DERIVE => this.CreateEcDh1Encapsulator(mechanism, usedKey),
+            CKM.CKM_ECDH1_COFACTOR_DERIVE => this.CreateEcDh1CofactorEncapsulator(mechanism),
             _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Mechanism {mechanismType} is not supported for encapsulation."),
         };
     }
@@ -110,6 +111,26 @@ internal class P11EncapsulatorFactory
 
             throw new RpcPkcs11Exception(CKR.CKR_KEY_HANDLE_INVALID, $"Invalid key type {usedKey.GetType().Name} for mechanism {(CKM)mechanism.MechanismType}.");
 
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error during decode Ckp_CkEcdh1DeriveParams.");
+            throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
+        }
+    }
+
+    private IP11Encapsulator CreateEcDh1CofactorEncapsulator(MechanismValue mechanism)
+    {
+        this.logger.LogTrace("Entering to CreateEcDh1Encapsulator.");
+
+        try
+        {
+            Ckp_CkEcdh1DeriveParams deriveParams = MessagePack.MessagePackSerializer.Deserialize<Ckp_CkEcdh1DeriveParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
+            Ecdh1DeriveParams ecDeriveParams = new Ecdh1DeriveParams((CKD)deriveParams.Kdf,
+                deriveParams.PublicData,
+                deriveParams.SharedData);
+
+            return new EcDhCofactorEncapsulator(ecDeriveParams, this.loggerFactory.CreateLogger<EcDhCofactorEncapsulator>());
         }
         catch (Exception ex)
         {
