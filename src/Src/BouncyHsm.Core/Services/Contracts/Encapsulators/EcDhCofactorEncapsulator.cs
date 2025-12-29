@@ -15,7 +15,7 @@ internal class EcDhCofactorEncapsulator : P11EncapsulatorBase<EcdsaPublicKeyObje
     private readonly Ecdh1DeriveParams ecDeriveParams;
 
     public EcDhCofactorEncapsulator(Ecdh1DeriveParams ecDeriveParams, ILogger<EcDhCofactorEncapsulator> logger)
-        : base(logger, CKM.CKM_ECDH1_DERIVE)
+        : base(logger, CKM.CKM_ECDH1_COFACTOR_DERIVE)
     {
         this.ecDeriveParams = ecDeriveParams;
     }
