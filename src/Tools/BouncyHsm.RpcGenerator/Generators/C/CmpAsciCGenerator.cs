@@ -647,7 +647,7 @@ internal class CmpAsciCGenerator : BaseAsciCGenerator
         {
             if (type.BaseDefinition == CDeclaredType.StringName)
             {
-                body.AppendLine("    char* strValue = value->array[i];");
+                body.AppendLine("    const char* strValue = value->array[i];");
                 body.AppendLine("    if (strValue != NULL)");
                 body.AppendLine("    {");
                 body.AppendLine("      result = cmp_write_str(ctx, strValue, (uint32_t)strlen(strValue));");

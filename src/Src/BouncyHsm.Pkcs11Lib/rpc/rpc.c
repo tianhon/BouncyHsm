@@ -355,7 +355,7 @@ int ArrayOfString_Serialize(cmp_ctx_t* ctx, ArrayOfString* value)
 
   for (i = 0; i < value->length; i++)
   {
-    char* strValue = value->array[i];
+    const char* strValue = value->array[i];
     if (strValue != NULL)
     {
       result = cmp_write_str(ctx, strValue, (uint32_t)strlen(strValue));
