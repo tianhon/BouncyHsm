@@ -42,6 +42,7 @@ _Bouncy Hsm_ implementig PKCS#11 interface from standard version 2.40, 3.1 and v
 * Supports AES keys.
 * Supports Salsa20 keys.
 * Supports ChaCha20 keys (also ChaCha20Poly1305 algorithm).
+* Supports Camellia keys.
 * [Supports mechanisms](/Doc/SupportedAlgorithms.md)
 * [Supports PKCS#11 functions](/Doc/SupportedFunctions.md)
 * Supports [custom profiles for mechanisms](/Doc/Profiles.md) (To limit mechanisms to simulate a specific type of HSM or card).
