@@ -161,6 +161,13 @@ public partial class DeriveKeyHandler : IRpcRequestHandler<DeriveKeyRequest, Der
         try
         {
             Ckp_CkEcdh1DeriveParams deriveParams = MessagePack.MessagePackSerializer.Deserialize<Ckp_CkEcdh1DeriveParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
+
+            if (deriveParams.PublicData == null)
+            {
+                this.logger.LogError("pPublicData in CK_ECDH1_DERIVE_PARAMS is null for mechanism {mechanism}.", (CKM)mechanism.MechanismType);
+                throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, "pPublicData in CK_ECDH1_DERIVE_PARAMS is null.");
+            }
+
             Ecdh1DeriveParams ecDeriveParams = new Ecdh1DeriveParams((CKD)deriveParams.Kdf,
                 deriveParams.PublicData,
                 deriveParams.SharedData);

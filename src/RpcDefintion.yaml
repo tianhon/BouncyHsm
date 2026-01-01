@@ -1381,7 +1381,7 @@ Messages:
     Fields:
       Kdf: uint32
       SharedData: binary?
-      PublicData: binary
+      PublicData: binary?
 
   Ckp_CkGcmParams:
     Summary: Representes CK_GCM_PARAMS

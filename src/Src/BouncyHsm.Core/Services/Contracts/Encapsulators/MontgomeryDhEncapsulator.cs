@@ -13,9 +13,9 @@ namespace BouncyHsm.Core.Services.Contracts.Encapsulators;
 
 internal class MontgomeryDhEncapsulator : P11EncapsulatorBase<MontgomeryPublicKeyObject, MontgomeryPrivateKeyObject>
 {
-    private readonly Ecdh1DeriveParams ecDeriveParams;
+    private readonly Ecdh1DeriveParamsWithoutPublicKey ecDeriveParams;
 
-    public MontgomeryDhEncapsulator(Ecdh1DeriveParams ecDeriveParams, ILogger<MontgomeryDhEncapsulator> logger)
+    public MontgomeryDhEncapsulator(Ecdh1DeriveParamsWithoutPublicKey ecDeriveParams, ILogger<MontgomeryDhEncapsulator> logger)
         : base(logger, CKM.CKM_ECDH1_DERIVE)
     {
         this.ecDeriveParams = ecDeriveParams;

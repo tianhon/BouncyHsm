@@ -12,9 +12,9 @@ namespace BouncyHsm.Core.Services.Contracts.Encapsulators;
 
 internal class EcDhCofactorEncapsulator : P11EncapsulatorBase<EcdsaPublicKeyObject, EcdsaPrivateKeyObject>
 {
-    private readonly Ecdh1DeriveParams ecDeriveParams;
+    private readonly Ecdh1DeriveParamsWithoutPublicKey ecDeriveParams;
 
-    public EcDhCofactorEncapsulator(Ecdh1DeriveParams ecDeriveParams, ILogger<EcDhCofactorEncapsulator> logger)
+    public EcDhCofactorEncapsulator(Ecdh1DeriveParamsWithoutPublicKey ecDeriveParams, ILogger<EcDhCofactorEncapsulator> logger)
         : base(logger, CKM.CKM_ECDH1_COFACTOR_DERIVE)
     {
         this.ecDeriveParams = ecDeriveParams;

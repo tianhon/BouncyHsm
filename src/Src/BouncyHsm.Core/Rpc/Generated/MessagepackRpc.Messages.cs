@@ -4140,11 +4140,11 @@ public partial class Ckp_CkEcdh1DeriveParams
     }
 
     [Key(2)]
-    public byte[] PublicData
+    public byte[]? PublicData
     {
         get;
         set;
-    } = Array.Empty<byte>();
+    }
 
 }
 

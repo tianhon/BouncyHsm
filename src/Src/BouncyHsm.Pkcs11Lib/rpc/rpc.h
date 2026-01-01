@@ -2024,7 +2024,7 @@ typedef struct _Ckp_CkEcdh1DeriveParams
 {
     uint32_t Kdf;
     Binary* SharedData;
-    Binary PublicData;
+    Binary* PublicData;
 } Ckp_CkEcdh1DeriveParams;
 
 int Ckp_CkEcdh1DeriveParams_Serialize(cmp_ctx_t* ctx, Ckp_CkEcdh1DeriveParams* value);

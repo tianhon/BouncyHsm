@@ -10607,7 +10607,7 @@ int Ckp_CkEcdh1DeriveParams_Serialize(cmp_ctx_t* ctx, Ckp_CkEcdh1DeriveParams* v
   result = (value->SharedData != NULL)? cmp_write_bin(ctx, value->SharedData->data, (uint32_t)value->SharedData->size) : cmp_write_nil(ctx);
    if (!result) return NMRPC_FATAL_ERROR;
 
-  result = cmp_write_bin(ctx, value->PublicData.data, (uint32_t)value->PublicData.size);
+  result = (value->PublicData != NULL)? cmp_write_bin(ctx, value->PublicData->data, (uint32_t)value->PublicData->size) : cmp_write_nil(ctx);
    if (!result) return NMRPC_FATAL_ERROR;
 
     return NMRPC_OK;
@@ -10638,7 +10638,7 @@ int Ckp_CkEcdh1DeriveParams_Deserialize(cmp_ctx_t* ctx, const cmp_object_t* star
   result = cmph_read_nullable_binary(ctx, &value->SharedData);
    if (result != NMRPC_OK) return result;
 
-  result = cmph_read_binary(ctx, &value->PublicData);
+  result = cmph_read_nullable_binary(ctx, &value->PublicData);
    if (result != NMRPC_OK) return result;
 
     return NMRPC_OK;
@@ -10654,7 +10654,12 @@ int Ckp_CkEcdh1DeriveParams_Release(Ckp_CkEcdh1DeriveParams* value)
       free((void*)value->SharedData);
       value->SharedData = NULL;
   }
-  Binary_Release(&value->PublicData);
+  if (value->PublicData != NULL)
+  {
+      Binary_Release(value->PublicData);
+      free((void*)value->PublicData);
+      value->PublicData = NULL;
+  }
     return NMRPC_OK;
 }
 int Ckp_CkGcmParams_Serialize(cmp_ctx_t* ctx, Ckp_CkGcmParams* value)

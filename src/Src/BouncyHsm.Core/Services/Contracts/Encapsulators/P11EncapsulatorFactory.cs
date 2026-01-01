@@ -93,7 +93,7 @@ internal class P11EncapsulatorFactory
         try
         {
             Ckp_CkEcdh1DeriveParams deriveParams = MessagePack.MessagePackSerializer.Deserialize<Ckp_CkEcdh1DeriveParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
-            Ecdh1DeriveParams ecDeriveParams = new Ecdh1DeriveParams((CKD)deriveParams.Kdf,
+            Ecdh1DeriveParamsWithoutPublicKey ecDeriveParams = new Ecdh1DeriveParamsWithoutPublicKey((CKD)deriveParams.Kdf,
                 deriveParams.PublicData,
                 deriveParams.SharedData);
 
@@ -126,7 +126,7 @@ internal class P11EncapsulatorFactory
         try
         {
             Ckp_CkEcdh1DeriveParams deriveParams = MessagePack.MessagePackSerializer.Deserialize<Ckp_CkEcdh1DeriveParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
-            Ecdh1DeriveParams ecDeriveParams = new Ecdh1DeriveParams((CKD)deriveParams.Kdf,
+            Ecdh1DeriveParamsWithoutPublicKey ecDeriveParams = new Ecdh1DeriveParamsWithoutPublicKey((CKD)deriveParams.Kdf,
                 deriveParams.PublicData,
                 deriveParams.SharedData);
 

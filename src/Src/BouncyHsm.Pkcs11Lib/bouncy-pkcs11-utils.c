@@ -371,11 +371,11 @@ static int CreateEcdh1DeriveParams(MechanismValue* value, CK_MECHANISM_PTR pMech
 
     Ckp_CkEcdh1DeriveParams deriveParams;
     Binary sharedData;
+    Binary publicData;
 
     deriveParams.Kdf = (uint32_t)deriveParamsPtr->kdf;
     deriveParams.SharedData = NULL;
-    deriveParams.PublicData.data = (uint8_t*)deriveParamsPtr->pPublicData;
-    deriveParams.PublicData.size = (size_t)deriveParamsPtr->ulPublicDataLen;
+    deriveParams.PublicData = NULL;
 
     if (deriveParamsPtr->pSharedData != NULL)
     {
@@ -383,6 +383,14 @@ static int CreateEcdh1DeriveParams(MechanismValue* value, CK_MECHANISM_PTR pMech
         sharedData.size = (size_t)deriveParamsPtr->ulSharedDataLen;
 
         deriveParams.SharedData = &sharedData;
+    }
+
+    if (deriveParamsPtr->pPublicData != NULL)
+    {
+        publicData.data = (uint8_t*)deriveParamsPtr->pPublicData;
+        publicData.size = (size_t)deriveParamsPtr->ulPublicDataLen;
+
+        deriveParams.PublicData = &publicData;
     }
 
     result = nmrpc_writeAsBinary(&deriveParams, (SerializeFnPtr_t)Ckp_CkEcdh1DeriveParams_Serialize, &value->MechanismParamMp);
