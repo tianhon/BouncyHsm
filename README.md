@@ -15,7 +15,7 @@ The _BouncyHsm_ project was created as an alternative to SoftHSMv2, due to ongoi
 
 ![Screenshots - BouncyHsm web UI](Doc/Screenshots.gif)
 
-(Screenshots from version 1.1.0)
+(Screenshots from version 2.0.0)
 
 ## Features
 _Bouncy Hsm_ implementig PKCS#11 interface from standard version 2.40, 3.1 and version 3.2.
