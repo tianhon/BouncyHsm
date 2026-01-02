@@ -40,6 +40,6 @@
 @code {
     private string BasePath
     {
-        get => string.Concat((this.Configuration.GetValue<string>("AppBasePath") ?? string.Empty).TrimEnd('/'), " /");
+        get => string.Concat((this.Configuration.GetValue<string>("AppBasePath") ?? string.Empty).TrimEnd('/'), "/");
     }
 }
