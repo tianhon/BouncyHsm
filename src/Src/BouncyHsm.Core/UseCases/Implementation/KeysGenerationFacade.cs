@@ -797,6 +797,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
     {
         privateKeyObject.CkaLocal = true;
         privateKeyObject.CkaAlwaysSensitive = privateKeyObject.CkaSensitive;
+        privateKeyObject.CkaNewerExtractable = !privateKeyObject.CkaExtractable;
 
         if (simulateQualifiedArea)
         {
@@ -829,6 +830,7 @@ public class KeysGenerationFacade : IKeysGenerationFacade
     private void UpdateKey(SecretKeyObject secretKeyObject)
     {
         secretKeyObject.CkaLocal = true;
+        secretKeyObject.CkaNewerExtractable = !secretKeyObject.CkaExtractable;
         secretKeyObject.ReComputeAttributes();
     }
 }

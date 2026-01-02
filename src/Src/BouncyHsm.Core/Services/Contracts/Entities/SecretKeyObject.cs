@@ -129,7 +129,7 @@ public abstract class SecretKeyObject : KeyObject
     public override void ReComputeAttributes()
     {
         this.CkaAlwaysSensitive = this.CkaAlwaysSensitive && this.CkaSensitive;
-        this.CkaNewerExtractable = this.CkaNewerExtractable && this.CkaExtractable;
+        this.CkaNewerExtractable = this.CkaNewerExtractable && !this.CkaExtractable;
 
         // this.CkaCheckValue is not implemeted - is ingored
         // https://docs.oasis-open.org/pkcs11/pkcs11-base/v2.40/os/pkcs11-base-v2.40-os.html

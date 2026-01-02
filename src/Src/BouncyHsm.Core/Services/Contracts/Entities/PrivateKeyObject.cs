@@ -132,7 +132,7 @@ public abstract class PrivateKeyObject : KeyObject
     public override void ReComputeAttributes()
     {
         this.CkaAlwaysSensitive = this.CkaAlwaysSensitive && this.CkaSensitive;
-        this.CkaNewerExtractable = this.CkaNewerExtractable && this.CkaExtractable;
+        this.CkaNewerExtractable = this.CkaNewerExtractable && !this.CkaExtractable;
 
         if (this.values.TryGetValue(CKA.CKA_VALUE, out IAttributeValue? attributeValue))
         {
