@@ -105,8 +105,8 @@ public abstract class PrivateKeyObject : KeyObject
         this.CkaUnwrap = false;
         this.CkaDecapsulate = false;
         this.CkaExtractable = false;
-        this.CkaAlwaysSensitive = false;
-        this.CkaNewerExtractable = false;
+        this.CkaAlwaysSensitive = true;
+        this.CkaNewerExtractable = true;
         this.CkaWrapWithTrusted = false;
         this.CkaAlwaysAuthenticate = false;
         this.CkaPublicCrc64Value = Array.Empty<byte>();

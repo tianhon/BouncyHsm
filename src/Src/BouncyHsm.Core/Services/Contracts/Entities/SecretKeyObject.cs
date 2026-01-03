@@ -113,8 +113,8 @@ public abstract class SecretKeyObject : KeyObject
         this.CkaWrap = false;
         this.CkaUnwrap = false;
         this.CkaExtractable = false;
-        this.CkaAlwaysSensitive = false;
-        this.CkaNewerExtractable = false;
+        this.CkaAlwaysSensitive = true;
+        this.CkaNewerExtractable = true;
         this.CkaCheckValue = Array.Empty<byte>();
         this.CkaWrapWithTrusted = false;
         this.CkaTrusted = false;
