@@ -5680,6 +5680,9 @@ namespace BouncyHsm.Client
         [System.Text.Json.Serialization.JsonPropertyName("SimulateProtectedAuthPath")]
         public bool SimulateProtectedAuthPath { get; set; } = default!;
 
+        [System.Text.Json.Serialization.JsonPropertyName("EnablePublicCrypto")]
+        public bool EnablePublicCrypto { get; set; } = default!;
+
         [System.Text.Json.Serialization.JsonPropertyName("SpeedMode")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<SpeedMode>))]
         public SpeedMode SpeedMode { get; set; } = default!;
@@ -5769,6 +5772,9 @@ namespace BouncyHsm.Client
 
         [System.Text.Json.Serialization.JsonPropertyName("IsSoPinLocked")]
         public bool IsSoPinLocked { get; set; } = default!;
+
+        [System.Text.Json.Serialization.JsonPropertyName("EnablePublicCrypto")]
+        public bool EnablePublicCrypto { get; set; } = default!;
 
         [System.Text.Json.Serialization.JsonPropertyName("SpeedMode")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<SpeedMode>))]
