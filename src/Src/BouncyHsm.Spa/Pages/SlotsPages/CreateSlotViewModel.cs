@@ -73,6 +73,12 @@ public class CreateSlotViewModel : IValidatableObject
         set;
     }
 
+    public bool EnablePublicCrypto
+    {
+        get;
+        set;
+    }
+
     public bool TokenSimulateQualifiedArea
     {
         get;
@@ -104,6 +110,7 @@ public class CreateSlotViewModel : IValidatableObject
         this.TokenSimulateHwMechanism = true;
         this.TokenSimulateHwRng = true;
         this.TokenSimulateQualifiedArea = false;
+        this.EnablePublicCrypto = false;
     }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

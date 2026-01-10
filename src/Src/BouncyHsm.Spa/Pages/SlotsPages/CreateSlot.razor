@@ -39,6 +39,19 @@
                 <label class="form-check-label" for="i-simulateHwSlot">Is removable device</label>
                 <ValidationMessage For="() => this.model.IsRemovableDevice" />
             </div>
+            <div class="mb-1 form-check">
+                <InputCheckbox class="form-check-input" id="i-enablePublicCrypto" @bind-Value="this.model.EnablePublicCrypto" />
+                <label class="form-check-label" for="i-enablePublicCrypto">Enable Public crypto</label>
+                <ValidationMessage For="() => this.model.EnablePublicCrypto" />
+
+                @if (this.model.EnablePublicCrypto)
+                {
+                    <div class="form-text">
+                        <span class="icon-warning fs-6"></span>
+                        This functionality is experimental.
+                    </div>
+                }
+            </div>
 
             <hr />
             <div class="mb-1">
@@ -149,6 +162,7 @@
                     SerialNumber = string.IsNullOrWhiteSpace(this.model.TokenSerialNumber) ? null : this.model.TokenSerialNumber.Trim(),
                     SimulateHwMechanism = this.model.TokenSimulateHwMechanism,
                     SimulateHwRng = this.model.TokenSimulateHwRng,
+                    EnablePublicCrypto = this.model.EnablePublicCrypto,
                     SimulateQualifiedArea = this.model.TokenSimulateQualifiedArea,
                     SimulateProtectedAuthPath = this.model.TokenSimulateProtectedAuthPath,
                     SpeedMode = this.model.SpeedMode,
