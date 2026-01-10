@@ -39,4 +39,10 @@ internal partial class SlotMapper
     {
         return value;
     }
+    
+    [MapProperty(nameof(TokenInfoModel.EnablePublicCrypto), nameof(TokenInfo.EnablePublicCrypto), Use = nameof(IsPluggedMapper))]
+    private partial TokenInfo MapToken(TokenInfoModel model);
+
+    [MapProperty(nameof(TokenInfo.EnablePublicCrypto), nameof(TokenInfoModel.EnablePublicCrypto), Use = nameof(IsPluggedMapperReverse))]
+    private partial TokenInfoModel MapFromToken(TokenInfo info);
 }

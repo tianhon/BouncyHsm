@@ -40,6 +40,12 @@ public class CreateTokenData
         set;
     }
 
+    public bool EnablePublicCrypto
+    {
+        get;
+        set;
+    }
+
     public string UserPin
     {
         get;

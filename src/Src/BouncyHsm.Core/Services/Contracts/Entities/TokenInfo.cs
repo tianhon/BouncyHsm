@@ -38,6 +38,12 @@ public class TokenInfo
         set;
     }
 
+    public bool EnablePublicCrypto
+    {
+        get;
+        set;
+    }
+
     public bool IsUserPinLocked
     {
         get;

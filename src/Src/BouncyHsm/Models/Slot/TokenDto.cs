@@ -53,6 +53,12 @@ public class TokenDto
         set;
     }
 
+    public bool EnablePublicCrypto
+    {
+        get;
+        set;
+    }
+
     public SpeedMode SpeedMode
     {
         get;

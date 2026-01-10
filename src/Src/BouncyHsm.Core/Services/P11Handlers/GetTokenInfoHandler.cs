@@ -86,7 +86,7 @@ public partial class GetTokenInfoHandler : IRpcRequestHandler<GetTokenInfoReques
 
     private uint BuildFlags(Contracts.Entities.TokenInfo token)
     {
-        uint flags = CKF.CKF_CLOCK_ON_TOKEN | CKF.CKF_LOGIN_REQUIRED | CKF.CKF_USER_PIN_INITIALIZED | CKF.CKF_TOKEN_INITIALIZED;
+        uint flags = CKF.CKF_CLOCK_ON_TOKEN | CKF.CKF_USER_PIN_INITIALIZED | CKF.CKF_TOKEN_INITIALIZED;
         if (token.SimulateHwRng)
         {
             flags |= CKF.CKF_RNG;
@@ -110,6 +110,11 @@ public partial class GetTokenInfoHandler : IRpcRequestHandler<GetTokenInfoReques
         if (token.SimulateProtectedAuthPath)
         {
             flags |= CKF.CKF_PROTECTED_AUTHENTICATION_PATH;
+        }
+
+        if (!token.EnablePublicCrypto)
+        {
+            flags |= CKF.CKF_LOGIN_REQUIRED;
         }
 
         return flags;
