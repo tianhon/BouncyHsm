@@ -11,7 +11,7 @@
 #endif // !_WIN32
 
 #ifdef _WIN32
-#include <Windows.h>
+#include <windows.h>
 #else
 #include <sys/types.h>
 #include <unistd.h>
@@ -80,15 +80,15 @@ static char* toUtf8(const wchar_t* src, int* out_len)
 
 bool GetCurrentProgramName(char* buffer, size_t maxSize)
 {
-	TCHAR szFileName[MAX_PATH];
+	wchar_t szFileName[MAX_PATH];
 	int len;
 
-	if (GetModuleFileName(NULL, szFileName, MAX_PATH) == 0)
+	if (GetModuleFileNameW(NULL, szFileName, MAX_PATH) == 0)
 	{
 		return false;
 	}
 
-	TCHAR* last = wcsrchr(szFileName, L'\\');
+	wchar_t* last = wcsrchr(szFileName, L'\\');
 	if (last != NULL)
 	{
 		last++;

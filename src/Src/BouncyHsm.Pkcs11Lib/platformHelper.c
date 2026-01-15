@@ -83,7 +83,7 @@ bool GetCurrentCompiuterName(char* buffer, size_t maxSize)
 
 #ifdef _WIN32
 
-#include <Windows.h>
+#include <windows.h>
 
 bool GetCurrentCompiuterName(char* buffer, size_t maxSize)
 {

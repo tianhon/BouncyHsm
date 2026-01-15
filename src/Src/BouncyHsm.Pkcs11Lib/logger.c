@@ -1,5 +1,5 @@
 #ifdef _WIN32
-#include <Windows.h>
+#include <windows.h>
 #include <stdio.h>
 #endif
 
@@ -185,23 +185,31 @@ bool logger_init(const char* level, const char* target)
 	return true;
 }
 
-#ifdef _MSC_VER
+#if defined(_WIN32) && !defined(__CYGWIN__)
+#include <malloc.h>
+
+#ifndef vasprintf
 int vasprintf(char** strp, const char* fmt, va_list ap) {
-	// _vscprintf tells you how big the buffer needs to be
+#ifdef _MSC_VER
 	int len = _vscprintf(fmt, ap);
-	if (len == -1) {
-		return -1;
-	}
+#else
+	va_list ap_copy;
+	va_copy(ap_copy, ap);
+	int len = vsnprintf(NULL, 0, fmt, ap_copy);
+	va_end(ap_copy);
+#endif
+
+	if (len == -1) return -1;
 
 	char* str = (char*)malloc((size_t)len + 1);
-	if (!str) {
-		return -1;
-	}
+	if (!str) return -1;
 
-	//_vsprintf_p
-
-	// _vsprintf_s is the "secure" version of vsprintf
+#ifdef _MSC_VER
 	int r = _vsprintf_p(str, (size_t)(len + 1), fmt, ap);
+#else
+	int r = vsnprintf(str, (size_t)len + 1, fmt, ap);
+#endif
+
 	if (r == -1) {
 		free(str);
 		return -1;
@@ -209,7 +217,8 @@ int vasprintf(char** strp, const char* fmt, va_list ap) {
 	*strp = str;
 	return r;
 }
-#endif // _WIN32
+#endif
+#endif 
 
 void log_message(int level, const char* format, ...)
 {

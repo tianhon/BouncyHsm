@@ -18,11 +18,13 @@ internal class BufferedCipherWrapperFactory
 {
     private readonly ILogger<BufferedCipherWrapperFactory> logger;
     private readonly ILoggerFactory loggerFactory;
+    private readonly SecureRandom randomSource;
 
-    public BufferedCipherWrapperFactory(ILoggerFactory loggerFactory)
+    public BufferedCipherWrapperFactory(ILoggerFactory loggerFactory, SecureRandom randomSource)
     {
         this.logger = loggerFactory.CreateLogger<BufferedCipherWrapperFactory>();
         this.loggerFactory = loggerFactory;
+        this.randomSource = randomSource;
     }
 
     public ICipherWrapper CreateCipherAlgorithm(MechanismValue mechanism)
@@ -48,6 +50,7 @@ internal class BufferedCipherWrapperFactory
             CKM.CKM_AES_CTS => this.CreateAes(CipherUtilities.GetCipher("AES/CTS/NOPADDING"), true, mechanism),
 
             CKM.CKM_AES_GCM => this.CreateAesGcm(CipherUtilities.GetCipher("AES/GCM/NOPADDING"), mechanism),
+            CKM.CKM_CLOUDHSM_AES_GCM => this.CreateCloudHsmAesGcm(mechanism),
             CKM.CKM_AES_CCM => this.CreateAesCcm(CipherUtilities.GetCipher("AES/CCM/NOPADDING"), mechanism),
 
             CKM.CKM_RSA_PKCS => this.CreateRsaPkcs(mechanism),
@@ -63,6 +66,46 @@ internal class BufferedCipherWrapperFactory
 
             _ => throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_INVALID, $"Invalid mechanism {ckMechanism} for encrypt, decrypt, wrap or unwrap.")
         };
+    }
+
+    private CloudHsmAesGcmCipherWrapper CreateCloudHsmAesGcm(MechanismValue mechanism)
+    {
+        try
+        {
+            if (mechanism.MechanismParamMp == null || mechanism.MechanismParamMp.Length == 0)
+            {
+                this.logger.LogTrace("Using CKM_CLOUDHSM_AES_GCM with default parameters (NULL).");
+                return new CloudHsmAesGcmCipherWrapper(128,
+                    null,
+                    null,
+                    (CKM)mechanism.MechanismType,
+                    this.randomSource,
+                    this.loggerFactory);
+            }
+
+            Ckp_CkGcmParams gcmParams = MessagePack.MessagePackSerializer.Deserialize<Ckp_CkGcmParams>(mechanism.MechanismParamMp, MessagepackBouncyHsmResolver.GetOptions());
+
+            if (this.logger.IsEnabled(LogLevel.Trace))
+            {
+                this.logger.LogTrace("Using CKM_CLOUDHSM_AES_GCM params with IV len {ivLen}, IV bits {ivBits}, AAD len {aadLen}, tag bits {tagBits}.",
+                    gcmParams.Iv?.Length ?? 0,
+                    gcmParams.IvBits,
+                    gcmParams.Aad?.Length ?? 0,
+                    gcmParams.TagBits);
+            }
+
+            return new CloudHsmAesGcmCipherWrapper((int)gcmParams.TagBits,
+                gcmParams.Iv,
+                gcmParams.Aad,
+                (CKM)mechanism.MechanismType,
+                this.randomSource,
+                this.loggerFactory);
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error in builds {MechanismType} from parameter.", (CKM)mechanism.MechanismType);
+            throw new RpcPkcs11Exception(CKR.CKR_MECHANISM_PARAM_INVALID, $"Invalid parameter for mechanism {(CKM)mechanism.MechanismType}.", ex);
+        }
     }
 
     private AesBufferedCipherWrapper CreateAesWithoutIv(IBufferedCipher bufferedCipher, MechanismValue mechanism)

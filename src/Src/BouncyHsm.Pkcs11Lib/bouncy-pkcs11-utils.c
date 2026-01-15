@@ -791,6 +791,7 @@ int MechanismValue_Create(MechanismValue* value, CK_MECHANISM_PTR pMechanism)
         break;
 
     case  CKM_AES_GCM:
+    case  CKM_CLOUDHSM_AES_GCM:
         return CreateCgmParams(value, pMechanism);
         break;
 

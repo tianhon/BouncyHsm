@@ -1677,6 +1677,8 @@ public enum CKM : uint
     /// </summary>
     CKM_VENDOR_DEFINED = 0x80000000,
 
+    CKM_CLOUDHSM_AES_GCM = CKM_VENDOR_DEFINED | CKM_AES_GCM,
+
     /*
      *  From PKCS#11 version 3.0
      */
