@@ -1,3 +1,8 @@
+> This project is forked from BouncyHsm and modified for better simulate AWS CloudHSM:
+> - Add AWS CLOUDHSM_AES_GCM mechanism
+
+
+
 # Bouncy Hsm
 ![GitHub release (with filter)](https://img.shields.io/github/v/release/harrison314/BouncyHsm)
 [![NuGet Status](http://img.shields.io/nuget/v/BouncyHsm.Client.svg?style=flat)](https://www.nuget.org/packages/BouncyHsm.Client/)
